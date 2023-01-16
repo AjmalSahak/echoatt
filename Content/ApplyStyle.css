@@ -1,0 +1,71 @@
+/*
+Author: W3layout
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+*/
+@font-face {
+        font-family: 'IRANSans';
+        src:url('/fonts/IRANSans-web.woff');
+    }
+/*@font-face {
+        font-family: 'IRANasdSans';
+        src:url('/fonts/BahijNazanin-Reguldar.ttf');
+    }*/
+@font-face{
+    font-family:"BahijNazanin";
+    src:url("/fonts/Bahij Nazanin-Regular.ttf") format("woff"),
+    url("/fonts/Bahij Nazanin-Regularr.ttf") format("opentype"),
+    url("/fonts/Bahij Nazanin-Regular.ttf") format("truetype");
+}
+.blackfonts tr td b{
+    color:black;
+    font-weight:bolder;
+
+}
+body, p {
+        font-family: 'BahijNazanin' !important;
+    }
+
+    .fonclass {
+        font-family: 'BahijNazanin' !important;
+        color:black;
+        /*font-weight:bold;*/
+        /*font-size:15pxl;*/
+        /*font-size: 15px;*/
+    }
+     .jqx-combobox-input,.jqx-fill-state-normal
+    {
+        font-family: 'BahijNazanin' !important;
+        text-align:center !important;
+    }
+    .jqx-listitem-state-normal
+    {
+        font-family: 'BahijNazanin' !important;
+
+    }
+    .jqx-grid-column-header
+    {
+        font-family: 'BahijNazanin' !important;
+    }
+
+    .blackfonts tr td {
+        text-align: right;
+    }
+
+        .blackfonts tr td b {
+            color: black;
+            font-weight: bolder;
+            font-family: 'BahijNazanin' !important;
+        }
+
+.blackfonts tr td{
+    text-align:left;
+}
+html, body{
+	font-family: 'BahijNazanin' !important;
+    font-size: 100%;
+
+  	/*overflow-x: hidden;*/
+	background:#FFFFFF;
+}

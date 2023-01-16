@@ -1,0 +1,29 @@
+﻿@media screen {
+    #printSection {
+        display: none;
+    }
+    #sign {
+        visibility: hidden;
+    }
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #footbtn {
+        display: none !important;
+    }
+    #printSection, #printSection * {
+        visibility: visible;
+    }
+    #sign {
+        visibility: visible !important;
+    }
+    #printSection {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    
+}

@@ -1,0 +1,146 @@
+﻿
+@font-face {
+    font-family: 'BahijHelveticaBold';
+    src: url('fonts/BahijHelveticaBold.ttf') format('truetype');
+}
+body {
+    margin-top: 0% !important;
+    background-color: #f4f4f4;
+    font-family: "BahijHelveticaBold";
+    height: 100% !important;
+    box-sizing: border-box;
+}
+.TitleFont {
+    font-family: "BahijHelveticaBold";
+}
+.bodyFont {
+    font-family: "BahijHelveticaBold";
+}
+.shadowbox {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+}
+.boxdesign {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 0.2em;
+  margin: auto;
+  cursor: pointer;
+}
+.boxdesign:hover {
+  background-color: blanchedalmond;
+  border: 1px solid #00a0a8;
+  transform: scale(1.05, 1.05);
+  cursor: pointer;
+}
+.dIcon:hover {
+  border: 1px solid #00a0a8;
+  border-radius: 50px;
+}
+.boxdesignA {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 0.2em;
+  margin: auto;
+}
+.text-farsi {
+    color: #f19020;
+    font-size: 11px;
+    font-style: normal;
+    text-justify: auto;
+    font-family: "BahijHelveticaBold" !important;
+}
+
+.text-english {
+  font-size: x-small;
+  /*text-justify: auto;*/
+}
+a {
+  color: #444;
+}
+
+.dabscolor {
+  font-size: smaller;
+  color: #f19020;
+}
+.graycolor {
+  color: #444;
+}
+
+.Title-box {
+  box-shadow: 3px 3px 4px gainsboro;
+}
+
+#todoList {
+  list-style-type: none;
+  padding: 0px !important;
+}
+
+#todoList li a {
+  box-shadow: 1px 1px 3px 2px gainsboro;
+  border-radius: 5px;
+  margin-top: 5px;
+  height: 30px;
+  display: block;
+  line-height: 34px;
+  color: gray;
+  overflow: hidden;
+}
+
+.icons {
+  background-color: #f4f4f4;
+  color: #00a0a8;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: large;
+  line-height: 40px;
+  margin-left: 5px;
+  text-align: center;
+}
+
+#search-box {
+  background-color: #f7f8fa;
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+  width: 100%;
+}
+
+#search-box::placeholder {
+  color: gainsboro;
+}
+
+#addTodo {
+  border-radius: 10%;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: #f19020;
+  color: white;
+  margin-left: 13em;
+}
+#addTodo:hover {
+  background-color: #273a46;
+}
+#todoInputBox {
+  border: 1px solid #f19020;
+}
+#todoInputBox::placeholder {
+  color: gainsboro;
+  text-align: right;
+}
+
+.carousel-inner {
+  height: 270px;
+}
+
+#dabsicon {
+  background-image: url("/images/DABSICON.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.trashTodo {
+  float: left;
+  padding: 5px;
+}

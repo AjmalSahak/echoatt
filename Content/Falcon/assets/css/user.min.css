@@ -1,0 +1,75 @@
+.jqx-validator-error-label{
+    width:100% !important;
+}
+.modal-header {
+    border-bottom: none;
+    --falcon-bg-opacity: 1;
+    background-color: rgba(var(--falcon-light-rgb), var(--falcon-bg-opacity)) !important;
+}
+.jqx-menu-ul li img{
+    float:right;
+}
+.avatar .rounded-circle {
+    border: 1px solid rgba(var(--falcon-warning-rgb));
+}
+.user_name{
+    text-transform:capitalize !important;
+}
+.navbar-vertical-collapsed .navbar-vertical.navbar-expand-xxl .user_img,
+.navbar-vertical-collapsed .navbar-vertical.navbar-expand-xl .user_img,
+.navbar-vertical-collapsed .navbar-vertical.navbar-expand-lg .user_img,
+.navbar-vertical-collapsed .navbar-vertical.navbar-expand-md .user_img,
+.navbar-vertical-collapsed .navbar-vertical.navbar-expand-sm .user_img,
+.navbar-vertical-collapsed .navbar-vertical.navbar-expand-xs .user_img {
+    display: none;
+    -webkit-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    transition: all .5s ease
+}
+
+.navbar-vertical-collapsed-hover .navbar-vertical.navbar-expand-xxl .user_img,
+.navbar-vertical-collapsed-hover .navbar-vertical.navbar-expand-xl .user_img,
+.navbar-vertical-collapsed-hover .navbar-vertical.navbar-expand-lg .user_img,
+.navbar-vertical-collapsed-hover .navbar-vertical.navbar-expand-md .user_img,
+.navbar-vertical-collapsed-hover .navbar-vertical.navbar-expand-sm .user_img,
+.navbar-vertical-collapsed-hover .navbar-vertical.navbar-expand-xs .user_img {
+    display: block
+}
+
+.user_name {
+    font-size: medium
+}
+
+.navbar-vertical-collapsed .navbar-vertical.navbar-expand-xxl .user_name,
+.navbar-vertical-collapsed .navbar-vertical.navbar-expand-xl .user_name,
+.navbar-vertical-collapsed .navbar-vertical.navbar-expand-lg .user_name,
+.navbar-vertical-collapsed .navbar-vertical.navbar-expand-md .user_name,
+.navbar-vertical-collapsed .navbar-vertical.navbar-expand-sm .user_name,
+.navbar-vertical-collapsed .navbar-vertical.navbar-expand-xs .user_name {
+    font-size: x-small
+}
+
+.navbar-vertical-collapsed-hover .navbar-vertical.navbar-expand-xxl .user_name,
+.navbar-vertical-collapsed-hover .navbar-vertical.navbar-expand-xl .user_name,
+.navbar-vertical-collapsed-hover .navbar-vertical.navbar-expand-lg .user_name,
+.navbar-vertical-collapsed-hover .navbar-vertical.navbar-expand-md .user_name,
+.navbar-vertical-collapsed-hover .navbar-vertical.navbar-expand-sm .user_name,
+.navbar-vertical-collapsed-hover .navbar-vertical.navbar-expand-xs .user_name {
+    font-size: medium
+}
+
+.highcharts-title{
+    font-weight: bold;
+}
+
+.highcharts-root text[style*="color:black"] tspan {
+    color: var(--falcon-headings-color);
+    fill: var(--falcon-headings-color);
+}
+
+
+/*jQuery validator*/
+
+span.field-validation-error {
+    color: red;
+}
