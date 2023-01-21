@@ -200,7 +200,7 @@
 
                     }
                 }
-                $('#FrmEntityEntry').jqxValidator('validate', validationResult)
+                //$('#FrmEntityEntry').jqxValidator('validate', validationResult)
             }
             else {
                 toastr["error"]("Please Check the form");
@@ -223,7 +223,7 @@
         });
 
 
-        $("#btUpload").click(function () {
+        @*$("#btUpload").click(function () {
 
             var validationResult = function (isValid) {
                 if (isValid) {
@@ -240,17 +240,17 @@
 
             }
 
-            $('#frmUpload').jqxValidator('validate', validationResult);
-        });
-        $('#frmUpload').jqxValidator({
-            hintType: 'label',
-            animationDuration: 0,
-            rtl: true,
-            rules: [
+           // $('#frmUpload').jqxValidator('validate', validationResult);
+        });*@
+        //$('#frmUpload').jqxValidator({
+        //    hintType: 'label',
+        //    animationDuration: 0,
+        //    rtl: true,
+        //    rules: [
 
 
-            ], theme: 'classic'
-        });
+        //    ], theme: 'classic'
+        //});
 
     });
 
