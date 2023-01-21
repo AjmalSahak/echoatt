@@ -3,31 +3,537 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
+@using AlphaTechMIS.Resources
 @Scripts.Render("~/Content/jqxGrid/js")
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+
+<script>
+
+    function ClearForm() {
+        $('#FrmEntityEntry')[0].reset()
+        $('#EEID').val('');
+        $("#SEID").val(0).change();
+        $("#EEHour").val(0).change();
+
+    }
+    function ClearUploadForm() {
+        $('#frmUpload')[0].reset()
+
+    }
+
+    function CheckValue() {
+        if ($("#VoltageA").val() == "" && $("#ReactP").val() == "" && $("#ActiveP").val() == "" && $("#CurrentA").val() == "" && $("#MWH").val() == "" && $("#PF").val() == "")
+            return false;
+        else if ($("#VoltageA").val() == 0 && $("#ReactP").val() == 0 && $("#ActiveP").val() == 0 && $("#CurrentA").val() == 0 && $("#MWH").val() == 0 && $("#PF").val() == 0)
+            return false
+        else
+            return true;
+    }
+    function GetSubEntity(v) {
+        var SubstationID = $("#SubstationID").val();
+        var GEID = $("#GEID").val();
+
+        if (SubstationID != 0 && GEID != 0) {
+            $("#SEID").empty();
+            FillSelect2Sync("/ODS/EntityEntry/GetSubEntityByID?GEID=" + GEID + "&SubstationID=" + SubstationID, "SEID", "SEID", "SEName");
+            if (v != 0) {
+                $("#SEID").val(v).change();
+
+            }
+
+        }
+        else {
+
+        }
+
+    }
+    $(document).ready(function () {
+
+        setgrid();
+        makeContextMenu("Menu", "GrdEntityEntry", 200, 100);
+        makeDates(["D_EEDate"], "FrmEntityEntry", "rtl")
+
+        FillSelect2("/ODS/EntityEntry/GetHour", "EEHour", "HID", "HOURS");
+
+        FillSelect2("/ODS/Substation/GetSubstationList", "SubstationID", "SubstationID", "Sname");
+        FillSelect2("/ODS/EntityEntry/GetGeneralEntity", "GEID", "GEID", "GEName");
+        FillSelect2("/ODS/EntityEntry/GetSubEntityByID?GEID=0&SubstationID=0", "SEID", "SEID", "SEName");
+
+        FillSelect2("/ODS/Substation/GetSubstationList", "USubstationID", "SubstationID", "Sname");
+
+
+
+        $("#Menu").on('itemclick', function (event) {
+            var args = event.args;
+            var rowindex = $("#GrdEntityEntry").jqxGrid('getselectedrowindex');
+            if ($.trim($(args).text()) == "@Resource.Edit") {
+                editrow = rowindex;
+                var offset = $("#GrdEntityEntry").offset();
+                // get the clicked row's data and initialize the input fields.
+                var dataRecord = $("#GrdEntityEntry").jqxGrid('getrowdata', editrow);
+
+
+                $("#SubstationID").val(dataRecord.SubstationID)
+                $('#SubstationID').trigger('change');
+
+                $("#GEID").val(dataRecord.GEID)
+                $('#GEID').trigger('change');
+
+                GetSubEntity(dataRecord.SEID);
+
+
+                $("#EEHour").val(dataRecord.EEHour)
+                $('#EEHour').trigger('change');
+
+                $("#Remarks").val(dataRecord.Remarks);
+                $("#MWH").val(dataRecord.MWH);
+
+                $("#PF").val(dataRecord.PF);
+                $("#EEDate").val(moment(dataRecord.EEDate).format("YYYY-MM-DD"));
+                $("#CurrentA").val(dataRecord.CurrentA);
+                $("#D_EEDate").val(dataRecord.PrDate);
+
+                $("#VoltageA").val(dataRecord.VoltageA);
+                $("#ReactP").val(dataRecord.ReactP);
+                $("#ActiveP").val(dataRecord.ActiveP);
+
+                $("#EEID").val(dataRecord.EEID);
+
+                var GEID = dataRecord.GEID;
+
+                if (GEID == 2) {
+
+                    $(".hid").hide();
+                    $("#VoltageA").val('');
+                    $("#CurrentA").val('');
+                    $("#PF").val('');
+                }
+                else {
+
+                    $(".hid").show();
+
+                }
+
+                $("#ModalEntityEntry").modal('show');
+
+
+
+
+            }
+            else {
+
+            }
+        });
+
+
+        $("#Save").click(function () {
+
+            if (CheckValue()) {
+                var validationResult = function (isValid) {
+
+                    if (isValid) {
+
+                        var varURL = ($("#EEID").val() == '' || $("#EEID").val() == null) ? '/ODS/EntityEntry/Create' : '/ODS/EntityEntry/Update';
+                        if ($("#EEID").val() == '') {
+                            $("#EEID").remove();
+                        }
+                        $.ajax(
+                            {
+                                url: varURL,
+                                type: 'post',
+                                data: $('#FrmEntityEntry').serialize(),
+                                success: function (result) {
+                                    console.log = (result);
+                                    if (result == "true") {
+
+                                        toastr["success"]('@Resource.Record_Saved')
+
+                                        $('#GrdEntityEntry').jqxGrid('updatebounddata', 'data');
+                                        $('#FrmEntityEntry').append("<input type='hidden' id='EEID' name='EEID' />");
+
+
+                                        $("#VoltageA").val('');
+                                        $("#ReactP").val('');
+                                        $("#ActiveP").val('');
+                                        $("#CurrentA").val('');
+                                        $("#MWH").val('');
+                                        $("#PF").val('');
+
+                                        $("#EEID").val('');
+                                        $("#SEID").val(0).change();
+                                        $("#EEHour").val(0).change();
+
+
+                                    }
+                                    else if (result == "false") {
+                                        toastr["error"]("درج نگردید فورم خود را چک نماید");
+
+                                    }
+                                    else if (result == "DuplicateRecord") {
+                                        toastr["error"]("گزارش این تاریخ و زمان درج گردید !");
+
+                                    }
+                                    else if (result == "MWHFound") {
+                                        toastr["error"]("مقدار انرژی صرفیه ۲۴ ساعته در یکی از ساعات این تاریخ از قبل درج گردیده !");
+
+                                    }
+                                    else if (result == "Updated") {
+                                        toastr["success"]('@Resource.Record_Update')
+                                        $('#GrdEntityEntry').jqxGrid('updatebounddata', 'data');
+                                        $("#EEID").val('');
+                                        $("#SEID").val(0).change();
+                                        $("#EEHour").val(0).change();
+                                        $('#ModalEntityEntry').modal('hide');
+                                    }
+                                    else if (result == "OutDate") {
+                                        toastr["error"]("   زمان تغیر این گزارش انقضا گردیده ! ");
+
+                                    }
+
+                                    else {
+                                        toastr["error"](result);
+
+                                    }
+                                }
+                            });
+
+                    }
+                }
+                $('#FrmEntityEntry').jqxValidator('validate', validationResult)
+            }
+            else {
+                toastr["error"]("Please Check the form");
+
+            }
+        });
+
+
+        $('#FrmEntityEntry').jqxValidator({
+            hintType: 'label',
+            animationDuration: 0,
+            rtl: true,
+            rules: [
+
+
+
+
+
+            ], theme: 'classic'
+        });
+
+
+        $("#btUpload").click(function () {
+
+            var validationResult = function (isValid) {
+                if (isValid) {
+
+
+                    if ($("#file").val() == '') {
+                        toastr["error"]('@Resource.Please_Select_File');
+                    }
+                    else {
+
+                        $("#frmUpload").submit();
+                    }
+                }
+
+            }
+
+            $('#frmUpload').jqxValidator('validate', validationResult);
+        });
+        $('#frmUpload').jqxValidator({
+            hintType: 'label',
+            animationDuration: 0,
+            rtl: true,
+            rules: [
+
+
+            ], theme: 'classic'
+        });
+
+    });
+
+
+    function setgrid() {
+
+        const isRTL = JSON.parse(localStorage.getItem('isRTL'))
+        const aln = (isRTL) ? 'right' : 'left';
+        var isAdaptive = ($(document).width() <= 500) ? true : false;
+
+        $("#GrdEntityEntry").jqxGrid(
+            {
+                width: '99%',
+                enabletooltips: true,
+                pageable: true,
+                pagermode: 'simple',
+                showfilterrow: true,
+                filterable: true,
+                editable: false,
+                autoheight: true,
+                columnsresize: false,
+                sortable: true,
+                pagesize: 15,
+                altrows: true,
+                rtl: isRTL,
+                adaptive: true,
+                columns: [
+
+                    { text: '@Resource.Substation', dataField: 'Sname', width: '18%', cellsalign: aln, align: aln },
+                    { text: '@Resource.Equipment (@Resource.Type)', dataField: 'GEName', width: '12%', cellsalign: aln, align: aln },
+                    { text: '@Resource.Equipment', dataField: 'SEName', cellsalign: aln, align: aln },
+                    { text: '@Resource.Date', dataField: 'PrDate', width: '8%', cellsalign: aln, align: aln },
+                    { text: '@Resource.Hour', dataField: 'EEHour', width: '5%', cellsalign: aln, align: aln },
+                    { text: 'MWH', dataField: 'MWH', width: '7%', cellsalign: aln, align: aln },
+                    { text: 'CA', dataField: 'CurrentA', width: '5%', cellsalign: aln, align: aln },
+                    { text: 'VA', dataField: 'VoltageA', width: '5%', cellsalign: aln, align: aln},
+                    { text: 'PF', dataField: 'PF', width: '5%', cellsalign: aln, align: aln },
+                    { text: 'RP', dataField: 'ReactP', width: '5%', cellsalign: aln, align: aln },
+                    { text: 'AP', dataField: 'ActiveP', width: '5%', cellsalign: aln, align: aln},
+
+
+                ]
+
+            });
+       // fillgrid('/ODS/EntityEntry/GetEntityEntry');
+
+    }
+
+    function fillgrid(varurl) {
+
+        var datafields = [
+            { name: 'SubstationID' },
+            { name: 'EEID' },
+            { name: 'Pname' },
+            { name: 'SEName' },
+            { name: 'GEName' },
+            { name: 'SECode' },
+            { name: 'Sname' },
+            { name: 'SEID' },
+
+            { name: 'EEHour' },
+            { name: 'CurrentA' },
+            { name: 'VoltageA' },
+            { name: 'PF' },
+            { name: 'ReactP' },
+            { name: 'ActiveP' },
+            { name: 'GEID' },
+            { name: 'EEDate', type: 'date', format: "yyyy-mm-DD" },
+            { name: 'Remarks' },
+            { name: 'MWH' },
+            { name: 'SSnameSecond' },
+            /*{ name: 'SSID' },*/
+            { name: 'PrDate' },
+
+
+
+
+        ];
+        var source =
+        {
+            datatype: "json",
+            datafields: datafields,
+            cache: false,
+            //   url: '/HR/Dept/GetDept',
+            url: varurl,
+            root: 'Rows'
+        };
+
+        var dataadapter = new $.jqx.dataAdapter(source, {
+            loadError: function (xhr, status, error) {
+                console.log(error);
+            }
+        }
+        );
+
+        $("#GrdEntityEntry").jqxGrid(
+            {
+                source: dataadapter
+            });
+    }
+</script>
+
+
+
+
+<div class="card card-primary mb-3" id="customersTable" data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;phone&quot;,&quot;address&quot;,&quot;joined&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
+    <div class="card-header">
+        <div class="row flex-between-center">
+            <div class="col-4 col-sm-auto d-flex align-items-center pe-0">
+                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">@Resource.Reports </h5>
+            </div>
+            <div class="col-8 col-sm-auto text-end ps-2">
+                <div id="table-customers-replace-element">
+
+                    <button class="btn btn-outline-primary btn-sm" id="BtnAdd" type="button" data-bs-toggle="modal" data-bs-target="#ModalEntityEntry" onclick="ClearForm()">
+                        <span class="d-none d-sm-inline-block ms-1">@Resource.New </span>
+                        <span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-2 bg-light">
+        <div class="table-responsive">
+            <div id="GrdEntityEntry">
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+
+<div class="modal fade" id="ModalEntityEntry" data-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Resource.AddNew</h5>
+                <button type="button" class="btn-close btn btn-sm btn-circle transition-base p-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="FrmEntityEntry">
+                <div class="modal-body">
+                    <div class="row p-2">
+                        <div class="col-md-4">
+                            <label for="SubstationID">@Resource.Substation</label><br />
+                            <select id="SubstationID" name="SubstationID" class="select_2 form-control form-control-sm" onchange="GetSubEntity(0)">
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="GEID">@Resource.Equipment (@Resource.Type)</label><br />
+                            <select id="GEID" name="GEID" class="select_2 form-control form-control-sm" onchange="GetSubEntity(0)">
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="SEID">@Resource.Equipment</label><br />
+                            <select id="SEID" name="SEID" class="select_2 form-control form-control-sm">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row p-2">
+
+                        <div class="col-md-4">
+                            <label for="D_EEDate">@Resource.Date</label><br />
+                            <input type="text" name="D_EEDate" id="D_EEDate" class="form-control form-control-sm" autocomplete="off" />
+
+                        </div>
+                        <div class="col-md-4">
+                            <label for="EEHour">@Resource.Hour</label><br />
+                            <select id="EEHour" name="EEHour" class="select_2 form-control form-control-sm">
+                            </select>
+                        </div>
+
+
+                    </div>
+                    <div class="row p-2">
+                        <div class="col-md-4">
+                            <label for="PF">@Resource.PowerFactor</label><br />
+                            <input type="text" name="PF" id="PF" class="form-control form-control-sm" />
+
+                        </div>
+                        <div class="col-md-4">
+                            <label for="VoltageA">@Resource.Voltage (KV)</label><br />
+                            <input type="text" name="VoltageA" id="VoltageA" class="form-control form-control-sm" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="ReactP"> @Resource.ReactP</label><br />
+                            <input type="text" name="ReactP" id="ReactP" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="row p-2">
+
+                        <div class="col-md-4">
+                            <label for="CurrentA"> @Resource.CurrentA (A)</label><br />
+                            <input type="text" name="CurrentA" id="CurrentA" class="form-control form-control-sm" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="ActiveP"> @Resource.ActiveP (MW)</label><br />
+                            <input type="text" name="ActiveP" id="ActiveP" class="form-control form-control-sm" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="MWH">@Resource.MWH (MWH)</label><br />
+                            <input type="text" name="MWH" id="MWH" class="form-control form-control-sm" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="row p-2">
+
+                        <div class="col-md-12">
+                            <label for="Remarks"> @Resource.Remarks</label><br />
+                            <input type="text" name="Remarks" id="Remarks" autocomplete="off" dir="auto" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="EEID" id="EEID" class="form-control form-control-sm" />
+                    <button type="button" id="Save" class="btn btn-sm btn-outline-primary">@Resource.Save</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">@Resource.Cancel</button>
+                </div>
+
+            </form>
+
+        </div>
     </div>
 </div>
+
+
+<div id="Menu">
+    <ul dir="rtl">
+        <li id="Edit" class="Block">
+            <img src="~/images/pencil.png" />
+            <span>@Resource.Edit</span>
+        </li>
+    </ul>
+</div>
+
+<script src="~/Scripts/jquery.form.js"></script>
+<script>
+
+
+    (function () {
+        $('#frmUpload').ajaxForm({
+
+            beforeSend: function () {
+
+            },
+            uploadProgress: function (event, position, total, percentComplete) {
+
+            },
+            success: function (result) {
+                if (result == "true") {
+                    toastr["success"]('@Resource.SaveToaster');
+                    $('#GrdEntityEntry').jqxGrid('updatebounddata', 'data');
+                    $('#ModalUpload').modal('hide');
+                    ClearUploadform();
+                    return;
+                }
+
+
+                else {
+                    toastr["error"](result);
+                }
+                return;
+
+            },
+            complete: function (xhr) {
+
+            }
+        });
+    })();
+    function fileValidation() {
+        var fileInput = document.getElementById('file');
+        var filePath = fileInput.value;
+        var allowedExtensions =/(\.xls|\.xlsx)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+            toastr["error"]('Please Select .xls or .xlsx Format Only');
+            fileInput.value = '';
+            $("#btUpload").attr("disabled", true);
+            return false;
+        }
+        else {
+            $("#btUpload").attr("disabled", false);
+        }
+    }
+</script>

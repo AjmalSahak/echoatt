@@ -744,12 +744,12 @@ button.jqx-button, input[type=button].jqx-button,  input[type=submit].jqx-button
  }
   /*applied to a pinned grid cell.*/
 .jqx-grid-cell-pinned {
-    background-color: var(--falcon-100);
+    /*background-color: #e5e5e5;*/
  }
  /*applied to a pinned grid cell. Represents the alternating cell background.*/
 .jqx-grid-cell-pinned-alt {
-    background-color: var(--falcon-200);
-}
+    background-color: #e5e5e5;
+ }
  /*applied to a selected grid cell.*/
 .jqx-grid-cell-selected {
     background-color: var(--falcon-300);
@@ -3803,7 +3803,7 @@ of the horizontal scrollbar.*/
 /*applied to containers to set a background and border color. Tabs, NavigationBar, Calendar content.*/
 .jqx-widget-content {-moz-box-sizing: content-box; box-sizing: content-box; -ms-touch-action: none; -moz-background-clip: padding; -webkit-text-size-adjust: none; background-clip: padding-box; -webkit-background-clip: padding-box; -webkit-tap-highlight-color: rgba(0,0,0,0); font-size: 13px; /*font-family: Verdana,Arial,sans-serif; font-style: normal; border-color: #c7c7c7; background: #fff;*/}
 /*applied to header areas. Tabs, Menu, Window, Calendar.*/
-.jqx-widget-header {-moz-box-sizing: content-box; box-sizing: content-box; -ms-touch-action: none;-moz-background-clip: padding; -webkit-text-size-adjust: none; background-clip: padding-box; -webkit-background-clip: padding-box; -webkit-tap-highlight-color: rgba(0,0,0,0); border-color: var(--falcon-soft-secondary); background: var(--falcon-input-bg); font-weight: bold;}
+.jqx-widget-header {-moz-box-sizing: content-box; box-sizing: content-box; -ms-touch-action: none;-moz-background-clip: padding; -webkit-text-size-adjust: none; background-clip: padding-box; -webkit-background-clip: padding-box; -webkit-tap-highlight-color: rgba(0,0,0,0); border-color: var(--falcon-soft-secondary); /*background: #e8e8e8;*/ font-weight: bold;}
 
 .jqx-fill-state-normal{-moz-box-sizing: content-box; box-sizing: content-box; -ms-touch-action: none;font-family: Verdana,Arial,sans-serif; font-style: normal; font-size: 13px; border: 1px solid var(--falcon-soft-dark); background: var(--falcon-100);}
 .jqx-fill-state-hover {-moz-box-sizing: content-box; box-sizing: content-box; border-color: var(--falcon-soft-dark);  background: var(--falcon-200);}

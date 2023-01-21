@@ -12,6 +12,10 @@ namespace AlphaTechMIS.Models
         public static List<Languages> AvailableLanguages = new List<Languages> {
             new Languages
             {
+                LanguageFullName = "Urdu", LanguageCultureName = "ur"  ,LanguageDirection="rtl",LangPrefix="ur",Align="right"
+            },
+            new Languages
+            {
                 LanguageFullName = "Persian", LanguageCultureName = "fa", LanguageDirection = "rtl", LangPrefix = "Dr",Align="right",
             },
             new Languages
@@ -22,10 +26,7 @@ namespace AlphaTechMIS.Models
             {
                 LanguageFullName = "Pashto", LanguageCultureName = "Ps"  ,LanguageDirection="rtl",LangPrefix="Ps",Align="right"
             },
-            new Languages
-            {
-                LanguageFullName = "Urdu", LanguageCultureName = "ur"  ,LanguageDirection="rtl",LangPrefix="ur",Align="right"
-            },
+
 
         };
 
