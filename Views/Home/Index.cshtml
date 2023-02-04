@@ -67,7 +67,7 @@
         $("#Menu").on('itemclick', function (event) {
             var args = event.args;
             var rowindex = $("#GrdEntityEntry").jqxGrid('getselectedrowindex');
-            if ($.trim($(args).text()) == "@Resource.Edit") {
+            if ($.trim($(args).text()) == "Edit") {
                 editrow = rowindex;
                 var offset = $("#GrdEntityEntry").offset();
                 // get the clicked row's data and initialize the input fields.
@@ -147,7 +147,7 @@
                                     console.log = (result);
                                     if (result == "true") {
 
-                                        toastr["success"]('@Resource.Record_Saved')
+                                        toastr["success"]('Record_Saved')
 
                                         $('#GrdEntityEntry').jqxGrid('updatebounddata', 'data');
                                         $('#FrmEntityEntry').append("<input type='hidden' id='EEID' name='EEID' />");
@@ -179,7 +179,7 @@
 
                                     }
                                     else if (result == "Updated") {
-                                        toastr["success"]('@Resource.Record_Update')
+                                        toastr["success"]('Record_Update')
                                         $('#GrdEntityEntry').jqxGrid('updatebounddata', 'data');
                                         $("#EEID").val('');
                                         $("#SEID").val(0).change();
@@ -230,7 +230,7 @@
 
 
                     if ($("#file").val() == '') {
-                        toastr["error"]('@Resource.Please_Select_File');
+                        toastr["error"]('Please_Select_File');
                     }
                     else {
 
@@ -279,11 +279,11 @@
                 adaptive: true,
                 columns: [
 
-                    { text: '@Resource.Substation', dataField: 'Sname', width: '18%', cellsalign: aln, align: aln },
-                    { text: '@Resource.Equipment (@Resource.Type)', dataField: 'GEName', width: '12%', cellsalign: aln, align: aln },
-                    { text: '@Resource.Equipment', dataField: 'SEName', cellsalign: aln, align: aln },
-                    { text: '@Resource.Date', dataField: 'PrDate', width: '8%', cellsalign: aln, align: aln },
-                    { text: '@Resource.Hour', dataField: 'EEHour', width: '5%', cellsalign: aln, align: aln },
+                    { text: 'Substation', dataField: 'Sname', width: '18%', cellsalign: aln, align: aln },
+                    { text: 'Equipment (Type)', dataField: 'GEName', width: '12%', cellsalign: aln, align: aln },
+                    { text: 'Equipment', dataField: 'SEName', cellsalign: aln, align: aln },
+                    { text: 'Date', dataField: 'PrDate', width: '8%', cellsalign: aln, align: aln },
+                    { text: 'Hour', dataField: 'EEHour', width: '5%', cellsalign: aln, align: aln },
                     { text: 'MWH', dataField: 'MWH', width: '7%', cellsalign: aln, align: aln },
                     { text: 'CA', dataField: 'CurrentA', width: '5%', cellsalign: aln, align: aln },
                     { text: 'VA', dataField: 'VoltageA', width: '5%', cellsalign: aln, align: aln},
@@ -360,13 +360,13 @@
     <div class="card-header">
         <div class="row flex-between-center">
             <div class="col-4 col-sm-auto d-flex align-items-center pe-0">
-                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">@Resource.Reports </h5>
+                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">Reports </h5>
             </div>
             <div class="col-8 col-sm-auto text-end ps-2">
                 <div id="table-customers-replace-element">
 
                     <button class="btn btn-outline-primary btn-sm" id="BtnAdd" type="button" data-bs-toggle="modal" data-bs-target="#ModalEntityEntry" onclick="ClearForm()">
-                        <span class="d-none d-sm-inline-block ms-1">@Resource.New </span>
+                        <span class="d-none d-sm-inline-block ms-1">New </span>
                         <span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span>
                     </button>
 
@@ -387,24 +387,24 @@
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">@Resource.AddNew</h5>
+                <h5 class="modal-title">AddNew</h5>
                 <button type="button" class="btn-close btn btn-sm btn-circle transition-base p-0" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="FrmEntityEntry">
                 <div class="modal-body">
                     <div class="row p-2">
                         <div class="col-md-4">
-                            <label for="SubstationID">@Resource.Substation</label><br />
+                            <label for="SubstationID">Substation</label><br />
                             <select id="SubstationID" name="SubstationID" class="select_2 form-control form-control-sm" onchange="GetSubEntity(0)">
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <label for="GEID">@Resource.Equipment (@Resource.Type)</label><br />
+                            <label for="GEID">Equipment (Type)</label><br />
                             <select id="GEID" name="GEID" class="select_2 form-control form-control-sm" onchange="GetSubEntity(0)">
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <label for="SEID">@Resource.Equipment</label><br />
+                            <label for="SEID">Equipment</label><br />
                             <select id="SEID" name="SEID" class="select_2 form-control form-control-sm">
                             </select>
                         </div>
@@ -412,12 +412,12 @@
                     <div class="row p-2">
 
                         <div class="col-md-4">
-                            <label for="D_EEDate">@Resource.Date</label><br />
+                            <label for="D_EEDate">Date</label><br />
                             <input type="text" name="D_EEDate" id="D_EEDate" class="form-control form-control-sm" autocomplete="off" />
 
                         </div>
                         <div class="col-md-4">
-                            <label for="EEHour">@Resource.Hour</label><br />
+                            <label for="EEHour">Hour</label><br />
                             <select id="EEHour" name="EEHour" class="select_2 form-control form-control-sm">
                             </select>
                         </div>
@@ -426,39 +426,39 @@
                     </div>
                     <div class="row p-2">
                         <div class="col-md-4">
-                            <label for="PF">@Resource.PowerFactor</label><br />
+                            <label for="PF">PowerFactor</label><br />
                             <input type="text" name="PF" id="PF" class="form-control form-control-sm" />
 
                         </div>
                         <div class="col-md-4">
-                            <label for="VoltageA">@Resource.Voltage (KV)</label><br />
+                            <label for="VoltageA">Voltage (KV)</label><br />
                             <input type="text" name="VoltageA" id="VoltageA" class="form-control form-control-sm" />
                         </div>
                         <div class="col-md-4">
-                            <label for="ReactP"> @Resource.ReactP</label><br />
+                            <label for="ReactP"> ReactP</label><br />
                             <input type="text" name="ReactP" id="ReactP" class="form-control form-control-sm" />
                         </div>
                     </div>
                     <div class="row p-2">
 
                         <div class="col-md-4">
-                            <label for="CurrentA"> @Resource.CurrentA (A)</label><br />
+                            <label for="CurrentA"> CurrentA (A)</label><br />
                             <input type="text" name="CurrentA" id="CurrentA" class="form-control form-control-sm" />
                         </div>
                         <div class="col-md-4">
-                            <label for="ActiveP"> @Resource.ActiveP (MW)</label><br />
+                            <label for="ActiveP"> ActiveP (MW)</label><br />
                             <input type="text" name="ActiveP" id="ActiveP" class="form-control form-control-sm" />
                         </div>
 
                         <div class="col-md-4">
-                            <label for="MWH">@Resource.MWH (MWH)</label><br />
+                            <label for="MWH">MWH (MWH)</label><br />
                             <input type="text" name="MWH" id="MWH" class="form-control form-control-sm" autocomplete="off" />
                         </div>
                     </div>
                     <div class="row p-2">
 
                         <div class="col-md-12">
-                            <label for="Remarks"> @Resource.Remarks</label><br />
+                            <label for="Remarks"> Remarks</label><br />
                             <input type="text" name="Remarks" id="Remarks" autocomplete="off" dir="auto" class="form-control form-control-sm" />
                         </div>
                     </div>
@@ -468,8 +468,8 @@
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" name="EEID" id="EEID" class="form-control form-control-sm" />
-                    <button type="button" id="Save" class="btn btn-sm btn-outline-primary">@Resource.Save</button>
-                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">@Resource.Cancel</button>
+                    <button type="button" id="Save" class="btn btn-sm btn-outline-primary">Save</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
                 </div>
 
             </form>
@@ -483,7 +483,7 @@
     <ul dir="rtl">
         <li id="Edit" class="Block">
             <img src="~/images/pencil.png" />
-            <span>@Resource.Edit</span>
+            <span>Edit</span>
         </li>
     </ul>
 </div>
@@ -503,7 +503,7 @@
             },
             success: function (result) {
                 if (result == "true") {
-                    toastr["success"]('@Resource.SaveToaster');
+                    toastr["success"]('SaveToaster');
                     $('#GrdEntityEntry').jqxGrid('updatebounddata', 'data');
                     $('#ModalUpload').modal('hide');
                     ClearUploadform();
@@ -525,7 +525,7 @@
     function fileValidation() {
         var fileInput = document.getElementById('file');
         var filePath = fileInput.value;
-        var allowedExtensions =/(\.xls|\.xlsx)$/i;
+        var allowedExtensions = /(\.xls|\.xlsx)$/i;
         if (!allowedExtensions.exec(filePath)) {
             toastr["error"]('Please Select .xls or .xlsx Format Only');
             fileInput.value = '';
