@@ -14,7 +14,7 @@ namespace AlphaTechMIS.Areas.INV.Models
         public int QPID { get; set; }
         public int QuotationID { get; set; }
         public int ProductID { get; set; }
-        public int Quantity { get; set; }
+        public double Quantity { get; set; }
         public int UnitID { get; set; }
     }
 }

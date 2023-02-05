@@ -127,6 +127,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\INV\Controllers\z_UnitController.cs" />
     <Compile Include="Areas\INV\INVAreaRegistration.cs" />
     <Compile Include="Areas\INV\Models\ChartOfAccount.cs" />
     <Compile Include="Areas\INV\Models\Dealer.cs" />
@@ -814,8 +815,8 @@
     <Content Include="Content\moment\moment-2.2.1.js" />
     <Content Include="Content\select2\css\select2.min.css" />
     <Content Include="Content\select2\js\select2.min.js" />
-    <Content Include="Content\toastr\toastr.js" />
-    <Content Include="Content\toastr\toastr.min.css" />
+    <Content Include="Content\toast\toastr.js" />
+    <Content Include="Content\toast\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -838,6 +839,7 @@
     <Content Include="packages\bootstrap.3.4.1\LICENSE.txt" />
     <Content Include="Content\Falcon\assets\img\favicons\manifest.json" />
     <Content Include="Areas\INV\Views\web.config" />
+    <Content Include="Areas\INV\Views\z_Unit\Index.cshtml" />
     <None Include="packages\jQuery.3.4.1\Content\Scripts\jquery-3.4.1-vsdoc.js" />
     <Content Include="packages\jQuery.3.4.1\Content\Scripts\jquery-3.4.1.js" />
     <Content Include="packages\jQuery.3.4.1\Content\Scripts\jquery-3.4.1.min.js" />
@@ -1058,7 +1060,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\INV\Controllers\" />
     <Folder Include="Areas\INV\DataSet\" />
     <Folder Include="Areas\INV\Data\" />
     <Folder Include="Areas\INV\RDLC\" />

@@ -59,5 +59,23 @@ namespace AlphaTechMIS.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Required!.
+        /// </summary>
+        public static string Required {
+            get {
+                return ResourceManager.GetString("Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unit Name.
+        /// </summary>
+        public static string UnitName {
+            get {
+                return ResourceManager.GetString("UnitName", resourceCulture);
+            }
+        }
     }
 }
