@@ -44,31 +44,31 @@ function SaveBtnClick(varBtn, varPK, varCreate, varEdit, varFrm, varModal, varGr
                     $("#" + varPK).remove();
                 }
                 $.ajax(
-                {
-                    url: varURL,
-                    type: 'post',
-                    data: $('#' + varFrm).serialize(),
-                    success: function (results) {
-                        if (results == "Record Saved") {
-                            //var newID = results.EduID;
-                            $('#' + varFrm).append("<input type='hidden' id='" + varPK + "' name='" + varPK + "' value='' />");
-                            toastr["success"]("معلومات موفقانه درج سیستم گردید");
-                            $('#' + varFrm).trigger("reset");
-                            $('#' + varModal).modal('hide');
-                            $('#' + varGrid).jqxGrid('updatebounddata', 'data');
-                        }
-                        else
-                            if (results == "Record Updated") {
-                                toastr["success"]("معلومات تعدیل/اصلاح گردید");
+                    {
+                        url: varURL,
+                        type: 'post',
+                        data: $('#' + varFrm).serialize(),
+                        success: function (results) {
+                            if (results == "Record Saved") {
+                                //var newID = results.EduID;
+                                $('#' + varFrm).append("<input type='hidden' id='" + varPK + "' name='" + varPK + "' value='' />");
+                                toastr["success"]("Record Saved");
                                 $('#' + varFrm).trigger("reset");
-                                $('#' + varModal).modal('toggle');
+                                $('#' + varModal).modal('hide');
                                 $('#' + varGrid).jqxGrid('updatebounddata', 'data');
                             }
-                            else {
-                                toastr["error"](results);
-                            }
-                    }
-                });
+                            else
+                                if (results == "Record Updated") {
+                                    toastr["success"]("Record Updated");
+                                    $('#' + varFrm).trigger("reset");
+                                    $('#' + varModal).modal('toggle');
+                                    $('#' + varGrid).jqxGrid('updatebounddata', 'data');
+                                }
+                                else {
+                                    toastr["error"](results);
+                                }
+                        }
+                    });
             }
         }
         $('#' + varFrm).jqxValidator('validate', validationResult)
@@ -92,15 +92,15 @@ function makeDates(varFields, varFormName, dir) {
         $('#' + varFormName).append('<input type="hidden" id="' + varid + '" name="' + varid + '" value=""  />');
         $('#' + varFields[varField]).on('change', function () {
             //alert(this.value);
-                dir == 'ltr' ? $('#' + $(this).attr('id').split("_").pop() + '').val(this.value) : setPersianDate($(this).attr('id').split("_").pop() + '', this.value);
+            dir == 'ltr' ? $('#' + $(this).attr('id').split("_").pop() + '').val(this.value) : setPersianDate($(this).attr('id').split("_").pop() + '', this.value);
         });
     }
 }
 function setPersianDate(Field, Dvalue) {
 
-    if (Dvalue != '' && Dvalue !=null) {
+    if (Dvalue != '' && Dvalue != null) {
         if (Dvalue == '1399/12/30') {
-            
+
             return;
         } else {
             var calendar = $.calendars.instance('persian');
@@ -166,14 +166,14 @@ function setGridDirection(varGridName, varDir) {
 }
 function fillGridByPost(df, varGridName, varURL) {
     var source =
-{
-    datatype: "json",
-    datafields: df,
-    cache: false,
-    url: varURL,
-    root: 'Rows',
-    type: 'POST'
-};
+    {
+        datatype: "json",
+        datafields: df,
+        cache: false,
+        url: varURL,
+        root: 'Rows',
+        type: 'POST'
+    };
 
     var dataadapter = new $.jqx.dataAdapter(source, {
         loadError: function (xhr, status, error) {
@@ -183,19 +183,19 @@ function fillGridByPost(df, varGridName, varURL) {
     );
 
     $("#" + varGridName).jqxGrid(
-    {
-        source: dataadapter
-    });
+        {
+            source: dataadapter
+        });
 }
 function fillGrid(df, varGridName, varURL) {
     var source =
-{
-    datatype: "json",
-    datafields: df,
-    cache: false,
-    url: varURL,
-    root: 'Rows'
-};
+    {
+        datatype: "json",
+        datafields: df,
+        cache: false,
+        url: varURL,
+        root: 'Rows'
+    };
 
     var dataadapter = new $.jqx.dataAdapter(source, {
         loadError: function (xhr, status, error) {
@@ -205,9 +205,9 @@ function fillGrid(df, varGridName, varURL) {
     );
 
     $("#" + varGridName).jqxGrid(
-    {
-        source: dataadapter
-    });
+        {
+            source: dataadapter
+        });
 }
 function setInputNumber(varField, varWidth, varHeight) {
     $("#" + varField).jqxNumberInput({ width: varWidth, height: varHeight, spinButtons: true, theme: varTheme, max: 99999999999, digits: 8 });
@@ -262,7 +262,7 @@ function setCheckBoxs(varFields, varWidth, varHeight) {
     }
 }
 function makeDeletePopup(varWindow, varCancel, varOk) {
-    $("#" + varWindow).jqxWindow({ width: 250, height: 120, resizable: false, theme: 'arctic', isModal: true, autoOpen: false, cancelButton: $("#"+varCancel), modalOpacity: 0.5,rtl:true });
+    $("#" + varWindow).jqxWindow({ width: 250, height: 120, resizable: false, theme: 'arctic', isModal: true, autoOpen: false, cancelButton: $("#" + varCancel), modalOpacity: 0.5, rtl: true });
     $("#" + varCancel).jqxButton({ height: 30, width: 80 });
     $("#" + varOk).jqxButton({ height: 30, width: 80 });
 }
@@ -323,7 +323,7 @@ function makeCheckHidden(varFields, varFormName) {
             } else {
                 $('#' + $(this).attr('id').split("_").pop() + '').val('0');
             }
-            
+
         });
     }
 }
@@ -360,7 +360,7 @@ function setCombo(varCombo, varURL, varID, varValue, varHeight, varWidth, varAut
     };
     var dataAdapter = new $.jqx.dataAdapter(source);
 
-    $(varCombo).jqxComboBox({ source: dataAdapter, placeHolder: "-- انتخاب نماید --", displayMember: varValue, valueMember: varID, width: varWidth, theme: 'classic', autoDropDownHeight: auto,searchMode: 'containsignorecase', autoComplete: true });
+    $(varCombo).jqxComboBox({ source: dataAdapter, placeHolder: "-- انتخاب نماید --", displayMember: varValue, valueMember: varID, width: varWidth, theme: 'classic', autoDropDownHeight: auto, searchMode: 'containsignorecase', autoComplete: true });
 }
 function setComb(varCombo, varURL, varID, varValue, varTheme, varHeight, varWidth, varAuto) {
     var auto = (varAuto == 1) ? true : false;
@@ -421,7 +421,7 @@ function setComboListSync(varCombo, varURL, varID, varValue, varHeight, varWidth
     $(varCombo).jqxComboBox({ source: dataAdapter, placeHolder: "-- انتخاب نماید --", displayMember: varValue, valueMember: varID, width: varWidth, theme: 'classic', autoDropDownHeight: auto, searchMode: 'containsignorecase', autoComplete: true });
 }
 //THE CONTROLER SHOULD BE [HTTPOST] AND USE PREFIX '%' AT THE START AND END OF STRING
-function AComplete(varTextBox,varURL,varField) {
+function AComplete(varTextBox, varURL, varField) {
     $("#" + varTextBox).autocomplete({
         source: function (request, response) {
             $.ajax({
@@ -474,15 +474,15 @@ function ValidateEmail(v) {
     return /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/.test(v);
 }
 
-function FillSelect2(varUrl, varInputName, varID, varName) {
+function FillSelect2(varUrl, varInputName, varID, varName, varSelectMsg) {
     $.getJSON(varUrl, function (jsondata) {
-        $('<option class="form-control">').val(0).text('Please Select....' ).appendTo("#" + varInputName);
+        $('<option class="form-control">').val(0).text(varSelectMsg).appendTo("#" + varInputName);
         $.each(jsondata, function (index) {
             $('<option class="form-control">').val(jsondata[index][varID]).text(jsondata[index][varName]).appendTo("#" + varInputName);
         });
     });
 }
-function FillSelect2Sync(varUrl, varInputName, varID, varName) {
+function FillSelect2Sync(varUrl, varInputName, varID, varName, varSelectMsg) {
     $.ajax({
         url: varUrl,
         async: false,
@@ -490,14 +490,14 @@ function FillSelect2Sync(varUrl, varInputName, varID, varName) {
         type: 'GET',
         success: function (result) {
             $('#' + varInputName).empty();
-            $('<option class="form-control">').val(0).text('Please Select..').appendTo("#" + varInputName);
+            $('<option class="form-control">').val(0).text(varSelectMsg).appendTo("#" + varInputName);
             $.each(result, function (index) {
                 $('<option class="form-control">').val(result[index][varID]).text(result[index][varName]).appendTo("#" + varInputName);
             });
         }
     });
 }
-function FillSelect2SyncSelected(varUrl, varInputName, varID, varName, selected) {
+function FillSelect2SyncSelected(varUrl, varInputName, varID, varName, selected, varSelectMsg) {
     $.ajax({
         url: varUrl,
         async: false,
@@ -505,7 +505,7 @@ function FillSelect2SyncSelected(varUrl, varInputName, varID, varName, selected)
         type: 'GET',
         success: function (result) {
             $('#' + varInputName).empty();
-            $('<option class="form-control">').val(0).text('Please Select..').appendTo("#" + varInputName);
+            $('<option class="form-control">').val(0).text(varSelectMsg).appendTo("#" + varInputName);
             $.each(result, function (index) {
                 $('<option class="form-control">').val(result[index][varID]).text(result[index][varName]).appendTo("#" + varInputName);
             });

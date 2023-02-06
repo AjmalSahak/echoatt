@@ -12,7 +12,7 @@ namespace AlphaTechMIS.Areas.INV.Models
     {
         [Key]
         public int PCID { get; set; }
-        public string Name { get; set; }
+        public string Category { get; set; }
 
     }
 }

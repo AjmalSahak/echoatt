@@ -127,6 +127,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\INV\Controllers\z_ProductController.cs" />
     <Compile Include="Areas\INV\Controllers\z_UnitController.cs" />
     <Compile Include="Areas\INV\INVAreaRegistration.cs" />
     <Compile Include="Areas\INV\Models\ChartOfAccount.cs" />
@@ -840,6 +841,7 @@
     <Content Include="Content\Falcon\assets\img\favicons\manifest.json" />
     <Content Include="Areas\INV\Views\web.config" />
     <Content Include="Areas\INV\Views\z_Unit\Index.cshtml" />
+    <Content Include="Areas\INV\Views\z_Product\Index.cshtml" />
     <None Include="packages\jQuery.3.4.1\Content\Scripts\jquery-3.4.1-vsdoc.js" />
     <Content Include="packages\jQuery.3.4.1\Content\Scripts\jquery-3.4.1.js" />
     <Content Include="packages\jQuery.3.4.1\Content\Scripts\jquery-3.4.1.min.js" />
@@ -1066,6 +1068,7 @@
     <Folder Include="Areas\INV\Reports\" />
     <Folder Include="Areas\INV\ViewModels\" />
     <Folder Include="Areas\INV\Views\Shared\" />
+    <Folder Include="Areas\INV\Views\zProduct\" />
     <Folder Include="Content\Falcon\assets\video\" />
     <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
