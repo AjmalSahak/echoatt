@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace AlphaTechMIS.Areas.INV.Models
+namespace AlphaTechMIS.Areas.INV.ViewModels
 {
-    [Table("ExchangeRate", Schema = "dbo")]
-    public class ExchangeRate
+    public class ExchangeRateVM
     {
-        [Key]
         public int ExchangeID { get; set; }
         public DateTime? EDate { get; set; }
         public string D_EDate { get; set; }
         public int CurrencyID { get; set; }
         public decimal Amount { get; set; }
         public double ExRate { get; set; }
-
+        public decimal AFNAmount { get; set; }
+        public string CurrencyEnglish { get; set; }
+        public string ConversionOperator { get; set; }
     }
 }

@@ -1,0 +1,363 @@
+﻿
+@{
+    ViewBag.Title = Resource.ChartOfAccount;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Scripts.Render("~/Content/jqxGrid/js")
+@using AlphaTechMIS.Resources
+<link href="~/Content/jsTree/themes/default/style.min.css" rel="stylesheet" />
+<script src="~/Scripts/jsTree3/jstree.js"></script>
+<script>
+    $(document).ready(function () {
+        setgrid();
+        GetData();
+        makeContextMenu("Menu", "GrdChartAccount", 100, 80);
+        $('#container').on("select_node.jstree", function (e, data) {
+            var nodeid = data.node.id;
+            $("#AccountTypeID").val($("#" + nodeid).attr("title"));
+        });
+        $(function () {
+            $('#container').jstree();
+        });
+
+        $('#SelectedAccount').css('display', 'none');
+
+        $("#Menu").on('itemclick', function (event) {
+            var args = event.args;
+            var rowindex = $("#GrdChartAccount").jqxGrid('getselectedrowindex');
+            if ($.trim($(args).text()) == '@Resource.Edit') {
+                $('#SelectedAccount').css('display', 'block');
+                editrow = rowindex;
+                var offset = $("#GrdChartAccount").offset();
+                var dataRecord = $("#GrdChartAccount").jqxGrid('getrowdata', editrow);
+                $("#CAID").val(dataRecord.CAID);
+                $('#container').jstree(true).select_node(dataRecord.AccountType);
+                $('#container').jstree('select_node', dataRecord.AccountType);
+                $.jstree.reference('#container').select_node(dataRecord.AccountType);
+                $("#AccountTypeForEdit").text(dataRecord.AccountType);
+                $("#Code").val(dataRecord.Code);
+                $("#ENDescription").val(dataRecord.ENDescription);
+                $("#ModalChartAccount").modal('show');
+            }
+            else if ($.trim($(args).text()) == '@Resource.Delete') {
+
+                editrow = rowindex;
+                var offset = $("#GrdChartAccount").offset();
+                var dataRecord = $("#GrdChartAccount").jqxGrid('getrowdata', editrow);
+                var CAID = dataRecord.CAID;
+
+                $('#ModelDeleteChartofAccount').modal("show");
+
+                $("#DeleteChartofAccountFRM").click(function () {
+
+                    $.ajax(
+                        {
+
+                            url: '/INV/ChartOfAccount/DeleteChartofAccount?CAID=' + CAID,
+                            type: 'post',
+                            success: function (result) {
+                                console.log = (result);
+                                if (result == "true") {
+                                    $('#ModelDeleteChartofAccount').modal('hide');
+                                    $('#GrdChartAccount').jqxGrid('updatebounddata', 'data');
+
+                                    toastr["success"]('@Resource.Record_Deleted');
+
+
+                                }
+                                else if (result == "false") {
+                                    $('#ModelDeleteChartofAccount').modal('hide');
+                                    $('#GrdChartAccount').jqxGrid('updatebounddata', 'data');
+
+                                    toastr["error"]('@Resource.An_error_occured_please_check_the_form');
+                                }
+                                else {
+                                    $('#ModelDeleteChartofAccount').modal('hide');
+
+                                    toastr["error"](result);
+
+                                }
+                            }
+                        });
+
+                });
+
+            }
+            else {
+
+            }
+        });
+
+        $("#Save").click(function () {
+            var AccountType = $('#AccountTypeID').val();
+            if (AccountType == '') {
+                alert('@Resource.Please_Select_Account_Type');
+            }
+            else {
+                var validationResult = function (isValid) {
+                    if (isValid) {
+                        var varURL = ($("#CAID").val() == '' || $("#CAID").val() == null) ? '/INV/ChartOfAccount/Create' : '/INV/ChartOfAccount/Update';
+                        if ($("#CAID").val() == '') {
+                            $("#CAID").remove();
+                        }
+                        $.ajax(
+                            {
+                                url: varURL,
+                                type: 'post',
+                                data: $('#FrmChartAccount').serialize(),
+                                success: function (result) {
+                                    console.log = (result);
+                                    if (result == "true") {
+                                        toastr["success"]('@Resource.Record_Saved')
+                                        $('#GrdChartAccount').jqxGrid('updatebounddata', 'data');
+                                        $('#FrmChartAccount').append("<input type='hidden' id='CAID' name='CAID' />");
+                                        Clearform();
+                                        $('#ModalChartAccount').modal('hide');
+                                    }
+                                    else if (result == "false") {
+                                        toastr["error"]('@Resource.An_error_occured_please_check_the_form');
+                                    }
+                                    else if (result == "Updated") {
+                                        toastr["success"]('@Resource.Record_Update')
+                                        $('#GrdChartAccount').jqxGrid('updatebounddata', 'data');
+                                        Clearform();
+                                        $('#ModalChartAccount').modal('hide');
+                                    }
+                                    else {
+                                        toastr["error"](result);
+
+                                    }
+                                }
+                            });
+                    }
+                }
+                $('#FrmChartAccount').jqxValidator('validate', validationResult)
+            }
+
+        });
+
+        $('#FrmChartAccount').jqxValidator({
+            hintType: 'label',
+            animationDuration: 0,
+            rtl: true,
+            rules: [
+                { input: '#Code', message: '@Resource.Required!', action: 'keyup, blur', rule: 'required' },
+                { input: '#ENDescription', message: '@Resource.Required!', action: 'keyup, blur', rule: 'required' },
+
+
+
+
+            ], theme: 'classic'
+        });
+    });
+
+</script>
+<div class="card card-primary mb-3" id="customersTable" data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;phone&quot;,&quot;address&quot;,&quot;joined&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
+    <div class="card-header">
+        <div class="row flex-between-center">
+            <div class="col-4 col-sm-auto d-flex align-items-center pe-0">
+                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">@Resource.ChartOfAccount </h5>
+            </div>
+            <div class="col-8 col-sm-auto text-end ps-2">
+                <div id="table-customers-replace-element">
+
+                    <button class="btn btn-outline-primary btn-sm" id="BtnAddChartAccount" type="button" data-bs-toggle="modal" data-bs-target="#ModalChartAccount" onclick=" Clearform();">
+                        <span class="d-none d-sm-inline-block ms-1">@Resource.New </span>
+                        <span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-2 bg-light">
+        <div class="table-responsive">
+            <div id="GrdChartAccount">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalChartAccount" data-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Resource.ChartOfAccount</h5>
+                <button type="button" class="btn-close btn btn-sm btn-circle transition-base p-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="FrmChartAccount">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div id="container"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="container2">
+                                <h4 id="SelectedAccount">@Resource.Please_Select_Account_Type</h4><h1 id="AccountTypeForEdit"></h1>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="Code">@Resource.Code</label><br />
+                            <input class="form-control form-control-sm" id="Code" name="Code" type="text" />
+
+                        </div>
+                        <div class="col-md-6">
+                            <label for="ENDescription">@Resource.Description</label><br />
+                            <input class="form-control form-control-sm" id="ENDescription" name="ENDescription" type="text" />
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="AccountTypeID" name="AccountTypeID" />
+                    <input type="hidden" name="CAID" id="CAID" />
+                    <button type="button" id="Save" class="btn btn-sm btn-outline-primary">@Resource.Save</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">@Resource.Cancel</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div id="Menu">
+    <ul dir="rtl">
+        <li id="Insert">
+            <img src="~/images/pencil.png" class="pull-right" />
+            <span class="fonclass">@Resource.Edit</span>
+        </li>
+        <li id="Insert">
+            <img src="~/images/reject.png" class="pull-right" />
+            <span class="fonclass">@Resource.Delete</span>
+        </li>
+    </ul>
+</div>
+
+<div class="modal fade" id="ModelDeleteChartofAccount" data-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Resource.Delete</h5>
+                <button type="button" class="btn-close btn btn-sm btn-circle transition-base p-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="DeleteChartofAccountFRMFRM">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="text-danger"> @Resource.Are_You_Sure_to_delete_the_selected_value?</span>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="button" id="DeleteChartofAccountFRM" value="Yes" class="btn btn-sm btn-outline-primary">@Resource.Yes</button>
+                            <button type="button" id="CancelChartofAccount" value="No" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">@Resource.No</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+        function setgrid() {
+        const isRTL = JSON.parse(localStorage.getItem('isRTL'))
+        const aln = (isRTL) ? 'right' : 'left';
+        var isAdaptive = ($(document).width() <= 500) ? true : false;
+
+        $("#GrdChartAccount").jqxGrid(
+            {
+                width: '99%',
+                enabletooltips: true,
+                pageable: false,
+                pagermode: 'simple',
+                showfilterrow: true,
+                filterable: true,
+                editable: false,
+                autoheight: true,
+                columnsresize: false,
+                sortable: true,
+                pagesize: 15,
+                altrows: true,
+                rtl: isRTL,
+                adaptive: isAdaptive,
+                columns: [
+
+                    { text: '@Resource.Code', dataField: 'Code', width: '10%', cellsalign: aln, align: aln },
+                    { text: '@Resource.Account_Type', dataField: 'AccountType',filtertype:'list', width: '20%', cellsalign: aln, align: aln },
+                    { text: '@Resource.Description', dataField: 'ENDescription', cellsalign: aln, align: aln },
+
+                ]
+
+            });
+        fillgrid('/INV/ChartOfAccount/GetChartAccounts');
+
+    }
+    function fillgrid(varurl) {
+        var datafields = [
+            { name: 'CAID' },
+            { name: 'AccountTypeID' },
+            { name: 'AccountType' },
+            { name: 'Code', type: 'text' },
+            { name: 'ENDescription' },
+
+        ];
+        var source =
+        {
+            datatype: "json",
+            datafields: datafields,
+            cache: false,
+            url: varurl,
+            root: 'Rows'
+        };
+
+        var dataadapter = new $.jqx.dataAdapter(source, {
+            loadError: function (xhr, status, error) {
+
+            }
+        }
+        );
+
+        $("#GrdChartAccount").jqxGrid(
+            {
+                source: dataadapter
+            });
+    }
+    function Clearform() {
+        $("#AccountTypeID").val('');
+        $("#Code").val('');
+        $("#Description").val('');
+        $("#CAID").val('');
+    }
+    function GetData() {
+        $.ajax(
+            {
+                url: '@Url.Action("GetAccountTypes")',
+                type: 'get',
+                async: false,
+                success: function (result) {
+                    console.log(result)
+                    $("#container").html(result);
+                    $('#container').jstree(
+                        {
+                            "core": { // core options go here
+                                "multiple": false, // no multiselection
+                                "themes": {
+                                    "dots": false // no connecting dots between dots
+                                }
+                            },
+                            "plugins": ["search"] // activate the state plugin on this instance
+                        }
+                    );
+                }
+            });
+    }
+</script>

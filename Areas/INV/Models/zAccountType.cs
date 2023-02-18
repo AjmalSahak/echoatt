@@ -7,12 +7,12 @@ using System.Web;
 
 namespace AlphaTechMIS.Areas.INV.Models
 {
-    [Table("z_Unit", Schema = "dbo")]
-    public class z_Unit
+    [Table("zAccountType", Schema = "DBO")]
+    public class zAccountType
     {
         [Key]
-        public int UnitID { get; set; }
-        public string UnitName { get; set; }
-
+        public int AccountTypeID { get; set; }
+        public string AccountType { get; set; }
+        public int? ParentID { get; set; }
     }
 }

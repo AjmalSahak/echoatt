@@ -26,19 +26,22 @@ namespace AlphaTechMIS.Areas.INV.Controllers
         {
             db.z_Units.Add(NewRec);
             db.SaveChanges();
-            return Json("true");
+            return Json("Record_Saved");
         }
+        [HttpPost]
         public ActionResult Edit(z_Unit InputRec)
         {
             z_Unit FoundRec = db.z_Units.Find(InputRec.UnitID);
             FoundRec.UnitName = InputRec.UnitName;
             db.SaveChanges();
-            return Json("Updated");
+            return Json("Record_Update");
         }
         public ActionResult UnitList()
         {
             return Json(db.z_Units.ToList(), JsonRequestBehavior.AllowGet);
         }
+
+
 
     }
 }

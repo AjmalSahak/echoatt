@@ -13,8 +13,7 @@ namespace AlphaTechMIS.Areas.INV.Models
         [Key]
         public int PTID { get; set; }
         public string TName { get; set; }
-        public string Description { get; set; }
         public int PCID { get; set; }
-        public int UniteID { get; set; }
+        public int UnitID { get; set; }
     }
 }

@@ -36,6 +36,7 @@ function ShowModal(varModal) {
 }
 
 function SaveBtnClick(varBtn, varPK, varCreate, varEdit, varFrm, varModal, varGrid) {
+
     $("#" + varBtn).click(function () {
         var validationResult = function (isValid) {
             if (isValid) {
@@ -43,28 +44,30 @@ function SaveBtnClick(varBtn, varPK, varCreate, varEdit, varFrm, varModal, varGr
                 if ($("#" + varPK).val() == '') {
                     $("#" + varPK).remove();
                 }
+
                 $.ajax(
                     {
                         url: varURL,
                         type: 'post',
                         data: $('#' + varFrm).serialize(),
                         success: function (results) {
-                            if (results == "Record Saved") {
-                                //var newID = results.EduID;
+                            if (results == "Record_Saved") {
                                 $('#' + varFrm).append("<input type='hidden' id='" + varPK + "' name='" + varPK + "' value='' />");
                                 toastr["success"]("Record Saved");
-                                $('#' + varFrm).trigger("reset");
-                                $('#' + varModal).modal('hide');
+                                $('#' + varFrm)[0].reset();
+                                $('#' + varModal).modal('toggle');
                                 $('#' + varGrid).jqxGrid('updatebounddata', 'data');
                             }
                             else
-                                if (results == "Record Updated") {
+                                if (results == "Record_Update") {
                                     toastr["success"]("Record Updated");
-                                    $('#' + varFrm).trigger("reset");
+                                    $("#" + varPK).val('')
+                                    $('#' + varFrm)[0].reset();
                                     $('#' + varModal).modal('toggle');
                                     $('#' + varGrid).jqxGrid('updatebounddata', 'data');
                                 }
                                 else {
+
                                     toastr["error"](results);
                                 }
                         }

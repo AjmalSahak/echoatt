@@ -1,4 +1,5 @@
 ﻿using AlphaTechMIS.Areas.INV.Models;
+using AlphaTechMIS.Areas.INV.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,56 @@ namespace AlphaTechMIS.Areas.INV.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public ActionResult SaveCategory(zProCategory NewRec)
+        {
+            db.zProCategorys.Add(NewRec);
+            db.SaveChanges();
+            return Json("Record_Saved");
+        }
+        [HttpPost]
+        public ActionResult EditCategory(zProCategory InputRec)
+        {
+            zProCategory FoundRec = db.zProCategorys.Find(InputRec.PCID);
+            FoundRec.Category = InputRec.Category;
+            db.SaveChanges();
+            return Json("Record_Update");
+        }
+        [HttpPost]
+        public ActionResult SaveType(zProductType NewRec)
+        {
+            db.zProductTypes.Add(NewRec);
+            db.SaveChanges();
+            return Json("Record_Saved");
+        }
+        [HttpPost]
+        public ActionResult EditType(zProductType InputRec)
+        {
+            zProductType FoundRec = db.zProductTypes.Find(InputRec.PTID);
+            FoundRec.PCID = InputRec.PCID;
+            FoundRec.UnitID = InputRec.UnitID;
+            FoundRec.TName = InputRec.TName;
+            db.SaveChanges();
+            return Json("Record_Update");
+        }
+        [HttpPost]
+        public ActionResult SaveProduct(zProduct NewRec)
+        {
+            db.zProducts.Add(NewRec);
+            db.SaveChanges();
+            return Json("Record_Saved");
+        }
+        [HttpPost]
+        public ActionResult EditProduct(zProduct InputRec)
+        {
+            zProduct FoundRec = db.zProducts.Find(InputRec.ProductID);
+            FoundRec.PTID = InputRec.PTID;
+            FoundRec.PName = InputRec.PName;
+            FoundRec.PCode = InputRec.PCode;
+            FoundRec.Description = InputRec.Description;
+            db.SaveChanges();
+            return Json("Record_Update");
+        }
         public ActionResult zCategoryList()
         {
             return Json(db.zProCategorys.ToList(), JsonRequestBehavior.AllowGet);
@@ -28,9 +79,29 @@ namespace AlphaTechMIS.Areas.INV.Controllers
         {
             return Json(db.zProductTypes.ToList(), JsonRequestBehavior.AllowGet);
         }
-        public ActionResult zProductList()
+        public ActionResult zTypeListByID(int PCID)
         {
-            return Json(db.zProducts.ToList(), JsonRequestBehavior.AllowGet);
+            return Json(db.zProductTypes.ToList().Where(x => x.PCID == PCID), JsonRequestBehavior.AllowGet);
         }
+        public ActionResult zType_List()
+        {
+            //var data = (from a in db.zProductTypes
+            //                  join b in db.z_Units on a.UniteID equals b.UnitID
+            //                  join c in db.zProCategorys on a.PCID equals c.PCID
+            //                  select new { Types = a, Category = b, Unit = c }).ToList();
+            var data = db.Database.SqlQuery<z_ProductListVM>(@"EXEC DBO.zPTypeList").ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult zProductList(int PTID)
+        {
+            return Json(db.zProducts.ToList().Where(x => x.PTID == PTID), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult zProduct_List()
+        {
+            var data = db.Database.SqlQuery<z_ProductVM>(@"EXEC DBO.zProductList").ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }

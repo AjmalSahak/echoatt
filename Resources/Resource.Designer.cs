@@ -61,6 +61,42 @@ namespace AlphaTechMIS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account Type.
+        /// </summary>
+        public static string Account_Type {
+            get {
+                return ResourceManager.GetString("Account_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Action.
+        /// </summary>
+        public static string Action {
+            get {
+                return ResourceManager.GetString("Action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Product.
+        /// </summary>
+        public static string Add_Product {
+            get {
+                return ResourceManager.GetString("Add_Product", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add New.
         /// </summary>
         public static string AddNew {
@@ -70,11 +106,56 @@ namespace AlphaTechMIS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AFN Amount.
+        /// </summary>
+        public static string AFNAmount {
+            get {
+                return ResourceManager.GetString("AFNAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amount.
+        /// </summary>
+        public static string Amount {
+            get {
+                return ResourceManager.GetString("Amount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occured please check the form.
+        /// </summary>
+        public static string An_error_occured_please_check_the_form {
+            get {
+                return ResourceManager.GetString("An_error_occured_please_check_the_form", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are You Sure to delete the selected value.
+        /// </summary>
+        public static string Are_You_Sure_to_delete_the_selected_value {
+            get {
+                return ResourceManager.GetString("Are_You_Sure_to_delete_the_selected_value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cash Discount.
+        /// </summary>
+        public static string Cash_Discount {
+            get {
+                return ResourceManager.GetString("Cash_Discount", resourceCulture);
             }
         }
         
@@ -133,11 +214,29 @@ namespace AlphaTechMIS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Conversion Operator.
+        /// </summary>
+        public static string ConversionOperator {
+            get {
+                return ResourceManager.GetString("ConversionOperator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Credit Memo.
         /// </summary>
         public static string CreditMemo {
             get {
                 return ResourceManager.GetString("CreditMemo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currency.
+        /// </summary>
+        public static string Currency {
+            get {
+                return ResourceManager.GetString("Currency", resourceCulture);
             }
         }
         
@@ -205,6 +304,42 @@ namespace AlphaTechMIS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discount Type.
+        /// </summary>
+        public static string Discount_Type {
+            get {
+                return ResourceManager.GetString("Discount_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discount Quantity.
+        /// </summary>
+        public static string DiscountQuantity {
+            get {
+                return ResourceManager.GetString("DiscountQuantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Due Amount.
+        /// </summary>
+        public static string Due_Amount {
+            get {
+                return ResourceManager.GetString("Due_Amount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duration.
+        /// </summary>
+        public static string Duration {
+            get {
+                return ResourceManager.GetString("Duration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {
@@ -219,6 +354,15 @@ namespace AlphaTechMIS.Resources {
         public static string English {
             get {
                 return ResourceManager.GetString("English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exchange Rate.
+        /// </summary>
+        public static string ExchangeRate {
+            get {
+                return ResourceManager.GetString("ExchangeRate", resourceCulture);
             }
         }
         
@@ -250,11 +394,38 @@ namespace AlphaTechMIS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gregorian Date.
+        /// </summary>
+        public static string Gregorian_Date {
+            get {
+                return ResourceManager.GetString("Gregorian_Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hijri Shamsi Date.
+        /// </summary>
+        public static string Hijri_Shamsi_Date {
+            get {
+                return ResourceManager.GetString("Hijri_Shamsi_Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ID.
         /// </summary>
         public static string ID {
             get {
                 return ResourceManager.GetString("ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invoice No..
+        /// </summary>
+        public static string InvoiceNo {
+            get {
+                return ResourceManager.GetString("InvoiceNo", resourceCulture);
             }
         }
         
@@ -349,6 +520,15 @@ namespace AlphaTechMIS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Notifications.
         /// </summary>
         public static string Notifications {
@@ -367,6 +547,15 @@ namespace AlphaTechMIS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Paid Amount.
+        /// </summary>
+        public static string Paid_Amount {
+            get {
+                return ResourceManager.GetString("Paid_Amount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pashto.
         /// </summary>
         public static string Pashto {
@@ -376,11 +565,47 @@ namespace AlphaTechMIS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please Select....
+        /// </summary>
+        public static string Please_Select {
+            get {
+                return ResourceManager.GetString("Please_Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please Select Account Type.
+        /// </summary>
+        public static string Please_Select_Account_Type {
+            get {
+                return ResourceManager.GetString("Please_Select_Account_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Product.
         /// </summary>
         public static string Product {
             get {
                 return ResourceManager.GetString("Product", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product Discount.
+        /// </summary>
+        public static string Product_Discount {
+            get {
+                return ResourceManager.GetString("Product_Discount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product List.
+        /// </summary>
+        public static string Product_List {
+            get {
+                return ResourceManager.GetString("Product_List", resourceCulture);
             }
         }
         
@@ -412,6 +637,15 @@ namespace AlphaTechMIS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quantity.
+        /// </summary>
+        public static string Quantity {
+            get {
+                return ResourceManager.GetString("Quantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quotation.
         /// </summary>
         public static string Quotation {
@@ -426,6 +660,15 @@ namespace AlphaTechMIS.Resources {
         public static string Reconciliation {
             get {
                 return ResourceManager.GetString("Reconciliation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Record Deleted.
+        /// </summary>
+        public static string Record_Deleted {
+            get {
+                return ResourceManager.GetString("Record_Deleted", resourceCulture);
             }
         }
         
@@ -502,6 +745,42 @@ namespace AlphaTechMIS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stock.
+        /// </summary>
+        public static string Stock {
+            get {
+                return ResourceManager.GetString("Stock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Symbol.
+        /// </summary>
+        public static string Symbol {
+            get {
+                return ResourceManager.GetString("Symbol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Price.
+        /// </summary>
+        public static string TotalPrice {
+            get {
+                return ResourceManager.GetString("TotalPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaction Info.
+        /// </summary>
+        public static string TransactionInfo {
+            get {
+                return ResourceManager.GetString("TransactionInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type.
         /// </summary>
         public static string Type {
@@ -529,6 +808,15 @@ namespace AlphaTechMIS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unit Price.
+        /// </summary>
+        public static string UnitPrice {
+            get {
+                return ResourceManager.GetString("UnitPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User Managment.
         /// </summary>
         public static string UserManagment {
@@ -543,6 +831,15 @@ namespace AlphaTechMIS.Resources {
         public static string Vendor {
             get {
                 return ResourceManager.GetString("Vendor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }
