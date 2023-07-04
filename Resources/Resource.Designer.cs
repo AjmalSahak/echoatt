@@ -583,6 +583,15 @@ namespace AlphaTechMIS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please Add At least One Transaction.
+        /// </summary>
+        public static string PleaseAddAtleastOneTransaction {
+            get {
+                return ResourceManager.GetString("PleaseAddAtleastOneTransaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Product.
         /// </summary>
         public static string Product {

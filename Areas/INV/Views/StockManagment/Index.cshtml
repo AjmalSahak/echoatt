@@ -1,0 +1,125 @@
+﻿
+@{
+    ViewBag.Title = Resource.ExchangeRate;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Scripts.Render("~/Content/jqxGrid/js")
+@using AlphaTechMIS.Resources
+
+<script>
+    $(document).ready(function () {
+        setgrid();
+
+    });
+</script>
+
+<div class="card card-primary mb-3" id="customersTable" data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;phone&quot;,&quot;address&quot;,&quot;joined&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
+    <div class="card-header">
+        <div class="row flex-between-center">
+            <div class="col-4 col-sm-auto d-flex align-items-center pe-0">
+                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">@Resource.List </h5>
+            </div>
+            <div class="col-8 col-sm-auto text-end ps-2">
+                <div id="table-customers-replace-element">
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-2 bg-light">
+        <div class="table-responsive">
+            <div id="GrdExchangeRate">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function setgrid() {
+        var cellsrenderer = function (row, column, value) {
+            return '<div style="text-align: center; margin-top: 5px;"><label class="badge bg-success"> ' + moment(value).fromNow() + '</label></div>';
+
+        }
+
+        const isRTL = JSON.parse(localStorage.getItem('isRTL'))
+        const aln = (isRTL) ? 'right' : 'left';
+        var isAdaptive = ($(document).width() <= 500) ? true : false;
+
+        $("#GrdExchangeRate").jqxGrid(
+            {
+                width: '99%',
+                enabletooltips: true,
+                pageable: true,
+                pagermode: 'simple',
+                showfilterrow: true,
+                filterable: true,
+                editable: false,
+                autoheight: true,
+                columnsresize: false,
+                sortable: true,
+                pagesize: 15,
+                altrows: true,
+                rtl: isRTL,
+                adaptive: isAdaptive,
+                columns: [
+
+                    { text: 'Place', dataField: 'StockName', filtertype:'list', width: '10%', cellsalign: aln, align: aln },
+                    { text: '@Resource.Product', dataField: 'PName', width: '10%', cellsalign: aln, align: aln },
+                    { text: '@Resource.Quantity', dataField: 'Quantity', width: '10%', cellsalign: aln, align: aln },
+                    { text: 'Min Quantity', dataField: 'MinQuantity', width: '10%', cellsalign: aln, align: aln },
+                    { text: '@Resource.Purchase @Resource.TotalPrice', dataField: 'PurchasePrice', width: '10%', cellsalign: aln, align: aln },
+                    { text: '@Resource.Sale @Resource.TotalPrice', dataField: 'SalePrice', width: '10%', cellsalign: aln, align: aln },
+                    { text: 'LastAffectedDate', dataField: 'LastAffectedDate', width: '20%', cellsalign: aln, align: aln, cellsrenderer: cellsrenderer},
+                    { text: 'Currency', dataField: 'CurrencyEnglish', cellsalign: aln, align: aln},
+
+                ]
+
+            });
+       fillgrid('/INV/StockManagment/GetStockProducts');
+
+    }
+
+    function fillgrid(varurl) {
+
+        var datafields = [
+            { name: 'StockSettingID' },
+            { name: 'Quantity' },
+            { name: 'MinQuantity' },
+            { name: 'PTID' },
+            { name: 'StockTypeID' },
+            { name: 'LastAffectedDate' },
+            { name: 'PurchasePrice' },
+            { name: 'SalePrice' },
+            { name: 'CurrencyID' },
+            { name: 'PName' },
+            { name: 'StockName' },
+            { name: 'CurrencyEnglish' },
+
+        ];
+        var source =
+        {
+            datatype: "json",
+            datafields: datafields,
+            cache: false,
+            //   url: '/HR/Dept/GetDept',
+            url: varurl,
+            root: 'Rows'
+        };
+
+        var dataadapter = new $.jqx.dataAdapter(source, {
+            loadError: function (xhr, status, error) {
+                console.log(error);
+            }
+        }
+        );
+
+        $("#GrdExchangeRate").jqxGrid(
+            {
+                source: dataadapter
+            });
+    }
+</script>
+

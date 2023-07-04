@@ -1,0 +1,348 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using AlphaTechMIS.Resources
+@Scripts.Render("~/Content/jqxGrid/js")
+
+
+<style>
+    .form-group {
+        margin-top: 10px
+    }
+</style>
+
+<div class="card card-primary mb-3">
+    <div class="card-header">
+        <div class="row flex-between-center">
+            <div class="col-4 col-sm-auto d-flex align-items-center pe-0">
+                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0"> @ViewBag.Type</h5>
+            </div>
+
+            <div class="col-8 col-sm-auto text-end ps-2">
+                <div id="table-customers-replace-element">
+                    <button class="btn btn-falcon-default btn-sm" id="BtnAddDealer" type="button">
+                        <span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span>
+                        <span class="d-none d-sm-inline-block ms-1">@Resource.New</span>
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="card-body p-2 bg-light">
+        <div class="table-responsive">
+            <div id="GrdDealer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalDealer" data-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> @ViewBag.Type </h5>
+                <button type="button" class="btn-close btn btn-sm btn-circle transition-base p-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Create", "Dealer", FormMethod.Post, new { id = "frmDealer" }))
+                {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <input type="hidden" id="DealerID" name="DealerID" value="0" />
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="Name">@ViewBag.Type</label>
+                                <input type="text" id="Name" name="Name" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="ContactNo">ContactNo </label>
+                                <input type="text" id="ContactNo" name="ContactNo" class="form-control form-control-sm " />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="CountryID">Country</label>
+                                @Html.DropDownList("CountryID", null, htmlAttributes: new { @class = "select_2 form-control form-control-sm" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="ProvinceID">Province</label>
+                                @Html.DropDownList("ProvinceID", null, htmlAttributes: new { @class = "select_2 form-control form-control-sm" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="CurrencyID"> @Resource.Currency</label><br />
+                            <select id="CurrencyID" name="CurrencyID" class="select_2 form-control form-control-sm">
+                            </select>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="OpeningBalance">Opening Balance</label>
+                                <input type="text" id="OpeningBalance" name="OpeningBalance" class="form-control form-control-sm " />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="Remarks">Remarks</label>
+                                <input type="text" id="Remarks" name="Remarks" class="form-control form-control-sm " />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="Attachment">Attachment</label>
+                                <span id="spAttachment"></span>
+                                <input type="file" id="Attachment" name="Attachment" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="modal-footer">
+
+                        <button type="button" id="Save" class="btn btn-sm btn-outline-primary">@Resource.Save</button>
+                        <button type="button" id="Cancel" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">@Resource.Close</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="Menu">
+    <ul dir="rtl">
+        <li id="Insert">
+            <img src="~/images/pencil.png" class="pull-right" />
+            <span class="fonclass">@Resource.Edit</span>
+        </li>
+
+    </ul>
+</div>
+<script>
+    $(document).ready(function () {
+                FillSelect2('/INV/Purchase/CurrencyList', 'CurrencyID', 'CurrencyID', 'CurrencyEnglish', '@Resource.Please_Select');
+
+        setgrid();
+        makeContextMenu("Menu", "GrdDealer", 100, 30);
+        $('#BtnAddDealer').click(function () {
+            ClearVendorForm();
+            $("#ModalDealer").modal('show');
+        });
+
+        $("#Menu").on('itemclick', function (event) {
+            ClearVendorForm();
+            var args = event.args;
+            var rowindex = $("#GrdDealer").jqxGrid('getselectedrowindex');
+            // $('#SelectedAccount').css('display', 'block');
+            editrow = rowindex;
+            var offset = $("#GrdDealer").offset();
+            // get the clicked row's data and initialize the input fields.
+            var dataRecord = $("#GrdDealer").jqxGrid('getrowdata', editrow);
+            $("#DealerID").val(dataRecord.DealerID);
+            $("#VendorCode").val(dataRecord.VendorCode);
+            $("#VendorName").val(dataRecord.VendorName)
+            $("#Address").val(dataRecord.Address)
+            $("#ContactNo").val(dataRecord.ContactNo);
+            $("#JawazStatus").val(dataRecord.JawazStatus.toString());
+            $("#TaxPercentage").val(dataRecord.TaxPercentage);
+            $("#D_JawazExpiryDate").val(dataRecord.D_JawazExpiryDate);
+            $("#VendorClassID").val(dataRecord.VendorClassID);
+            $("#VendorTypeID").val(dataRecord.VendorTypeID);
+            var fileLink = "";
+            if (dataRecord.Attachment != null)
+                //fileLink = "<a href='/Uploads/TRY/Jawaz/" + dataRecord.Attachment + "' target='_blank'><i class='fas fa-paperclip'></i></a></div>";
+                 fileLink = "<a href='" + dataRecord.Attachment + "' target='_blank'><i class='fas fa-paperclip'></i></a></div>";
+            $("#spAttachment").html(fileLink);
+            $("#ModalDealer").modal('show');
+        });
+       // HideModal("close", "Cancel", "frmDealer", "ModalDealer")
+
+
+        $("#Save").on("click", function () {
+            var validationResult = function (isValid) {
+                if (isValid) {
+                    if ($("#Attachment").val() != "") {
+                        if ($("#Attachment").val().indexOf("#") > -1) {
+                            toastr["error"]("FileNameInvalid");
+                            return;
+                        }
+                        var size = document.getElementById('Attachment').files[0].size;
+                        var ext = $('#Attachment').val().split('.').pop().toLowerCase();
+                        if (size > 2097152) {
+                            toastr["error"]('FileSizeError');
+                            return;
+                        }
+                        if (ext != 'pdf' && ext != 'png' && ext != 'jpg' && ext != "jpeg") {
+                            toastr["error"]("FileFormatError");
+                            return;
+                        }
+                    }
+                    var varURL = ($("#DealerID").val() == '' || $("#DealerID").val() == null) ? '/TRY/Vendor/Create' : '/TRY/Vendor/Edit';
+                    if ($("#DealerID").val() == '') {
+                        $("#DealerID").remove();
+                    }
+                    var form = $('form')[0];
+                    $('#ModalDealer').block({
+                        message: '<h1 style="color:red"><span class="fa-spin fas fa-spinner"></span></h1>'
+                    });
+                    $.ajax({
+                        url: varURL,
+                        type: "POST",
+                        data: new FormData(form),
+                        processData: false,
+                        contentType: false,
+                        success: function (result) {
+                            $("#ModalDealer").unblock();
+                            if (result == "@Resource.Record_Saved") {
+                                $('#ModalDealer').modal('hide');
+                                toastr["success"]('AddSuccess');
+                                $('#GrdDealer').jqxGrid('updatebounddata', 'data');
+                                $('#frmDealer').append("<input type='hidden' id='DealerID' name='DealerID' />");
+                                ClearVendorForm();
+                            }
+                            else if (result == "@Resource.Record_Update") {
+                                $('#ModalDealer').modal('hide');
+                                toastr["success"]('UpdateSuccess')
+                                $('#GrdDealer').jqxGrid('updatebounddata', 'data');
+                                ClearVendorForm();
+
+
+                            }
+                            else {
+                                toastr["error"](result);
+                            }
+                        },
+                        error: function (error) {
+                            $("#ModalDealer").unblock();
+                              toastr["error"](error.responseText);
+                        }
+                    });
+                }
+            }
+            $('#frmDealer').jqxValidator('validate', validationResult)
+        });
+
+        $('#frmDealer').jqxValidator({
+
+            hintType: 'label',
+            animationDuration: 0,
+            rtl: true,
+            rules: [
+                { input: '#Name', message: ' @Resource.Required  ', action: 'keyup, blur', rule: 'required' },
+                { input: '#ContactNo', message: ' @Resource.Required  ', action: 'keyup, blur', rule: 'required' },
+                {
+                    input: '#ContactNo', message: 'InvalidContactNo', action: 'keyup, blur', rule: function (input) {
+                        return ValidateMobileNo($("#ContactNo").val())
+                    }
+                },
+
+
+            ], theme: 'classic'
+        });
+    });
+    function setgrid() {
+        //var cellclassname = function (row, column, value, data) {
+        //    return "fonclass";
+        //}
+        var cellsrenderer = function (row, column, value) {
+            if (value == true)
+                return '<div style="text-align: center; margin-top: 5px;"> @Resource.Yes </div>';
+            else
+                return '<div style="text-align: center; margin-top: 5px;color:red"> @Resource.No </div>';
+        }
+        var columnrenderer = function (value) {
+            return '<div style="text-align: center; margin-top: 5px;">' + value + '</div>';
+        }
+        var cellsrenderer2 = function (row, column, value) {
+            if (value != "")
+                //return "<div style='text-align: center; margin-top: 5px;'><a href='/Uploads/TRY/Jawaz/" + value + "' target='_blank'><i class='fas fa-paperclip'></i></a></div>";
+                return "<div style='text-align: center; margin-top: 5px;'><a href='" + value + "' target='_blank'><i class='fas fa-paperclip'></i></a></div>";
+            else
+                return "";
+        }
+          const isRTL = JSON.parse(localStorage.getItem('isRTL'))
+        const aln = (isRTL) ? 'right' : 'left';
+          var is_adaptive = ( $(document).width() <= 500) ? true : false;
+        $("#GrdDealer").jqxGrid(
+            {
+                width: '99%',
+                theme:'Classic',
+                enabletooltips: true,
+                pageable: true,
+                pagermode: 'simple',
+                showfilterrow: true,
+                filterable: true,
+                editable: false,
+                autoheight: true,
+                columnsresize: false,
+                sortable: true,
+                pagesize:15,
+                altrows: true,
+                 rtl: isRTL,
+                adaptive: is_adaptive,
+                 enablebrowserselection: true,
+                selectionMode : 'singlecell',
+                columns: [
+                    { text: 'Vendor_Name', dataField: 'VendorName', width: '20%',cellsalign: aln, align: aln },
+                    { text: 'Courntry', dataField: 'Courntry', width: '15%',cellsalign: aln, align: aln },
+                    { text: 'Province', dataField: 'Province', width: '15%',cellsalign: aln, align: aln },
+                    { text: 'Currency', dataField: 'Currency', width: '10%',cellsalign: aln, align: aln },
+                    { text: 'Contact No', dataField: 'ContactNo', width: '10%',cellsalign: aln, align: aln },
+                    { text: 'Opening Balance', dataField: 'OB', width: '20%',cellsalign: aln, align: aln },
+                    { text: 'Attachment', dataField: 'Attachment',   cellsrenderer: cellsrenderer2,  renderer: columnrenderer }
+                ]
+            });
+        //fillgrid('/TRY/Vendor/GetVendors');
+    }
+    function fillgrid(varurl) {
+        var datafields = [
+            { name: 'DealerID' },
+            { name: 'VendorCode' },
+            { name: 'VendorName' },
+            { name: 'Address', type: 'text' },
+            { name: 'ContactNo' },
+            { name: 'TaxPercentage' },
+            { name: 'Attachment' },
+        ];
+        var source =
+        {
+            datatype: "json",
+            datafields: datafields,
+            cache: false,
+            url: varurl,
+            root: 'Rows'
+        };
+        var dataadapter = new $.jqx.dataAdapter(source, {
+            loadError: function (xhr, status, error) {
+
+            }
+        }
+        );
+
+        $("#GrdDealer").jqxGrid(
+            {
+                source: dataadapter
+            });
+    }
+    function ClearVendorForm() {
+        $("#DealerID").val('');
+        $("#Name").val('')
+        $("#ContactNo").val('');
+        $("#spAttachment").html('');
+        $("#Attachment").val('');
+    }
+</script>
+

@@ -1,0 +1,186 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using AlphaTechMIS.Resources
+@Scripts.Render("~/Content/jqxGrid/js")
+
+<script>
+    $(document).ready(function () {
+        setgrid();
+        FillSelect2('/INV/Purchase/CurrencyList', 'CurrencyID', 'CurrencyID', 'CurrencyEnglish', '@Resource.Please_Select');
+        FillSelect2('/INV/CashManagment/GetChartOfAccountByAccountType?AccountTypeID=5', 'CAID', 'CAID', 'Code', '@Resource.Please_Select');
+
+
+    });
+</script>
+
+<div class="card card-primary mb-3" id="customersTable" data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;phone&quot;,&quot;address&quot;,&quot;joined&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
+    <div class="card-header">
+        <div class="row flex-between-center">
+            <div class="col-4 col-sm-auto d-flex align-items-center pe-0">
+                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">Expense </h5>
+            </div>
+            <div class="col-8 col-sm-auto text-end ps-2">
+                <div id="table-customers-replace-element">
+
+                    <button class="btn btn-outline-primary btn-sm" id="BtnAdd" type="button" data-bs-toggle="modal" data-bs-target="#ModalCash" onclick="ClearForm()">
+                        <span class="d-none d-sm-inline-block ms-1">New </span>
+                        <span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-2 bg-light">
+        <div class="table-responsive">
+            <div id="GrdCashIn">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalCash" data-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> Expense, Form</h5>
+                <button type="button" class="btn-close btn btn-sm btn-circle transition-base p-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="FrmEntityEntry">
+                <div class="modal-body">
+                    <div class="row p-2">
+
+                        <div class="col-md-4">
+                            <label for="D_EDate">@Resource.Hijri_Shamsi_Date</label><br />
+                            <input type="text" name="D_EDate" id="D_EDate" class="form-control form-control-sm" autocomplete="off" />
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="CAID">@Resource.Code</label><br />
+                            <select id="CAID" name="CAID" class="select_2 form-control form-control-sm">
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="InvoiceNo">@Resource.InvoiceNo</label><br />
+                            <input type="text" name="InvoiceNo" id="InvoiceNo" class="form-control form-control-sm" autocomplete="off" readonly />
+
+                        </div>
+                    </div>
+                    <div class="row p-2">
+                        <div class="col-md-4">
+                            <label for="CurrencyID"> @Resource.Currency</label><br />
+                            <select id="CurrencyID" name="CurrencyID" class="select_2 form-control form-control-sm">
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="Amount">@Resource.Amount</label><br />
+                            <input type="text" name="Amount" id="Amount" class="form-control form-control-sm" autocomplete="off" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="ExchangeRate">@Resource.ExchangeRate</label><br />
+                            <input type="text" name="ExchangeRate" id="ExchangeRate" class="form-control form-control-sm" autocomplete="off" />
+
+                        </div>
+
+
+                    </div>
+                    <div class="row p-2">
+                        <div class="col-md-12">
+                            <label for="Remarks">Narration</label><br />
+                            <input type="text" name="Remarks" id="Remarks" class="form-control form-control-sm" />
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="TransactionID" id="TransactionID" class="form-control form-control-sm" />
+                    <button type="button" id="Save" class="btn btn-sm btn-outline-primary">@Resource.Save</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">@Resource.Cancel</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function ClearForm() {
+
+    }
+         function setgrid() {
+
+        const isRTL = JSON.parse(localStorage.getItem('isRTL'))
+        const aln = (isRTL) ? 'right' : 'left';
+        var isAdaptive = ($(document).width() <= 500) ? true : false;
+
+          $("#GrdCashIn").jqxGrid(
+            {
+                width: '99%',
+                enabletooltips: true,
+                pageable: true,
+                pagermode: 'simple',
+                showfilterrow: true,
+                filterable: true,
+                editable: false,
+                autoheight: true,
+                columnsresize: false,
+                sortable: true,
+                pagesize: 15,
+                altrows: true,
+                rtl: isRTL,
+                adaptive: isAdaptive,
+                columns: [
+
+                    { text: '@Resource.InvoiceNo', dataField: 'InvoiceNo', width: '10%', cellsalign: aln, align: aln },
+                    { text: '@Resource.Code', dataField: 'Code', width: '10%', cellsalign: aln, align: aln },
+                    { text: '@Resource.Currency', dataField: 'Vendor', width: '20%', cellsalign: aln, align: aln },
+                    { text: '@Resource.Amount', dataField: 'UnitID', width: '10%', cellsalign: aln, align: aln },
+                    { text: '@Resource.ExchangeRate', dataField: 'ExchangeRate', width: '10%', cellsalign: aln, align: aln },
+                    { text: '@Resource.Hijri_Shamsi_Date', dataField: 'D_EDate', width: '10%', cellsalign: aln, align: aln },
+                    { text: 'Narration', dataField: 'Narration', cellsalign: aln, align: aln },
+
+                ]
+
+            });
+       //  fillgrid('/INV/z_Unit/UnitList');
+
+    }
+
+    function fillgrid(varurl) {
+
+        var datafields = [
+            { name: 'UnitID' },
+            { name: 'UnitName' },
+
+        ];
+        var source =
+        {
+            datatype: "json",
+            datafields: datafields,
+            cache: false,
+            //   url: '/HR/Dept/GetDept',
+            url: varurl,
+            root: 'Rows'
+        };
+
+        var dataadapter = new $.jqx.dataAdapter(source, {
+            loadError: function (xhr, status, error) {
+                console.log(error);
+            }
+        }
+        );
+
+        $("#GrdCashIn").jqxGrid(
+            {
+                source: dataadapter
+            });
+    }
+</script>

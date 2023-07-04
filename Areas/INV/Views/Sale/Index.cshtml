@@ -1,0 +1,372 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using AlphaTechMIS.Resources
+@Scripts.Render("~/Content/jqxGrid/js")
+<script>
+    var rowCounts = 0;
+
+    $(document).ready(function () {
+        makeDates(["D_EDate"], "FrmPurchase", "rtl");
+
+        FillSelect2('/INV/Purchase/GetDealer?TypeID=1', 'DealerID', 'DealerID', 'Name', '@Resource.Please_Select');
+        FillSelect2('/INV/z_Product/zTypeList', 'PTID', 'PTID', 'TName', '@Resource.Please_Select');
+        FillSelect2('/INV/z_Unit/UnitList', 'UnitID', 'UnitID', 'UnitName', '@Resource.Please_Select');
+        FillSelect2NoMsg('/INV/Purchase/CurrencyList', 'CurrencyID', 'CurrencyID', 'CurrencyEnglish');
+        $('#tblProductList').delegate('a.removeCash', 'click', function () {
+            $(this).parent().parent().parent().parent().parent().remove();
+            rowCounts -= 1;
+        });
+        for (var i = 1; i < 3; i++)
+            setgrid(i);
+
+        $("#AddRow").click(function () {
+            var Product = $('#ProductID :selected').text();
+            var Unit = $("#UnitID :selected").text();
+            var Discount_Type = $("#Discount_Type :selected").text();
+
+
+            var ProductID = $("#ProductID").val();
+            var UnitID = $("#UnitID").val();
+            var Discount_Type = $("#Discount_Type").val();
+
+            var Quantity = $("#Quantity").val();
+            var UnitPrice = $("#UnitPrice").val();
+            var DiscountQuantity = $("#DiscountQuantity").val();
+
+            var TotalPrice = Quantity * UnitPrice;
+            var TP = 0;
+
+            if (ProductID != 0 && UnitID != 0 && Quantity != "" && UnitPrice != "") {
+
+                var tr =
+
+                    `<tr class="dataCash" id="datarow` + rowCounts + `">
+                         <td>`+ Product + `<input type="hidden" class="Products" value="` + ProductID + `" />   </td>
+                         <td>`+ Quantity + `<input type="hidden" class="Quantities" value="` + Quantity + `" /> </td>
+                         <td>`+ Unit + `<input type="hidden" class="Units" value="` + UnitID + `" /></td>
+                         <td>`+ UnitPrice + `<input type="hidden" class="UnitPrices" value="` + UnitPrice + `" /> </td>
+                         <td>`+ Discount_Type + `<input type="hidden" class="Discount_Type" value="` + Discount_Type + `" /> </td>
+                         <td>`+ DiscountQuantity + `<input type="hidden" class="DiscountQuantity" value="` + DiscountQuantity + `" /> </td>
+                         <td class="TotalPrice">`+ TotalPrice + `</td>
+                         <td>
+                             <div class="dropdown font-sans-serif position-static">
+                                 <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
+                                 <div class="dropdown-menu dropdown-menu-end border py-0">
+                                     <div class="bg-white py-2"><a class="dropdown-item" href="#!">@Resource.Edit</a><a class="dropdown-item text-danger removeCash" href="#!">@Resource.Delete</a></div>
+                                 </div>
+                             </div>
+                         </td>
+                    </tr>`;
+
+
+                $('#tblProductList').append(tr);
+
+            } else {
+                toastr["error"]("Please fill the required fields ");
+                $("#AddRow").attr("disable", true);
+                return;
+            }
+            $('tr.dataCash').each(function () {
+
+                TP += Number($(this).find('.TotalPrice').text());
+
+            });
+            $("#TotalPrice").val(TP);
+
+
+        });
+
+
+    });
+</script>
+<div class="card card-primary mb-3">
+    <div class="card-header">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item"><a class="nav-link active" id="nav0" data-bs-toggle="tab" href="#tab0" onclick="MakeTabActive(0)">@Resource.New</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab1" onclick="MakeTabActive(1)">Wholesale</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab2" onclick="MakeTabActive(2)">Retail</a></li>
+        </ul>
+    </div>
+    <div class="card-body p-2 bg-light">
+
+        <div class="border-bottom p-3">
+            <div class="tab-pane show active" id="tab0">
+                <div class="card card-primary mb-3">
+
+                    <div class="card-body p-2">
+                        <form id="FrmPurchase">
+                            <div class="row p-2">
+                                <div class="col-md-4">
+                                    <fieldset>
+
+                                        <legend>
+                                            <span class="avatar avatar-xl">
+                                                <span class="avatar-name rounded-circle bg-soft-danger text-dark">
+                                                    <span class="fs-0 text-danger">Inv</span>
+
+                                                </span>
+                                            </span>
+                                            <span class="text-linkedin">SL002</span>
+                                        </legend>
+                                        <div class="row p-2">
+                                            <div class="col-md-6">
+                                                <label for="PTID"> @Resource.Type</label><br />
+                                                <select id="PTID" name="PTID" class="select_2 form-control form-control-sm" onchange="GetProduct();">
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="ProductID"> @Resource.Product</label><br />
+                                                <select id="ProductID" name="ProductID" class="select_2 form-control form-control-sm">
+                                                    <option value="0" selected>@Resource.Please_Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row p-2">
+                                            <div class="col-md-6">
+                                                <label for="UnitID"> @Resource.Unit</label><br />
+                                                <select id="UnitID" name="UnitID" class="select_2 form-control form-control-sm">
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="Quantity"> @Resource.Quantity</label><br />
+                                                <input type="text" name="Quantity" id="Quantity" autocomplete="off" dir="auto" class="form-control form-control-sm" />
+                                            </div>
+                                        </div>
+
+                                        <div class="row p-2">
+                                            <div class="col-md-6">
+                                                <label for="Discount_Type"> @Resource.Discount_Type</label><br />
+                                                <select id="Discount_Type" name="Discount_Type" class="select_2 form-control form-control-sm">
+                                                    <option>@Resource.None</option>
+                                                    <option>@Resource.Product_Discount</option>
+                                                    <option>@Resource.Cash_Discount</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="DiscountQuantity"> @Resource.DiscountQuantity</label><br />
+                                                <input type="text" name="DiscountQuantity" id="DiscountQuantity" value="0" autocomplete="off" dir="auto" class="form-control form-control-sm" />
+                                            </div>
+                                        </div>
+
+                                        <div class="row p-2">
+                                            <div class="col-md-6">
+                                                <label for="UnitPrice"> @Resource.UnitPrice</label><br />
+                                                <input type="text" name="UnitPrice" id="UnitPrice" autocomplete="off" dir="auto" class="form-control form-control-sm" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="Add">&nbsp;</label><br />
+                                                <button type="button" id="AddRow" class="btn btn-sm btn-outline-google-plus" style="width:100%">
+                                                    <span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span>
+                                                    @Resource.Add
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>@Resource.TransactionInfo</legend>
+                                        <div class="row p-2">
+                                            <div class="col-md-12">
+                                                <label for="DealerID"> @Resource.Customer</label><br />
+                                                <select id="DealerID" name="DealerID" class="select_2 form-control form-control-sm">
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <div class="row p-2">
+                                            <div class="col-md-6">
+                                                <label for="D_EDate"> @Resource.Hijri_Shamsi_Date</label><br />
+                                                <input type="text" name="D_EDate" id="D_EDate" autocomplete="off" dir="auto" class="form-control form-control-sm" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="ExRate"> @Resource.ExchangeRate</label><br />
+                                                <input type="text" name="ExRate" id="ExRate" autocomplete="off" dir="auto" class="form-control form-control-sm" readonly />
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                </div>
+                                <div class="col-md-8">
+                                    <fieldset>
+                                        <legend>@Resource.Product_List</legend>
+                                        <div class="row">
+                                            <div class="table-responsive Scroll" style="height:502px">
+                                                <table class="table table-sm table-bordered table-striped table-hover table-responsive-lg">
+                                                    <thead>
+                                                        <tr class="table-primary">
+                                                            <th>@Resource.Product</th>
+                                                            <th>@Resource.Quantity</th>
+                                                            <th>@Resource.Unit</th>
+                                                            <th>@Resource.UnitPrice</th>
+                                                            <th>@Resource.Discount_Type</th>
+                                                            <th>@Resource.DiscountQuantity</th>
+                                                            <th>@Resource.TotalPrice</th>
+
+                                                            <th width="3%">Action</th>
+
+
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody id="tblProductList">
+                                                    </tbody>
+                                                    <tfoot id="tblTotal">
+                                                        <tr>
+                                                            <td colspan="6"><b> @Resource.TotalPrice</b></td>
+                                                            <td colspan="2">
+                                                                <input type="text" name="TotalPrice" id="TotalPrice" autocomplete="off" dir="auto" class="form-control form-control-sm" placeholder="0.00" readonly />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6"><b> @Resource.Paid_Amount</b></td>
+                                                            <td colspan="2">
+                                                                <input type="text" name="PaidAmount" id="PaidAmount" autocomplete="off" dir="auto" class="form-control form-control-sm" placeholder="0.00" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6"><b> @Resource.Due_Amount</b></td>
+                                                            <td colspan="2">
+                                                                <input type="text" name="DueAmount" id="DueAmount" autocomplete="off" dir="auto" class="form-control form-control-sm" placeholder="0.00" readonly />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6"><b> Previouse Balance</b></td>
+                                                            <td colspan="2">
+                                                                <input type="text" name="PreviouseBalance" id="PreviouseBalance" autocomplete="off" dir="auto" class="form-control form-control-sm" placeholder="0.00" readonly />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="9" height="5%">
+                                                                <hr />
+                                                                <button type="button" style="width:100%" id="Save" class="btn btn-sm btn-outline-primary">
+                                                                    <span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span>
+
+                                                                    <b> @Resource.Save</b>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="tab-pane d-none" id="tab1">
+                <div id="GrdWholesale">
+                </div>
+            </div>
+            <div class="tab-pane d-none" id="tab2">
+                <div id="GrdRetail">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+     function GetProduct() {
+        $("#ProductID").empty();
+          FillSelect2('/INV/z_Product/zProductList?PTID=' + $("#PTID").val(), 'ProductID', 'ProductID', 'PName', '@Resource.Please_Select');
+
+    }
+
+    function MakeTabActive(n) {
+        for (var i = 0; i < 3; i++)
+            if (i == n)
+                $("#tab" + i).removeClass("d-none");
+            else
+                $("#tab" + i).addClass("d-none");
+    }
+    function setgrid(n) {
+
+        var Gridid = "";
+        var GridURL = "";
+        if (n == 1) {
+            Gridid = "GrdWholesale";
+            GridURL = '/TRY/Treasury/GetTransactionEntries?year=0&status=0'
+        }
+        else if (n == 2) {
+            Gridid = "GrdRetail";
+            GridURL = '/TRY/Treasury/GetTransactionEntries?year=0&status=1'
+        }
+        const isRTL = JSON.parse(localStorage.getItem('isRTL'))
+        const aln = (isRTL) ? 'right' : 'left';
+        var is_adaptive = ($(document).width() <= 500) ? true : false;
+        $("#" + Gridid).jqxGrid(
+            {
+                width: '99%',
+
+                enabletooltips: true,
+                pageable: true,
+                pagermode: 'simple',
+                showfilterrow: true,
+                filterable: true,
+                editable: false,
+                autoheight: true,
+                columnsresize: false,
+                sortable: true,
+                pagesize: 15,
+                altrows: true,
+                rtl: isRTL,
+                adaptive: is_adaptive,
+                enablebrowserselection: true,
+                selectionMode: 'singlecell',
+                columns: [
+
+                    { text: 'Invoice', dataField: 'Sname', width: '10%', cellsalign: aln, align: aln },
+                    { text: 'Vendor', dataField: 'TEID', width: '15%', cellsalign: aln, align: aln },
+                    { text: 'Currency', dataField: 'GEName', width: '10%', cellsalign: aln, align: aln },
+                    { text: 'Date', dataField: 'SEName', width: '10%', cellsalign: aln, align: aln },
+                    { text: 'Total Amount', dataField: 'PrDate', width: '15%', cellsalign: aln, align: aln },
+                    { text: 'Paid Amount', dataField: 'EEHour', width: '15%', cellsalign: aln, align: aln },
+                    { text: 'Charges', dataField: 'MWH', width: '10%', cellsalign: aln, align: aln },
+                    { text: 'Total Discount', dataField: 'CurrentA', width: '15%', cellsalign: aln, align: aln },
+
+                ]
+            });
+
+        //fillgrid(GridURL, Gridid);
+    }
+    function fillgrid(varurl, Gridid) {
+        var datafields = [
+            { name: 'TEID' },
+            { name: 'TransactionID' },
+            { name: 'CurrencyID' },
+            { name: 'CAID' },
+        ];
+        var source =
+        {
+            datatype: "json",
+            datafields: datafields,
+            cache: false,
+            url: varurl,
+            root: 'Rows'
+        };
+        var dataadapter = new $.jqx.dataAdapter(source, {
+            loadError: function (xhr, status, error) {
+
+            }
+        }
+        );
+
+        $("#" + Gridid).jqxGrid(
+            {
+                source: dataadapter
+            });
+
+    }
+</script>

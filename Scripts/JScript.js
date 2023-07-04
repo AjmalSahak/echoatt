@@ -485,6 +485,13 @@ function FillSelect2(varUrl, varInputName, varID, varName, varSelectMsg) {
         });
     });
 }
+function FillSelect2NoMsg(varUrl, varInputName, varID, varName) {
+    $.getJSON(varUrl, function (jsondata) {
+        $.each(jsondata, function (index) {
+            $('<option class="form-control">').val(jsondata[index][varID]).text(jsondata[index][varName]).appendTo("#" + varInputName);
+        });
+    });
+}
 function FillSelect2Sync(varUrl, varInputName, varID, varName, varSelectMsg) {
     $.ajax({
         url: varUrl,

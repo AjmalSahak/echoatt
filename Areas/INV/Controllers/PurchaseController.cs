@@ -21,10 +21,26 @@ namespace AlphaTechMIS.Areas.INV.Controllers
         {
             return View();
         }
+        // [HttpPost]
+        //public ActionResult Create(Transaction pr)
+        //{
+
+        //}
         public ActionResult GetDealer(int TypeID)
         {
             var data = db.Database.SqlQuery<DealerVM>("EXEC DBO.GetDealer {0}", TypeID).ToList();
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult CurrencyList()
+        {
+            return Json(db.zCurrencys.ToList(), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetDealerCurrency(int DealerID)
+        {
+            var data = db.Database.SqlQuery<zCurrency>(@"SELECT * FROM DBO.zCurrency C 
+WHERE C.CurrencyID=(SELECT D.CurrencyID FROM DBO.Dealer D WHERE D.DealerID={0})", DealerID).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

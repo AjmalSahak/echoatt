@@ -13,6 +13,7 @@ namespace AlphaTechMIS.Areas.INV.Models
         [Key]
         public int CAID { get; set; }
         public string Code { get; set; }
+        public string Title { get; set; }
         public string ENDescription { get; set; }
         public int? CurrencyID { get; set; }
         public int? ParentID { get; set; }

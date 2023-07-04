@@ -15,7 +15,7 @@ namespace AlphaTechMIS.Areas.INV.Models
         public string ContactNo { get; set; }
         public int CountryID { get; set; }
         public int ProvinceID { get; set; }
-        public int TypeID { get; set; }
+        public int? TypeID { get; set; }
         public string Attachment { get; set; }
         public string Remarks { get; set; }
     }

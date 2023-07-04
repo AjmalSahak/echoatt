@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 
 
-<html lang="en-US" dir="@Request.Cookies["dir"].Value">
+<html lang="en-US" dir="ltr">
 @using AlphaTechMIS.Resources
 <head>
     <meta charset="utf-8">
@@ -39,19 +39,21 @@
 
     @Styles.Render("~/Content/Layout/css")
 
-    @if (Request.Cookies["dir"].Value == "ltr")
-    {
-        @Styles.Render("~/Content/LayoutLTR/css")
-        @:
-        <script>localStorage.setItem('isRTL', 'false')</script>
-    }
-    else
-    {
-        @Styles.Render("~/Content/LayoutRTL/css")
-        @:
-        <script>localStorage.setItem('isRTL', 'true')</script>
-    }
+    @*@if (Request.Cookies["dir"].Value == "ltr")
+        {
+            @Styles.Render("~/Content/LayoutLTR/css")
+            @:
+            <script>localStorage.setItem('isRTL', 'false')</script>
+        }
+        else
+        {
+            @Styles.Render("~/Content/LayoutRTL/css")
+            @:
+            <script>localStorage.setItem('isRTL', 'true')</script>
+        }*@
+    @Styles.Render("~/Content/LayoutLTR/css")
 
+    <script>localStorage.setItem('isRTL', 'false')</script>
 </head>
 
 <body>
@@ -91,7 +93,7 @@
                         </center>
                         <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
                             <li class="nav-item">
-                                <a class="nav-link active" href="/QCD/QCD_Dashboard/Index" role="button" data-bs-toggle="" aria-expanded="false">
+                                <a class="nav-link active" href="/INV/Dashboard/Index" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-home"></span></span><span class="nav-link-text ps-1">Dashboard</span></div>
                                 </a>
                                 <a class="nav-link active" href="/QCD/QCD_Dashboard/Index" role="button" data-bs-toggle="" aria-expanded="false">
@@ -116,19 +118,19 @@
                                         <a class="nav-link" href="/INV/Purchase" data-bs-toggle="" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span class="nav-link-text ps-1">@Resource.Purchase </span></div>
                                         </a>
-                                        <a class="nav-link" href="/QCD/Contracts/ContractEntry" data-bs-toggle="" aria-expanded="false">
+                                        <a class="nav-link" href="/INV/Sale/index" data-bs-toggle="" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Sale </span></div>
                                         </a>
                                         <a class="nav-link" href="/QCD/Contracts/ContractEntry" data-bs-toggle="" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span class="nav-link-text ps-1">CreditMemo  </span></div>
                                         </a>
-                                        <a class="nav-link" href="/QCD/Contracts/ContractEntry" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">CashIn  </span></div>
+                                        <a class="nav-link" href="/INV/CashManagment/CashIn" data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Cash In  </span></div>
                                         </a>
-                                        <a class="nav-link" href="/QCD/Contracts/ContractEntry" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">CashOut  </span></div>
+                                        <a class="nav-link" href="/INV/CashManagment/CashOut" data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Cash Out  </span></div>
                                         </a>
-                                        <a class="nav-link" href="/QCD/Contracts/ContractEntry" data-bs-toggle="" aria-expanded="false">
+                                        <a class="nav-link" href="/INV/CashManagment/Expense" data-bs-toggle="" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Expense  </span></div>
                                         </a>
                                         <a class="nav-link" href="/QCD/Contracts/ContractEntry" data-bs-toggle="" aria-expanded="false">
@@ -153,7 +155,7 @@
                                         <span class="nav-link-icon"><span class="fas fa-copy"></span></span><span class="nav-link-text ps-1">@Resource.ExchangeRate </span>
                                     </div>
                                 </a>
-                                <a class="nav-link" href="/INV/ExchangeRate" role="button" data-bs-toggle="" aria-expanded="false">
+                                <a class="nav-link" href="/INV/StockManagment" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon"><span class="fas fa-copy"></span></span><span class="nav-link-text ps-1">@Resource.Stock </span>
                                     </div>
@@ -175,13 +177,13 @@
                                 <ul class="nav collapse" id="Dealer">
 
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/QCD/Categories/Index" role="button" data-bs-toggle="" aria-expanded="false">
+                                        <a class="nav-link" href="/INV/Dealer/Index?TypeID=2" role="button" data-bs-toggle="" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-user-circle"></span></span><span class="nav-link-text ps-1">Vendor</span></div>
                                         </a>
                                     </li>
                                     <li class="nav-item">
 
-                                        <a class="nav-link" href="/QCD/Warehouses/Index" role="button" data-bs-toggle="" aria-expanded="false">
+                                        <a class="nav-link" href="/INV/Dealer/Index?TypeID=1" role="button" data-bs-toggle="" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-user-alt"></span></span><span class="nav-link-text ps-1">Customer</span></div>
                                         </a>
                                     </li>

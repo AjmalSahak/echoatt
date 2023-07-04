@@ -16,9 +16,9 @@ namespace AlphaTechMIS.Areas.INV.Models
         public double MinQuantity { get; set; }
         public int PTID { get; set; }
         public int StockTypeID { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-        public double PurchasePrice { get; set; }
-        public double SalePrice { get; set; }
+        public System.DateTime LastAffectedDate { get; set; }
+        public decimal PurchasePrice { get; set; }
+        public decimal SalePrice { get; set; }
         public int CurrencyID { get; set; }
     }
 }

@@ -291,8 +291,9 @@
                 adaptive: isAdaptive,
                 columns: [
 
-                    { text: '@Resource.Code', dataField: 'Code', width: '10%', cellsalign: aln, align: aln },
                     { text: '@Resource.Account_Type', dataField: 'AccountType',filtertype:'list', width: '20%', cellsalign: aln, align: aln },
+                    { text: 'Title', dataField: 'Title', width: '20%', cellsalign: aln, align: aln },
+                    { text: '@Resource.Code', dataField: 'Code', width: '10%', cellsalign: aln, align: aln },
                     { text: '@Resource.Description', dataField: 'ENDescription', cellsalign: aln, align: aln },
 
                 ]
@@ -308,6 +309,7 @@
             { name: 'AccountType' },
             { name: 'Code', type: 'text' },
             { name: 'ENDescription' },
+            { name: 'Title' },
 
         ];
         var source =

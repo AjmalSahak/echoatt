@@ -12,6 +12,7 @@ namespace AlphaTechMIS.Areas.INV.ViewModels
         public string AccountType { get; set; }
         public string Code { get; set; }
         public string ENDescription { get; set; }
+        public string Title { get; set; }
 
     }
     public class AccountTypeVM
