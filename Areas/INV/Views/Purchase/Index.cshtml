@@ -9,54 +9,66 @@
     var rowCounts = 0;
     $(document).ready(function () {
         makeDates(["D_EDate"], "FrmPurchase", "rtl");
+        makeContextMenu("Menu", "GrdPurchase", 200, 100);
 
         FillSelect2('/INV/Purchase/GetDealer?TypeID=2', 'DealerID', 'DealerID', 'Name', '@Resource.Please_Select');
-        FillSelect2('/INV/z_Product/zTypeList', 'PTID', 'PTID', 'TName', '@Resource.Please_Select');
+        FillSelect2('/INV/z_Product/ProductList', 'ProductID', 'ProductID', 'PName', '@Resource.Please_Select');
 
-        FillSelect2('/INV/z_Unit/UnitList', 'UnitID', 'UnitID', 'UnitName', '@Resource.Please_Select');
-
-        FillSelect2NoMsg('/INV/Purchase/CurrencyList', 'CurrencyID', 'CurrencyID', 'CurrencyEnglish');
         setgrid();
+        setDetailgrid();
         $('#tblProductList').delegate('a.removeCash', 'click', function () {
-            $(this).parent().parent().parent().parent().parent().remove();
-                rowCounts -= 1;
-        });
 
+            $(this).parent().parent().parent().parent().parent().remove();
+            var TP = 0;
+            $('tr.dataCash').each(function () {
+                TP += Number($(this).find('.TotalPrice').text());
+            });
+            $("#TotalPrice").val(TP);
+            rowCounts -= 1;
+        });
         $("#AddRow").click(function () {
             var Product = $('#ProductID :selected').text();
-            var Unit = $("#UnitID :selected").text();
+            var Unit = $('#UnitID :selected').text();
 
 
             var ProductID = $("#ProductID").val();
             var UnitID = $("#UnitID").val();
             var Quantity = $("#Quantity").val();
+
             var UnitPrice = $("#UnitPrice").val();
+            var check_if_exist = $(".Product" + ProductID).val();
+
+            if (check_if_exist != undefined && check_if_exist == ProductID) {
+                toastr["error"]('this product already added to the list');
+                return;
+            }
 
             var TotalPrice = Quantity * UnitPrice;
             var TP = 0;
 
-            if (ProductID != 0 && UnitID != 0 && Quantity != "" && UnitPrice !="") {
+            if (ProductID != 0 && UnitID != 0 && Quantity != "" && UnitPrice != "") {
 
                 var tr =
 
                     `<tr class="dataCash" id="datarow` + rowCounts + `">
-                         <td>`+ Product   + `<input type="hidden" class="Products" value="` + ProductID+`" />   </td>
-                         <td>`+ Quantity  + `<input type="hidden" class="Quantities" value="` + Quantity +`" /> </td>
-                         <td>`+ Unit      + `<input type="hidden" class="Units" value="` + UnitID +`" /></td>
-                         <td>`+ UnitPrice + `<input type="hidden" class="UnitPrices" value="` + UnitPrice +`" /> </td>
-                         <td class="TotalPrice">`+ TotalPrice +`</td>
-                         <td>
-                             <div class="dropdown font-sans-serif position-static">
-                                 <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
-                                 <div class="dropdown-menu dropdown-menu-end border py-0">
-                                     <div class="bg-white py-2"><a class="dropdown-item" href="#!">@Resource.Edit</a><a class="dropdown-item text-danger removeCash" href="#!">@Resource.Delete</a></div>
-                                 </div>
-                             </div>
-                         </td>
-                    </tr>`;
+                      <td>` + Product + `<input type="hidden" class="Products Product` + ProductID + `" value="` + ProductID + `" />   </td>
+                      <td>`+ Quantity + `<input type="hidden" class="Quantities" value="` + Quantity + `" /> </td>
+                      <td>`+ Unit + `<input type="hidden" class="Units" value="` + UnitID + `" /></td>
+                      <td>`+ UnitPrice + `<input type="hidden" class="UnitPrices" value="` + UnitPrice + `" /> </td>
+                      <td class="TotalPrice">`+ TotalPrice + `</td>
+                      <td>
+                          <div class="dropdown font-sans-serif position-static">
+                              <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
+                              <div class="dropdown-menu dropdown-menu-end border py-0">
+                                  <div class="bg-white py-2"><a class="dropdown-item text-danger removeCash" href="#!">@Resource.Delete</a></div>
+                              </div>
+                          </div>
+                      </td>
+                 </tr>`;
 
 
                 $('#tblProductList').append(tr);
+                rowCounts++
 
             } else {
                 toastr["error"]("Please fill the required fields ");
@@ -74,12 +86,13 @@
         });
 
 
+
         $("#Save").click(function () {
 
             var validationResult = function (isValid) {
                 if (isValid) {
 
-                    var varURL = ($("#TransactionID").val() == '' || $("#TransactionID").val() == null) ? '/INV/Purchase/Create' : '/INV/Purchase/Update';
+                    var varURL = ($("#PurchaseID").val() == '' || $("#PurchaseID").val() == null) ? '/INV/Purchase/Create' : '/INV/Purchase/Update';
                     if ($('tr.dataCash').length < 1) {
                         toastr["error"]('@Resource.PleaseAddAtleastOneTransaction');
 
@@ -101,8 +114,8 @@
                         $("#Tran_data").val(JSON.stringify(Tra_data));
 
 
-                        if ($("#TransactionID").val() == '') {
-                            $("#TransactionID").remove();
+                        if ($("#PurchaseID").val() == '') {
+                            $("#PurchaseID").remove();
                         }
                         $.ajax(
                             {
@@ -114,15 +127,15 @@
                                     if (result == "true") {
                                         toastr["success"]('@Resource.Record_Saved')
                                         $('#GrdPurchase').jqxGrid('updatebounddata', 'data');
-                                        $('#FrmPurchase').append("<input type='hidden' id='TransactionID' name='TransactionID' />");
+                                        $('#FrmPurchase').append("<input type='hidden' id='PurchaseID' name='PurchaseID' />");
                                         $('#ModelPurchase').modal('hide');
-                                        $('#TransactionID').val('');
+                                        $('#PurchaseID').val('');
                                     }
                                     else if (result == "update") {
                                         toastr["success"]('@Resource.Record_Update')
                                         $('#GrdPurchase').jqxGrid('updatebounddata', 'data');
-                                        $('#FrmPurchase').append("<input type='hidden' id='TransactionID' name='TransactionID' />");
-                                        $('#TransactionID').val('');
+                                        $('#FrmPurchase').append("<input type='hidden' id='PurchaseID' name='PurchaseID' />");
+                                        $('#PurchaseID').val('');
                                         $('#ModelPurchase').modal('hide');
                                     }
 
@@ -146,13 +159,35 @@
             rules: [
 
                 { input: '#D_EDate', message: '@Resource.Required', action: 'change, blur', rule: 'required' },
+                { input: '#PaidAmount', message: '@Resource.Required', action: 'change, blur', rule: 'required' },
 
             ], theme: 'classic'
         });
 
 
 
+
+        $("#Menu").on('itemclick', function (event) {
+            var args = event.args;
+            var rowindex = $("#GrdPurchase").jqxGrid('getselectedrowindex');
+            if ($.trim($(args).text()) == "Product Detail") {
+                editrow = rowindex;
+                var offset = $("#GrdPurchase").offset();
+                // get the clicked row's data and initialize the input fields.
+                var dataRecord = $("#GrdPurchase").jqxGrid('getrowdata', editrow);
+                fillDetailgrid('/INV/Purchase/GetPurchaseDetail?PurchaseID=' + dataRecord.PurchaseID);
+                $("#ModelPurchaseDetail").modal('show');
+            }
+
+            else {
+
+            }
+        });
+
     });
+
+
+
 </script>
 <div class="card card-primary mb-3" id="customersTable" data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;phone&quot;,&quot;address&quot;,&quot;joined&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
     <div class="card-header">
@@ -182,7 +217,7 @@
 @*modal-dialog-scrollable*@
 
 <div id="ModelPurchase" class="modal fade" data-keyboard="false" data-bs-backdrop="static">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">@Resource.Purchase</h5>
@@ -195,58 +230,41 @@
                             <fieldset>
                                 <legend>@Resource.TransactionInfo</legend>
                                 <div class="row p-2">
-                                    <div class="col-md-8">
+                                    <div class="col-md-12">
                                         <label for="DealerID"> @Resource.Vendor</label><br />
-                                        <select id="DealerID" name="DealerID" class="select_2 form-control form-control-sm" onchange="GetVendorCR()">
+                                        <select id="DealerID" name="DealerID" class="select_2 form-control form-control-sm" @*onchange="GetVendorCR()"*@>
                                         </select>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label for="CurrencyID"> @Resource.Currency</label><br />
-                                        <select id="CurrencyID" name="CurrencyID" class="form-control form-control-sm">
-                                        </select>
-                                    </div>
+
                                 </div>
                                 <div class="row p-2">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <label for="D_EDate"> @Resource.Hijri_Shamsi_Date</label><br />
                                         <input type="text" name="D_EDate" id="D_EDate" autocomplete="off" dir="auto" class="form-control form-control-sm" />
                                     </div>
-                                    <div class="col-md-6">
-                                        <label for="ExRate"> @Resource.ExchangeRate</label><br />
-                                        <input type="text" name="ExRate" id="ExRate" autocomplete="off" dir="auto" class="form-control form-control-sm" readonly />
-                                    </div>
+
                                 </div>
                             </fieldset>
                             <fieldset>
                                 <legend>@Resource.Add_Product</legend>
                                 <div class="row p-2">
-                                    <div class="col-md-6">
-                                        <label for="PTID"> @Resource.Type</label><br />
-                                        <select id="PTID" name="PTID" class="select_2 form-control form-control-sm" onchange="GetProduct();">
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <label for="ProductID"> @Resource.Product</label><br />
-                                        <select id="ProductID" name="ProductID" class="select_2 form-control form-control-sm">
-                                            <option value="0" selected>@Resource.Please_Select</option>
+                                        <select id="ProductID" name="ProductID" class="select_2 form-control form-control-sm" onchange="GetProductUnit()">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row p-2">
                                     <div class="col-md-6">
-                                        <label for="UnitID"> @Resource.Unit</label><br />
-                                        <select id="UnitID" name="UnitID" class="select_2 form-control form-control-sm">
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-6">
                                         <label for="Quantity"> @Resource.Quantity</label><br />
                                         <input type="text" name="Quantity" id="Quantity" autocomplete="off" dir="auto" class="form-control form-control-sm" />
                                     </div>
-
-
+                                    <div class="col-md-6">
+                                        <label for="UnitID"> @Resource.Unit</label><br />
+                                        <select id="UnitID" name="UnitID" class="select_2 form-control form-control-sm" disabled>
+                                        </select>
+                                    </div>
                                 </div>
-
 
                                 <div class="row p-2">
                                     <div class="col-md-6">
@@ -295,7 +313,7 @@
                                                 <tr>
                                                     <td colspan="4"><b> @Resource.Paid_Amount</b></td>
                                                     <td colspan="3">
-                                                        <input type="text" name="PaidAmount" id="PaidAmount" autocomplete="off" dir="auto" class="form-control form-control-sm" placeholder="0.00" />
+                                                        <input type="text" name="PaidAmount" id="PaidAmount" autocomplete="off" dir="auto" class="form-control form-control-sm" placeholder="0.00" onchange="DueBalance()" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -318,32 +336,69 @@
 
                         </div>
                     </div>
+                    <div>
+                        <input type="hidden" name="Tran_data" id="Tran_data" class="form-control form-control-sm" />
+                        <input type="hidden" name="PurchaseID" id="PurchaseID" class="form-control form-control-sm" />
+                    </div>
                 </form>
 
             </div>
 
             <div class="modal-footer">
-                <input type="hidden" name="Tran_data" id="Tran_data" class="form-control form-control-sm" />
-                <input type="hidden" name="TransactionID" id="TransactionID" class="form-control form-control-sm" />
+
                 <button type="button" id="Save" class="btn btn-sm btn-outline-primary">@Resource.Save</button>
                 <button type="button" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">@Resource.Close</button>
             </div>
         </div>
     </div>
 </div>
-
+<div id="ModelPurchaseDetail" class="modal fade" data-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Resource.Purchase Detail</h5>
+                <button type="button" class="btn-close btn btn-sm btn-circle transition-base p-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row p-0">
+                    <div class="col-md-12">
+                        <div id="GrdPurchaseDetail">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">@Resource.Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="Menu">
+    <ul dir="rtl">
+        <li>
+            <img src="~/images/pencil.png" />
+            <span>Product Detail</span>
+        </li>
+    </ul>
+</div>
 
 <script>
-      function GetProduct() {
-        $("#ProductID").empty();
-          FillSelect2('/INV/z_Product/zProductList?PTID=' + $("#PTID").val(), 'ProductID', 'ProductID', 'PName', '@Resource.Please_Select');
+    function GetProductUnit() {
+        var ProductID = $("#ProductID").val();
+         $("#UnitID").empty();
+        FillSelect2NoMsg('/INV/z_Product/ProductUnit?ProductID=' + ProductID, 'UnitID', 'UnitID', 'UnitName');
 
     }
-    function GetVendorCR() {
-        $("#CurrencyID").empty();
-        FillSelect2NoMsg('/INV/Purchase/GetDealerCurrency?DealerID=' + $("#DealerID").val(), 'CurrencyID', 'CurrencyID', 'CurrencyEnglish');
+    function DueBalance() {
+        const TotalPrice = Number($("#TotalPrice").val());
+        const PaidAmount = Number($("#PaidAmount").val());
+        if (PaidAmount > TotalPrice) {
+            $("#PaidAmount").val('');
+            toastr["error"]('Paid amount could not be grather than total price!');
+        }
+        else
+            $("#DueAmount").val(TotalPrice - PaidAmount)
     }
-
     function setgrid() {
 
         const isRTL = JSON.parse(localStorage.getItem('isRTL'))
@@ -353,7 +408,7 @@
         $("#GrdPurchase").jqxGrid(
             {
                 width: '99%',
-                enabletooltips: true,
+               // enabletooltips: true,
                 pageable: true,
                 pagermode: 'simple',
                 showfilterrow: true,
@@ -365,55 +420,40 @@
                 pagesize: 15,
                 altrows: true,
                 rtl: isRTL,
-                adaptive: true,
+                adaptive: isAdaptive,
                 columns: [
 
-                    { text: 'Invoice', dataField: 'Snsame', width: '10%', cellsalign: aln, align: aln },
-                    { text: 'Vendor', dataField: 'Sname', width: '15%', cellsalign: aln, align: aln },
-                    { text: 'Currency', dataField: 'GEName', width: '10%', cellsalign: aln, align: aln },
-                    { text: 'Date', dataField: 'SEName', width: '10%', cellsalign: aln, align: aln },
-                    { text: 'Total Amount', dataField: 'PrDate', width: '15%', cellsalign: aln, align: aln },
-                    { text: 'Paid Amount', dataField: 'EEHour', width: '15%', cellsalign: aln, align: aln },
-                    { text: 'Charges', dataField: 'MWH', width: '10%', cellsalign: aln, align: aln },
-                    { text: 'Total Discount', dataField: 'CurrentA', width: '15%', cellsalign: aln, align: aln },
-
-
+                    { text: 'ID', dataField: 'PurchaseID', width: '10%', cellsalign: aln, align: aln },
+                    { text: 'Vendor Name', dataField: 'DelearName', cellsalign: aln, align: aln },
+                    { text: 'Date', dataField: 'D_EDate', width: '10%', cellsalign: aln, align: aln },
+                    { text: 'TotalPrice', dataField: 'TotalPrice', width: '10%', cellsalign: aln, align: aln },
+                    { text: 'PaidAmount', dataField: 'PaidAmount', width: '10%', cellsalign: aln, align: aln },
+                    { text: 'DueAmount', dataField: 'DueAmount', width: '10%', cellsalign: aln, align: aln },
+                    { text: 'ExchangeRate', dataField: 'ExchangeRate', width: '10%', cellsalign: aln, align: aln },
+            
 
                 ]
 
             });
-        // fillgrid('/ODS/EntityEntry/GetEntityEntry');
+        fillgrid('/INV/Purchase/GetPurchase');
 
     }
 
     function fillgrid(varurl) {
 
         var datafields = [
-            { name: 'SubstationID' },
-            { name: 'EEID' },
-            { name: 'Pname' },
-            { name: 'SEName' },
-            { name: 'GEName' },
-            { name: 'SECode' },
-            { name: 'Sname' },
-            { name: 'SEID' },
-
-            { name: 'EEHour' },
-            { name: 'CurrentA' },
-            { name: 'VoltageA' },
-            { name: 'PF' },
-            { name: 'ReactP' },
-            { name: 'ActiveP' },
-            { name: 'GEID' },
-            { name: 'EEDate', type: 'date', format: "yyyy-mm-DD" },
+            { name: 'PurchaseID' },
+            { name: 'D_EDate' },
+            { name: 'TotalPrice' },
+            { name: 'PaidAmount' },
+            { name: 'DueAmount' },
+            { name: 'DealerID' },
             { name: 'Remarks' },
-            { name: 'MWH' },
-            { name: 'SSnameSecond' },
-            /*{ name: 'SSID' },*/
-            { name: 'PrDate' },
-
-
-
+            { name: 'CreatedOn' },
+            { name: 'IsReconciled' },
+            { name: 'ExchangeRate' },
+            { name: 'DelearName',type:'text' },
+            { name: 'EDate', type: 'date', format: "yyyy-mm-DD" },
 
         ];
         var source =
@@ -434,6 +474,74 @@
         );
 
         $("#GrdPurchase").jqxGrid(
+            {
+                source: dataadapter
+            });
+    }
+    function setDetailgrid() {
+
+        const isRTL = JSON.parse(localStorage.getItem('isRTL'))
+        const aln = (isRTL) ? 'right' : 'left';
+        var isAdaptive = ($(document).width() <= 500) ? true : false;
+
+        $("#GrdPurchaseDetail").jqxGrid(
+            {
+                width: '99%',
+                // enabletooltips: true,
+                pageable: true,
+                pagermode: 'simple',
+                showfilterrow: true,
+                filterable: true,
+                editable: false,
+                autoheight: true,
+                columnsresize: false,
+                sortable: true,
+                pagesize: 15,
+                altrows: true,
+                rtl: isRTL,
+                adaptive: isAdaptive,
+                columns: [
+
+                    { text: 'ID', dataField: 'PrDetailID', width: '10%', cellsalign: aln, align: aln },
+                    { text: 'Product', dataField: 'PName', cellsalign: aln, align: aln },
+                    { text: 'Quantity', dataField: 'Quantity', width: '10%', cellsalign: aln, align: aln },
+                    { text: 'Unit Price', dataField: 'UnitPrice', width: '10%', cellsalign: aln, align: aln },
+                    { text: 'Total Price', dataField: 'TotalPrice', width: '10%', cellsalign: aln, align: aln },
+
+                ]
+
+            });
+    }
+
+    function fillDetailgrid(varurl) {
+
+        var datafields = [
+            { name: 'PrDetailID' },
+            { name: 'ProductID' },
+            { name: 'PName', type: 'text' },
+            { name: 'Quantity' },
+            { name: 'UnitPrice' },
+            { name: 'TotalPrice' },
+            { name: 'PurchaseID' },
+        
+        ];
+        var source =
+        {
+            datatype: "json",
+            datafields: datafields,
+            cache: false,
+            url: varurl,
+            root: 'Rows'
+        };
+
+        var dataadapter = new $.jqx.dataAdapter(source, {
+            loadError: function (xhr, status, error) {
+                console.log(error);
+            }
+        }
+        );
+
+        $("#GrdPurchaseDetail").jqxGrid(
             {
                 source: dataadapter
             });

@@ -14,6 +14,8 @@ namespace AlphaTechMIS.Areas.INV.Models
         public int ProductID { get; set; }
         public string PName { get; set; }
         public string PCode { get; set; }
+        public decimal DefualtPurchasePrice { get; set; }
+        public decimal DefualtSalePrice { get; set; }
         public string Description { get; set; }
         public int PTID { get; set; }
         public string Image { get; set; }

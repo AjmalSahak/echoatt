@@ -67,6 +67,8 @@ namespace AlphaTechMIS.Areas.INV.Controllers
             FoundRec.PTID = InputRec.PTID;
             FoundRec.PName = InputRec.PName;
             FoundRec.PCode = InputRec.PCode;
+            FoundRec.DefualtPurchasePrice = InputRec.DefualtPurchasePrice;
+            FoundRec.DefualtSalePrice = InputRec.DefualtSalePrice;
             FoundRec.Description = InputRec.Description;
             db.SaveChanges();
             return Json("Record_Update");
@@ -96,12 +98,28 @@ namespace AlphaTechMIS.Areas.INV.Controllers
         {
             return Json(db.zProducts.ToList().Where(x => x.PTID == PTID), JsonRequestBehavior.AllowGet);
         }
+        public ActionResult findProductByID(int ProductID)
+        {
+            return Json(db.zProducts.Find(ProductID), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult ProductList()
+        {
+            return Json(db.zProducts.ToList(), JsonRequestBehavior.AllowGet);
+        }
         public ActionResult zProduct_List()
         {
             var data = db.Database.SqlQuery<z_ProductVM>(@"EXEC DBO.zProductList").ToList();
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult ProductUnit(int ProductID)
+        {
+            var data = db.Database.SqlQuery<z_Unit>(@"SELECT U.UnitID,U.UnitName FROM DBO.zProduct P 
+LEFT JOIN DBO.zProductType PT ON PT.PTID=P.PTID
+LEFT JOIN DBO.z_Unit U ON U.UnitID=PT.UnitID
 
+WHERE P.ProductID={0}", ProductID).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

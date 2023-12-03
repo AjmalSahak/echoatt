@@ -31,5 +31,9 @@ namespace AlphaTechMIS.Areas.INV.Models
         public DbSet<zProvince> zProvinces { get; set; }
         public DbSet<zStockType> zStockTypes { get; set; }
         public DbSet<zTransactionType> zTransactionTypes { get; set; }
+        public DbSet<PurchaseDetail> PurchaseDetail { get; set; }
+        public DbSet<PurchaseTbl> PurchaseTbl { get; set; }
+        public DbSet<SaleDetail> SaleDetail { get; set; }
+        public DbSet<SaleTbl> SaleTbl { get; set; }
     }
 }

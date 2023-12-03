@@ -1,4 +1,5 @@
 ﻿using AlphaTechMIS.Areas.INV.Models;
+using AlphaTechMIS.Areas.INV.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,6 +32,8 @@ namespace AlphaTechMIS.Areas.INV.Controllers
         [HttpPost]
         public ActionResult Create(Dealer v)
         {
+            if (db.Dealers.Where(x => x.Name.ToLower() == v.Name.ToLower() && x.CurrencyID == v.CurrencyID && x.ContactNo == v.ContactNo).Count() > 0)
+                return Json("Account Already Exist");
             if (ModelState.IsValid)
             {
 
@@ -50,20 +53,23 @@ namespace AlphaTechMIS.Areas.INV.Controllers
                                 return Json("FileSizeError");
                             string TimeStamp = DateTime.Now.ToString("yyyMMddHmmss");
                             fullFileName = fileNameWithoutExtension + "_" + TimeStamp + extension;
-                            //v.JawazAttachment = fullFileName;
                             v.Attachment = "/Uploads/Dealer/" + fullFileName;
                             string filePath = Path.Combine(Server.MapPath("~/Uploads/Dealer"), fullFileName);
                             Doc.SaveAs(filePath);
                         }
+                        if (v.Remarks == "Customer")
+                            v.TypeID = 1;
+                        else v.TypeID = 2;
                         db.Dealers.Add(v);
                         db.SaveChanges();
+
                         t.Commit();
                         return Json("saved");
                     }
                     catch (Exception ex)
                     {
                         t.Rollback();
-                        return Json("error" + ex.Message);
+                        return Json("error" + ex.Message + "-" + ex.InnerException);
                     }
                 };
             }
@@ -73,6 +79,12 @@ namespace AlphaTechMIS.Areas.INV.Controllers
                                 .Select(E => E.ErrorMessage)
                               .ToArray());
             return Content(validationErrors, "text/html");
+        }
+
+        public ActionResult DealerList(string Type)
+        {
+            var data = db.Database.SqlQuery<DealerVM>("EXEC DBO.DealerList {0}", Type).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }

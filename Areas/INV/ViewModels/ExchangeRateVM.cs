@@ -17,4 +17,12 @@ namespace AlphaTechMIS.Areas.INV.ViewModels
         public string CurrencyEnglish { get; set; }
         public string ConversionOperator { get; set; }
     }
+    public class ExRateVM
+    {
+        public int ExchangeID { get; set; }
+        public int CurrencyID { get; set; }
+        public decimal? Amount { get; set; }
+        public double? ExRate { get; set; }
+
+    }
 }

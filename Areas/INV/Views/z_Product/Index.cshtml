@@ -81,6 +81,8 @@
                 $("#PName").val(dataRecord.PName);
                 $("#PCode").val(dataRecord.PCode);
                 $("#Description").val(dataRecord.Description);
+                $("#DefualtPurchasePrice").val(dataRecord.DefualtPurchasePrice);
+                $("#DefualtSalePrice").val(dataRecord.DefualtSalePrice);
 
                 $("#ModelProduct").modal('show');
             }
@@ -122,6 +124,8 @@
             rules: [
                 { input: '#PName', message: '@Resource.Required', action: 'keyup, blur', rule: 'required' },
                 { input: '#PCode', message: '@Resource.Required', action: 'keyup, blur', rule: 'required' },
+                { input: '#DefualtPurchasePrice', message: '@Resource.Required', action: 'keyup, blur', rule: 'required' },
+                { input: '#DefualtSalePrice', message: '@Resource.Required', action: 'keyup, blur', rule: 'required' },
                 { input: '#Description', message: '@Resource.Required', action: 'keyup, blur', rule: 'required' },
                 { input: '#P_Combo_PCID', message: '@Resource.Required', action: 'keyup, blur,change', rule: function (input) { var val = $("#P_Combo_PCID").val(); if (val == "" || val == 0) { return false; } return true; } },
                 { input: '#P_Combo_PTID', message: '@Resource.Required', action: 'keyup, blur,change', rule: function (input) { var val = $("#P_Combo_PTID").val(); if (val == "" || val == 0) { return false; } return true; } },
@@ -134,9 +138,8 @@
 
 </script>
 
-
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="card card-primary mb-3" id="customersTable" data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;phone&quot;,&quot;address&quot;,&quot;joined&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
             <div class="card-header">
                 <div class="row flex-between-center">
@@ -164,8 +167,9 @@
         </div>
 
     </div>
-    <div class="col-md-3">
-
+</div>
+<div class="row">
+    <div class="col-md-6">
         <div class="card card-primary mb-3" id="customersTable" data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;phone&quot;,&quot;address&quot;,&quot;joined&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
             <div class="card-header">
                 <div class="row flex-between-center">
@@ -193,7 +197,7 @@
         </div>
 
     </div>
-    <div class="col-md-3">
+    <div class="col-md-6">
 
         <div class="card card-primary mb-3" id="customersTable" data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;phone&quot;,&quot;address&quot;,&quot;joined&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
             <div class="card-header">
@@ -334,7 +338,17 @@
                             <input type="text" name="PCode" id="PCode" autocomplete="off" dir="auto" class="form-control form-control-sm" />
                         </div>
                     </div>
+                    <div class="row p-2">
 
+                        <div class="col-md-6">
+                            <label for="DefualtPurchasePrice"> Defualt Purchase Price</label><br />
+                            <input type="text" name="DefualtPurchasePrice" id="DefualtPurchasePrice" autocomplete="off" dir="auto" class="form-control form-control-sm" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="DefualtSalePrice"> Defualt Sale Price</label><br />
+                            <input type="text" name="DefualtSalePrice" id="DefualtSalePrice" autocomplete="off" dir="auto" class="form-control form-control-sm" />
+                        </div>
+                    </div>
                     <div class="row p-2">
 
                         <div class="col-md-12">
@@ -478,10 +492,12 @@
                 columns: [
 
                     { text: '@Resource.Product', dataField: 'PName', width: '20%', cellsalign: aln, align: aln },
-                    { text: '@Resource.Code', dataField: 'PCode', width: '20%', cellsalign: aln, align: aln },
-                    { text: '@Resource.Type', dataField: 'TName', width: '20%', cellsalign: aln, align: aln },
-                    { text: '@Resource.Category', dataField: 'Category', width: '20%', cellsalign: aln, align: aln },
+                    { text: '@Resource.Code', dataField: 'PCode', width: '8%', cellsalign: aln, align: aln },
+                    { text: '@Resource.Type', dataField: 'TName', width: '10%', cellsalign: aln, align: aln },
+                    { text: '@Resource.Category', dataField: 'Category', width: '10%', cellsalign: aln, align: aln },
                     { text: '@Resource.Unit', dataField: 'UnitName', cellsalign: aln, align: aln },
+                    { text: "DefualtPurchasePrice", dataField: 'DefualtPurchasePrice', width: '15%', cellsalign: aln, align: aln },
+                    { text: "DefualtSalePrice", dataField: 'DefualtSalePrice', width: '15%', cellsalign: aln, align: aln },
 
                 ]
 
@@ -493,6 +509,8 @@
         var datafields = [
             { name: 'ProductID' },
             { name: 'PName' },
+            { name: 'DefualtPurchasePrice' },
+            { name: 'DefualtSalePrice' },
             { name: 'PCode' },
             { name: 'Description' },
             { name: 'PTID' },

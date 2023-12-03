@@ -97,7 +97,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label" for="Remarks">Remarks</label>
-                                <input type="text" id="Remarks" name="Remarks" class="form-control form-control-sm " />
+                                <input type="text" id="Remarks" name="Remarks" class="form-control form-control-sm " value="@ViewBag.Type" readonly />
                             </div>
                         </div>
 
@@ -133,9 +133,10 @@
 </div>
 <script>
     $(document).ready(function () {
-                FillSelect2('/INV/Purchase/CurrencyList', 'CurrencyID', 'CurrencyID', 'CurrencyEnglish', '@Resource.Please_Select');
-
         setgrid();
+        FillSelect2('/INV/Purchase/CurrencyList', 'CurrencyID', 'CurrencyID', 'CurrencyEnglish', '@Resource.Please_Select');
+
+
         makeContextMenu("Menu", "GrdDealer", 100, 30);
         $('#BtnAddDealer').click(function () {
             ClearVendorForm();
@@ -190,14 +191,14 @@
                             return;
                         }
                     }
-                    var varURL = ($("#DealerID").val() == '' || $("#DealerID").val() == null) ? '/TRY/Vendor/Create' : '/TRY/Vendor/Edit';
+                    var varURL = ($("#DealerID").val() == '' || $("#DealerID").val() == null) ? '/INV/Dealer/Create' : '/INV/Dealer/Edit';
                     if ($("#DealerID").val() == '') {
                         $("#DealerID").remove();
                     }
                     var form = $('form')[0];
-                    $('#ModalDealer').block({
-                        message: '<h1 style="color:red"><span class="fa-spin fas fa-spinner"></span></h1>'
-                    });
+                    //$('#ModalDealer').block({
+                    //    message: '<h1 style="color:red"><span class="fa-spin fas fa-spinner"></span></h1>'
+                    //});
                     $.ajax({
                         url: varURL,
                         type: "POST",
@@ -205,17 +206,15 @@
                         processData: false,
                         contentType: false,
                         success: function (result) {
-                            $("#ModalDealer").unblock();
-                            if (result == "@Resource.Record_Saved") {
-                                $('#ModalDealer').modal('hide');
-                                toastr["success"]('AddSuccess');
+                           //$("#ModalDealer").unblock();
+                            if (result == "saved") {
+                                toastr["success"]('@Resource.Record_Saved');
                                 $('#GrdDealer').jqxGrid('updatebounddata', 'data');
                                 $('#frmDealer').append("<input type='hidden' id='DealerID' name='DealerID' />");
                                 ClearVendorForm();
                             }
-                            else if (result == "@Resource.Record_Update") {
-                                $('#ModalDealer').modal('hide');
-                                toastr["success"]('UpdateSuccess')
+                            else if (result == "update") {
+                                toastr["success"]('@Resource.Record_Update"')
                                 $('#GrdDealer').jqxGrid('updatebounddata', 'data');
                                 ClearVendorForm();
 
@@ -226,7 +225,7 @@
                             }
                         },
                         error: function (error) {
-                            $("#ModalDealer").unblock();
+                          //  $("#ModalDealer").unblock();
                               toastr["error"](error.responseText);
                         }
                     });
@@ -254,17 +253,8 @@
         });
     });
     function setgrid() {
-        //var cellclassname = function (row, column, value, data) {
-        //    return "fonclass";
-        //}
-        var cellsrenderer = function (row, column, value) {
-            if (value == true)
-                return '<div style="text-align: center; margin-top: 5px;"> @Resource.Yes </div>';
-            else
-                return '<div style="text-align: center; margin-top: 5px;color:red"> @Resource.No </div>';
-        }
         var columnrenderer = function (value) {
-            return '<div style="text-align: center; margin-top: 5px;">' + value + '</div>';
+            return '<div style="text-align: center; margin-top: 50px;">' + value + '</div>';
         }
         var cellsrenderer2 = function (row, column, value) {
             if (value != "")
@@ -296,26 +286,28 @@
                  enablebrowserselection: true,
                 selectionMode : 'singlecell',
                 columns: [
-                    { text: 'Vendor_Name', dataField: 'VendorName', width: '20%',cellsalign: aln, align: aln },
-                    { text: 'Courntry', dataField: 'Courntry', width: '15%',cellsalign: aln, align: aln },
-                    { text: 'Province', dataField: 'Province', width: '15%',cellsalign: aln, align: aln },
-                    { text: 'Currency', dataField: 'Currency', width: '10%',cellsalign: aln, align: aln },
+                    { text: 'Name', dataField: 'Name', width: '20%',cellsalign: aln, align: aln },
+                    { text: 'Courntry', dataField: 'CountryNameEn', width: '15%',cellsalign: aln, align: aln },
+                    { text: 'Province', dataField: 'PName', width: '15%',cellsalign: aln, align: aln },
+                    { text: 'Currency', dataField: 'CurrencyEnglish', width: '10%',cellsalign: aln, align: aln },
                     { text: 'Contact No', dataField: 'ContactNo', width: '10%',cellsalign: aln, align: aln },
-                    { text: 'Opening Balance', dataField: 'OB', width: '20%',cellsalign: aln, align: aln },
+                    { text: 'Opening Balance', dataField: 'OpeningBalance', width: '20%',cellsalign: aln, align: aln },
                     { text: 'Attachment', dataField: 'Attachment',   cellsrenderer: cellsrenderer2,  renderer: columnrenderer }
                 ]
             });
-        //fillgrid('/TRY/Vendor/GetVendors');
+        fillgrid('/INV/Dealer/DealerList?Type=' + '@ViewBag.Type');
     }
     function fillgrid(varurl) {
         var datafields = [
             { name: 'DealerID' },
-            { name: 'VendorCode' },
-            { name: 'VendorName' },
-            { name: 'Address', type: 'text' },
+            { name: 'Name' },
+            { name: 'PName' },
+            { name: 'ContactNo', type: 'text' },
+            { name: 'OpeningBalance'},
             { name: 'ContactNo' },
-            { name: 'TaxPercentage' },
+            { name: 'CurrencyEnglish' },
             { name: 'Attachment' },
+            { name: 'CountryNameEn' },
         ];
         var source =
         {

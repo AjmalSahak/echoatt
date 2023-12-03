@@ -137,6 +137,7 @@
     <Compile Include="Areas\INV\Controllers\StockManagmentController.cs" />
     <Compile Include="Areas\INV\Controllers\z_ProductController.cs" />
     <Compile Include="Areas\INV\Controllers\z_UnitController.cs" />
+    <Compile Include="Areas\INV\Data\AccountCode.cs" />
     <Compile Include="Areas\INV\INVAreaRegistration.cs" />
     <Compile Include="Areas\INV\Models\ChartOfAccount.cs" />
     <Compile Include="Areas\INV\Models\Dealer.cs" />
@@ -144,6 +145,10 @@
     <Compile Include="Areas\INV\Models\INVDBContext.cs" />
     <Compile Include="Areas\INV\Models\Order.cs" />
     <Compile Include="Areas\INV\Models\OrderProduct.cs" />
+    <Compile Include="Areas\INV\Models\SaleDetail.cs" />
+    <Compile Include="Areas\INV\Models\PurchaseDetail.cs" />
+    <Compile Include="Areas\INV\Models\SaleTbl.cs" />
+    <Compile Include="Areas\INV\Models\PurchaseTbl.cs" />
     <Compile Include="Areas\INV\Models\Quotation.cs" />
     <Compile Include="Areas\INV\Models\QuotationDetail.cs" />
     <Compile Include="Areas\INV\Models\QuotationProduct.cs" />
@@ -165,6 +170,8 @@
     <Compile Include="Areas\INV\ViewModels\ChartOfAccountVM.cs" />
     <Compile Include="Areas\INV\ViewModels\DealerVM.cs" />
     <Compile Include="Areas\INV\ViewModels\ExchangeRateVM.cs" />
+    <Compile Include="Areas\INV\ViewModels\PurchaseVM.cs" />
+    <Compile Include="Areas\INV\ViewModels\SaleVM.cs" />
     <Compile Include="Areas\INV\ViewModels\StockSettingVM.cs" />
     <Compile Include="Areas\INV\ViewModels\z_ProductVM.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -319,6 +326,7 @@
     <Content Include="Content\Falcon\assets\img\icons\spot-illustrations\corner-3.png" />
     <Content Include="Content\Falcon\assets\img\icons\spot-illustrations\corner-4.png" />
     <Content Include="Content\Falcon\assets\img\icons\spot-illustrations\corner-5.png" />
+    <Content Include="Content\Falcon\assets\img\icons\spot-illustrations\dabs.jpg" />
     <Content Include="Content\Falcon\assets\img\icons\spot-illustrations\dabs.png" />
     <Content Include="Content\Falcon\assets\img\icons\spot-illustrations\half-circle.png" />
     <Content Include="Content\Falcon\assets\img\icons\spot-illustrations\image.svg" />
@@ -1222,6 +1230,7 @@
     <Content Include="Scripts\jsTree3\jstree.js" />
     <Content Include="Scripts\jsTree3\jstree.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Uploads\download.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1300,13 +1309,13 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\INV\DataSet\" />
-    <Folder Include="Areas\INV\Data\" />
     <Folder Include="Areas\INV\RDLC\" />
     <Folder Include="Areas\INV\Reports\" />
     <Folder Include="Areas\INV\Views\Shared\" />
     <Folder Include="Areas\INV\Views\zProduct\" />
     <Folder Include="Content\Falcon\assets\video\" />
     <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="Uploads\Dealer\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -20,6 +20,11 @@ namespace AlphaTechMIS.Areas.INV.Controllers
         {
             return View();
         }
+        public ActionResult findExRate(int DealerID)
+        {
+            var data = db.Database.SqlQuery<ExRateVM>("EXEC DBO.GetExRateByDealer {0}",DealerID).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult GetCurrencyList()
         {
             var data = db.zCurrencys.ToList();

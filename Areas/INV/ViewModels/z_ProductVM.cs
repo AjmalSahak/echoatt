@@ -10,6 +10,8 @@ namespace AlphaTechMIS.Areas.INV.ViewModels
         public int ProductID { get; set; }
         public string PName { get; set; }
         public string PCode { get; set; }
+        public decimal DefualtPurchasePrice { get; set; }
+        public decimal DefualtSalePrice { get; set; }
         public string Description { get; set; }
         public int PTID { get; set; }
         public int PCID { get; set; }
