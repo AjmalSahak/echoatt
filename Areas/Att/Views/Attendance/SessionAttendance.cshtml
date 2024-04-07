@@ -1,0 +1,145 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using EchoAttendance.Resources
+@Scripts.Render("~/Content/jqxGrid/js")
+
+<script>
+    $(document).ready(function () {
+        setgrid();
+        $('#SessionID').change(function () {
+            var selectedOption = $(this).val();
+            fillgrid('/Att/Attendance/GetAttendanceBySession?SessionID=' + selectedOption);
+
+        });
+        makeContextMenu("Menu", "GrdSessionAttendance", 200, 100);
+        $("#Menu").on('itemclick', function (event) {
+            var args = event.args;
+            var rowindex = $("#GrdSessionAttendance").jqxGrid('getselectedrowindex');
+            editrow = rowindex;
+            var offset = $("#GrdSessionAttendance").offset();
+            var dataRecord = $("#GrdSessionAttendance").jqxGrid('getrowdata', editrow);
+
+            $("#DesID").val(dataRecord.DesID);
+            $("#DesTitle").val(dataRecord.DesTitle);
+
+            $("#ModelDesignation").modal('show');
+        });
+ 
+
+    });
+
+
+    function setgrid() {
+        var columnrenderer = function (value) {
+            return '<div style="text-align: center; margin-top: 50px;">' + value + '</div>';
+        }
+        var cellsrenderer2 = function (row, column, value) {
+            if (value != "")
+                return "<div style='text-align: center; margin-top: 5px;'><a href='" + value + "' target='_blank'><i class='fas fa-paperclip'></i></a></div>";
+            else
+                return "";
+        }
+        const isRTL = JSON.parse(localStorage.getItem('isRTL'))
+        const aln = (isRTL) ? 'right' : 'left';
+        var isAdaptive = ($(document).width() <= 500) ? true : false;
+
+        $("#GrdSessionAttendance").jqxGrid(
+            {
+                width: '99%',
+                enabletooltips: true,
+                pageable: true,
+                pagermode: 'simple',
+                showfilterrow: true,
+                filterable: true,
+                editable: false,
+                autoheight: true,
+                columnsresize: false,
+                sortable: true,
+                pagesize: 30,
+                altrows: true,
+                rtl: isRTL,
+                adaptive: isAdaptive,
+                columns: [
+
+                    { text: 'isPresent', filtertype: 'list',width: '10%', dataField: 'isPresent', cellsalign: aln, align: aln },
+                    { text: 'Province', filtertype: 'list',dataField: 'ProvinceName', width: '10%', cellsalign: aln, align: aln },
+                    { text: 'Site', filtertype: 'list', dataField: 'SiteName', cellsalign: aln, align: aln },
+                    { text: 'ParticipantCount', width: '12%', dataField: 'ParticipantCount', cellsalign: aln, align: aln },
+                    { text: 'CreatedDate', width: '10%', dataField: 'CreatedDate', cellsalign: aln, align: aln, cellsformat: 'dd-MMM-yyyy' },
+                    { text: 'FileAtt', width: '5%', dataField: 'FileAtt', cellsrenderer: cellsrenderer2, renderer: columnrenderer },
+
+                ]
+
+            });
+        fillgrid('/Att/Attendance/GetAttendanceBySession?SessionID=' + $("#SessionID").val());
+
+    }
+
+    function fillgrid(varurl) {
+
+        var datafields = [
+            { name: 'AttID' },
+            { name: 'ProvinceName' },
+            { name: 'SiteName' },
+            { name: 'ParticipantCount' },
+            { name: 'CreatedDate', type: 'date', format: "dd-MMM-yyyy" },
+            { name: 'FileAtt' },
+            { name: 'isPresent' },
+
+        ];
+        var source =
+        {
+            datatype: "json",
+            datafields: datafields,
+            cache: false,
+            //   url: '/HR/Dept/GetDept',
+            url: varurl,
+            root: 'Rows'
+        };
+
+        var dataadapter = new $.jqx.dataAdapter(source, {
+            loadError: function (xhr, status, error) {
+                console.log(error);
+            }
+        }
+        );
+
+        $("#GrdSessionAttendance").jqxGrid(
+            {
+                source: dataadapter
+            });
+    }
+ 
+</script>
+
+
+
+
+<div class="card card-primary mb-3" id="customersTable" data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;phone&quot;,&quot;address&quot;,&quot;joined&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
+    <div class="card-header">
+        @Html.DropDownList("SessionID", null, htmlAttributes: new { @class = "select_2 form-control form-control-sm", style = "width: 500px;" })
+    </div>
+    <div class="card-body p-2 bg-light">
+        <div class="table-responsive">
+            <div id="GrdSessionAttendance">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="Menu">
+    <ul dir="rtl">
+        <li>
+            <img src="~/images/pencil.png" />
+            <span>Edit</span>
+        </li>
+
+    </ul>
+</div>
+
+

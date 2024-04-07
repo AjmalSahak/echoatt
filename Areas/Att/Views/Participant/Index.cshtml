@@ -1,0 +1,292 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using EchoAttendance.Resources
+@Scripts.Render("~/Content/jqxGrid/js")
+
+<script>
+    $(document).ready(function () {
+        setgrid();
+        $('#BtnAdd').click(function () {
+            ClearForm();
+        });
+        makeContextMenu("Menu", "GrdParticipant", 200, 100);
+        $("#Menu").on('itemclick', function (event) {
+            var args = event.args;
+            var rowindex = $("#GrdParticipant").jqxGrid('getselectedrowindex');
+            editrow = rowindex;
+            var offset = $("#GrdParticipant").offset();
+            var dataRecord = $("#GrdParticipant").jqxGrid('getrowdata', editrow);
+       
+            $("#ParticipantID").val(dataRecord.ParticipantID);
+            $("#ParticipantName").val(dataRecord.ParticipantName);
+            $("#FatherName").val(dataRecord.FatherName);
+            $("#ContactNo").val(dataRecord.ContactNo);
+            $("#EmailID").val(dataRecord.EmailID);
+
+
+            $("#DesID").val(dataRecord.DesID).change();
+            var selectedOption = $("#DesID option:selected");
+            selectedOption.text(dataRecord.DesTitle);
+
+            $("#SiteID").val(dataRecord.SiteID);
+            var selectedOption = $("#SiteID option:selected");
+            selectedOption.text(dataRecord.SiteName);
+
+            $("#ModelParticipant").modal('show');
+        });
+        $("#Save").click(function () {
+            var validationResult = function (isValid) {
+                if (isValid) {
+                    var varURL = ($("#ParticipantID").val() == '' || $("#ParticipantID").val() == '0' || $("#ParticipantID").val() == null) ? '/Att/Participant/Create' : '/Att/Participant/Edit';
+                    if ($("#ParticipantID").val() == '') {
+                        $("#ParticipantID").remove();
+                    }
+                    $.ajax(
+                        {
+                            url: varURL,
+                            type: 'post',
+                            data: $('#frmParticipant').serialize(),
+                            success: function (result) {
+                                if (result == "Record_Saved") {
+                                    toastr["success"]('Record_Saved')
+                                    $('#GrdParticipant').jqxGrid('updatebounddata', 'data');
+                                    $('#frmParticipant').append("<input type='hidden' id='ParticipantID' name='ParticipantID' />");
+                                    ClearForm();
+                                    $('#ModelParticipant').modal('hide');
+
+                                }
+                                else if (result == "Record_Update") {
+                                    toastr["success"]('Record_Update')
+                                    $('#GrdParticipant').jqxGrid('updatebounddata', 'data');
+                                    ClearForm();
+                                    $('#ModelParticipant').modal('hide');
+                                }
+                                else {
+                                    toastr["error"](result);
+                                }
+                            }
+                        });
+
+                }
+            }
+            $('#frmParticipant').jqxValidator('validate', validationResult)
+
+        });
+
+
+        $('#frmParticipant').jqxValidator({
+
+            hintType: 'label',
+            animationDuration: 0,
+            rtl: true,
+            rules: [
+                { input: '#ParticipantName', message: 'Required', action: 'keyup, blur', rule: 'required' },
+                { input: '#FatherName', message: 'Required', action: 'keyup, blur', rule: 'required' },
+                { input: '#ContactNo', message: 'Required', action: 'keyup, blur', rule: 'required' },
+                {
+                    input: '#ContactNo', message: 'InvalidContactNo', action: 'keyup, blur', rule: function (input) {
+                        return ValidateMobileNo($("#ContactNo").val())
+                    }
+                },
+                {
+                    input: '#EmailID', message: 'EmailID', action: 'keyup, blur', rule: function (input) {
+                        return ValidateEmail($("#EmailID").val())
+                    }
+                },
+            ], theme: 'classic'
+        });
+
+    });
+
+
+    function setgrid() {
+   
+        const isRTL = JSON.parse(localStorage.getItem('isRTL'))
+        const aln = (isRTL) ? 'right' : 'left';
+        var isAdaptive = ($(document).width() <= 500) ? true : false;
+
+        $("#GrdParticipant").jqxGrid(
+            {
+                width: '99%',
+                enabletooltips: true,
+                pageable: true,
+                pagermode: 'simple',
+                showfilterrow: true,
+                filterable: true,
+                editable: false,
+                autoheight: true,
+                columnsresize: false,
+                sortable: true,
+                pagesize: 15,
+                altrows: true,
+                rtl: isRTL,
+                adaptive: isAdaptive,
+                columns: [
+
+                    { text: 'No #', dataField: 'ParticipantID', width: '5%', cellsalign: aln, align: aln },
+                    { text: 'Name', dataField: 'ParticipantName', width: '12%', cellsalign: aln, align: aln },
+                    { text: 'Father Name', dataField: 'FatherName', width: '12%', cellsalign: aln, align: aln },
+                    { text: 'Designation', dataField: 'DesTitle', width: '15%', cellsalign: aln, align: aln },
+                    { text: 'Contact No', dataField: 'ContactNo', width: '8%', cellsalign: aln, align: aln, cellsformat: 'dd-MMM-yyyy' },
+                    { text: 'Email', dataField: 'EmailID', cellsalign: aln, align: aln },
+                    { text: 'Site', dataField: 'SiteName', width: '15%', cellsalign: aln, align: aln },
+                ]
+
+            });
+         fillgrid('/Att/Participant/ParticipantList');
+
+    }
+
+    function fillgrid(varurl) {
+
+        var datafields = [
+            { name: 'ParticipantID' },
+            { name: 'ParticipantName' },
+            { name: 'FatherName' },
+            { name: 'SiteID' },
+            { name: 'ContactNo' },
+            { name: 'EmailID' },
+            { name: 'SiteName' },
+            { name: 'DesTitle' },
+            { name: 'DesID' },
+
+        ];
+        var source =
+        {
+            datatype: "json",
+            datafields: datafields,
+            cache: false,
+            //   url: '/HR/Dept/GetDept',
+            url: varurl,
+            root: 'Rows'
+        };
+
+        var dataadapter = new $.jqx.dataAdapter(source, {
+            loadError: function (xhr, status, error) {
+                console.log(error);
+            }
+        }
+        );
+
+        $("#GrdParticipant").jqxGrid(
+            {
+                source: dataadapter
+            });
+    }
+    function ClearForm() {
+        $("#ParticipantID").val('0');
+        $("#ParticipantName").val('')
+        $("#FatherName").val('');
+        $("#ContactNo").val('');
+        $("#EmailID").val('');
+        $("#DesID").val('1')
+        $("#SiteID").val('1');
+    }
+</script>
+
+
+
+
+<div class="card card-primary mb-3" id="customersTable" data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;phone&quot;,&quot;address&quot;,&quot;joined&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
+    <div class="card-header">
+        <div class="row flex-between-center">
+            <div class="col-4 col-sm-auto d-flex align-items-center pe-0">
+                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">Participant List </h5>
+            </div>
+            <div class="col-8 col-sm-auto text-end ps-2">
+                <div id="table-customers-replace-element">
+
+                    <button class="btn btn-outline-primary btn-sm" id="BtnAdd" type="button" data-bs-toggle="modal" data-bs-target="#ModelParticipant">
+                        <span class="d-none d-sm-inline-block ms-1">New </span>
+                        <span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-2 bg-light">
+        <div class="table-responsive">
+            <div id="GrdParticipant">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="ModelParticipant" class="modal fade" data-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Participant</h5>
+                <button type="button" class="btn-close btn btn-sm btn-circle transition-base p-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="frmParticipant">
+                <div class="modal-body">
+                    <div class="row p-2">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="ParticipantName">Participant Name </label>
+                                <input type="text" id="ParticipantName" name="ParticipantName" class="form-control form-control-sm " />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="FatherName">Father Name</label>
+                                <input type="text" id="FatherName" name="FatherName" class="form-control form-control-sm " />
+                            </div>
+                        </div>  
+                     
+                    </div>
+                    <div class="row p-2">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="ContactNo">Contact No</label>
+                                <input type="text" id="ContactNo" name="ContactNo" class="form-control form-control-sm " />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="EmailID">Email ID</label>
+                                <input type="text" id="EmailID" name="EmailID" class="form-control form-control-sm " />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row p-2">
+                        <div class="col-md-6">
+                            <label for="DesID"> Designation</label><br />
+                            @Html.DropDownList("DesID", null, htmlAttributes: new { @class = "select_2 form-control form-control-sm" })
+
+                        </div>
+                        <div class="col-md-6">
+                            <label for="SiteID"> Site</label><br />
+                            @Html.DropDownList("SiteID", null, htmlAttributes: new { @class = "select_2 form-control form-control-sm" })
+                        </div>
+                    </div>
+                  
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="ParticipantID" name="ParticipantID" value="0" />
+                    <button type="button" id="Save" class="btn btn-sm btn-outline-primary">Save</button>
+                    <button type="button" id="Cancel" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="Menu">
+    <ul dir="rtl">
+        <li>
+            <img src="~/images/pencil.png" />
+            <span>Edit</span>
+        </li>
+
+    </ul>
+</div>
+
+

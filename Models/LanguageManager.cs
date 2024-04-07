@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 
-namespace AlphaTechMIS.Models
+namespace EchoAttendance.Models
 {
     public class LanguageManager
     {

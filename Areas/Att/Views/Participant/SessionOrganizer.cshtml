@@ -1,0 +1,155 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using EchoAttendance.Resources
+@Scripts.Render("~/Content/jqxGrid/js")
+
+<script>
+    $(document).ready(function () {
+        setgrid();
+     
+    });
+    function setgrid() {
+        var cellsrenderer2 = function (row, column, value) {
+            var noButtonClass = value ? 'btn-primary' : 'btn-danger';
+            return "<div style='text-align: center; margin-top: 5px;'>" +
+                '<button class="btn ' + noButtonClass + '" style="width: 100%; border-radius: 5px;" onclick="ToggleParticipantStatus(' + value + ')">' + (value ? 'Yes' : 'No') + '</button></div>';
+        }
+
+        const isRTL = JSON.parse(localStorage.getItem('isRTL'))
+        const aln = (isRTL) ? 'right' : 'left';
+        var isAdaptive = ($(document).width() <= 500) ? true : false;
+
+        $("#GrdParticipant").jqxGrid({
+            width: '99%',
+            enabletooltips: true,
+            pageable: true,
+            pagermode: 'simple',
+            showfilterrow: true,
+            filterable: true,
+            editable: false,
+            autoheight: true,
+            columnsresize: false,
+            sortable: true,
+            pagesize: 15,
+            altrows: true,
+            rtl: isRTL,
+            adaptive: isAdaptive,
+            columns: [
+              //  { text: 'ParticipantID', dataField: 'ParticipantID', width: '15%', cellsalign: aln, align: aln },
+                { text: 'Site', filtertype: 'list', dataField: 'SiteName', width: '15%', cellsalign: aln, align: aln },
+                { text: 'Name', dataField: 'ParticipantName', width: '12%', cellsalign: aln, align: aln },
+                { text: 'Father Name', dataField: 'FatherName', width: '12%', cellsalign: aln, align: aln },
+                { text: 'Designation', dataField: 'DesTitle', width: '15%', cellsalign: aln, align: aln },
+                { text: 'Contact No', dataField: 'ContactNo', width: '8%', cellsalign: aln, align: aln, cellsformat: 'dd-MMM-yyyy' },
+                { text: 'Email', dataField: 'EmailID', cellsalign: aln, align: aln },
+                { text: 'is Session Organizer?', dataField: 'IsSessionOrganizer', width: '10%', cellsrenderer: cellsrenderer2 },
+            ]
+        });
+
+        fillgrid('/Att/Participant/ParticipantList');
+    }
+
+
+
+
+
+
+    function fillgrid(varurl) {
+
+        var datafields = [
+            { name: 'ParticipantID' },
+            { name: 'ParticipantName' },
+            { name: 'FatherName' },
+            { name: 'SiteID' },
+            { name: 'ContactNo' },
+            { name: 'EmailID' },
+            { name: 'SiteName' },
+            { name: 'DesTitle' },
+            { name: 'DesID' },
+            { name: 'IsSessionOrganizer' },
+
+        ];
+        var source =
+        {
+            datatype: "json",
+            datafields: datafields,
+            cache: false,
+            //   url: '/HR/Dept/GetDept',
+            url: varurl,
+            root: 'Rows'
+        };
+
+        var dataadapter = new $.jqx.dataAdapter(source, {
+            loadError: function (xhr, status, error) {
+                console.log(error);
+            }
+        }
+        );
+
+        $("#GrdParticipant").jqxGrid(
+            {
+                source: dataadapter
+            });
+    }
+
+</script>
+
+
+
+
+<div class="card card-primary mb-3" id="customersTable" data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;phone&quot;,&quot;address&quot;,&quot;joined&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
+    <div class="card-header">
+        <div class="row flex-between-center">
+            <div class="col-4 col-sm-auto d-flex align-items-center pe-0">
+                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">Participant List </h5>
+            </div>
+            <div class="col-8 col-sm-auto text-end ps-2">
+                <div id="table-customers-replace-element">
+
+                    <button class="btn btn-outline-primary btn-sm" id="BtnAdd" type="button" data-bs-toggle="modal" data-bs-target="#ModelParticipant">
+                        <span class="d-none d-sm-inline-block ms-1">New </span>
+                        <span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-2 bg-light">
+        <div class="table-responsive">
+            <div id="GrdParticipant">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    function ToggleParticipantStatus(value) {
+        var rowindex = $("#GrdParticipant").jqxGrid('getselectedrowindex');
+        editrow = rowindex;
+        var dataRecord = $("#GrdParticipant").jqxGrid('getrowdata', editrow);
+        if (confirm("Are you sure?")) {
+            $.ajax({
+                url: '/Att/Participant/ToggleParticipantStatus', // Adjust the URL to your controller action
+                type: 'POST',
+                data: { IsSessionOrganizer: value, ParticipantID: dataRecord.ParticipantID }, // Pass the correct ParticipantID
+                success: function (response) {
+                    if (response) {
+                        toastr["success"]('Participant status changed');
+                        $('#GrdParticipant').jqxGrid('updatebounddata', 'data');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error sending request:', error);
+                }
+            });
+        }
+    }
+
+</script>

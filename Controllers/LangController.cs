@@ -1,11 +1,11 @@
-﻿using AlphaTechMIS.Models;
+﻿using EchoAttendance.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace AlphaTechMIS.Controllers
+namespace EchoAttendance.Controllers
 {
 
     public class LangController : Controller

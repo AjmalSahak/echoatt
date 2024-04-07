@@ -1,0 +1,302 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using EchoAttendance.Resources
+@Scripts.Render("~/Content/jqxGrid/js")
+
+<script>
+    $(document).ready(function () {
+        setgrid();
+        makeDates(["EstablishmentDate"], "ModelSite", "ltr");
+
+        $('#BtnAdd').click(function () {
+            ClearForm();
+        });
+        makeContextMenu("Menu", "GrdSite", 200, 100);
+        $("#Menu").on('itemclick', function (event) {
+            var args = event.args;
+            var rowindex = $("#GrdSite").jqxGrid('getselectedrowindex');
+            editrow = rowindex;
+            var offset = $("#GrdSite").offset();
+            var dataRecord = $("#GrdSite").jqxGrid('getrowdata', editrow);
+           
+            $("#SiteID").val(dataRecord.SiteID);
+            $("#SiteName").val(dataRecord.SiteName);
+            $("#SiteCode").val(dataRecord.SiteCode);
+            $("#ProvinceID").val(dataRecord.ProvinceID);
+            $("#EmailID").val(dataRecord.EmailID);
+            $("#IsHub").val(dataRecord.IsHub.toString());
+            $("#IsEchoSite").val(dataRecord.IsEchoSite.toString());
+            $("#EstablishmentDate").val(moment(dataRecord.EstablishmentDate).format("YYYY-MM-DD"));
+
+            $("#ModelSite").modal('show');
+        });
+        $("#Save").click(function () {
+            var validationResult = function (isValid) {
+                if (isValid) {
+                    var varURL = ($("#SiteID").val() == '' || $("#SiteID").val() == '0' || $("#SiteID").val() == null) ? '/Att/Site/Create' : '/Att/Site/Edit';
+                    if ($("#SiteID").val() == '') {
+                        $("#SiteID").remove();
+                    }
+                    $.ajax(
+                        {
+                            url: varURL,
+                            type: 'post',
+                            data: $('#frmSite').serialize(),
+                            success: function (result) {
+                                if (result == "Record_Saved") {
+                                    toastr["success"]('Record_Saved')
+                                    $('#GrdSite').jqxGrid('updatebounddata', 'data');
+                                    $('#frmSite').append("<input type='hidden' id='SiteID' name='SiteID' />");
+                                    ClearForm();
+                                    $('#ModelSite').modal('hide');
+
+                                }
+                                else if (result == "Record_Update") {
+                                    toastr["success"]('Record_Update')
+                                    $('#GrdSite').jqxGrid('updatebounddata', 'data');
+                                    ClearForm();
+                                    $('#ModelSite').modal('hide');
+                                }
+                                else {
+                                    toastr["error"](result);
+                                }
+                            }
+                        });
+
+                }
+            }
+            $('#frmSite').jqxValidator('validate', validationResult)
+
+        });
+
+
+        $('#frmSite').jqxValidator({
+
+            hintType: 'label',
+            animationDuration: 0,
+            rtl: true,
+            rules: [
+                { input: '#SiteName', message: 'Required', action: 'keyup, blur', rule: 'required' },
+                { input: '#SiteCode', message: 'Required', action: 'keyup, blur', rule: 'required' },
+                { input: '#EstablishmentDate', message: 'Required', action: 'keyup, blur', rule: 'required' },
+                { input: '#EmailID', message: 'Required', action: 'keyup, blur', rule: 'required' },
+
+            ], theme: 'classic'
+        });
+
+    });
+
+
+    function setgrid() {
+
+        const isRTL = JSON.parse(localStorage.getItem('isRTL'))
+        const aln = (isRTL) ? 'right' : 'left';
+        var isAdaptive = ($(document).width() <= 500) ? true : false;
+
+        $("#GrdSite").jqxGrid(
+            {
+                width: '99%',
+                enabletooltips: true,
+                pageable: true,
+                pagermode: 'simple',
+                showfilterrow: true,
+                filterable: true,
+                editable: false,
+                autoheight: true,
+                columnsresize: false,
+                sortable: true,
+                pagesize: 15,
+                altrows: true,
+                rtl: isRTL,
+                adaptive: isAdaptive,
+                columns: [
+
+                    { text: 'No #', dataField: 'SiteID', width: '5%', cellsalign: aln, align: aln },
+                    { text: 'Province', dataField: 'ProvinceID', width: '12%', cellsalign: aln, align: aln },
+                    { text: 'SiteName', dataField: 'SiteName', cellsalign: aln, align: aln },
+                    { text: 'SiteCode', dataField: 'SiteCode', width: '12%', cellsalign: aln, align: aln },
+                    { text: 'EmailID', dataField: 'EmailID', width: '18%', cellsalign: aln, align: aln },
+                    { text: 'EstablishmentDate', dataField: 'EstablishmentDate', width: '12%', cellsalign: aln, align: aln, cellsformat: 'dd-MMM-yyyy' },
+                    { text: 'IsEchoSite', dataField: 'IsEchoSite',width: '8%', cellsalign: aln, align: aln },
+                    { text: 'IsHub', dataField: 'IsHub', width: '8%', cellsalign: aln, align: aln },
+
+                ]
+
+            });
+        fillgrid('/Att/Site/SiteList');
+
+    }
+
+    function fillgrid(varurl) {
+
+        var datafields = [
+            { name: 'SiteID' },
+            { name: 'SiteName' },
+            { name: 'SiteCode' },
+            { name: 'ProvinceID' },
+            { name: 'EstablishmentDate', type: 'date', format: "dd-MMM-yyyy" },
+            { name: 'IsEchoSite' },
+            { name: 'IsHub' },
+            { name: 'EmailID' },
+            { name: 'ProvinceName' },
+     
+
+        ];
+        var source =
+        {
+            datatype: "json",
+            datafields: datafields,
+            cache: false,
+            //   url: '/HR/Dept/GetDept',
+            url: varurl,
+            root: 'Rows'
+        };
+
+        var dataadapter = new $.jqx.dataAdapter(source, {
+            loadError: function (xhr, status, error) {
+                console.log(error);
+            }
+        }
+        );
+
+        $("#GrdSite").jqxGrid(
+            {
+                source: dataadapter
+            });
+    }
+    function ClearForm() {
+        $("#SiteID").val('0');
+        $("#SiteName").val('')
+        $("#SiteCode").val('')
+        $("#ProvinceID").val('')
+        $("#EstablishmentDate").val('')
+        $("#EmailID").val('')
+       // $("#IsEchoSite").val('0')
+      //  $("#IsHub").val('0')
+
+    }
+</script>
+
+
+
+
+<div class="card card-primary mb-3" id="customersTable" data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;phone&quot;,&quot;address&quot;,&quot;joined&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
+    <div class="card-header">
+        <div class="row flex-between-center">
+            <div class="col-4 col-sm-auto d-flex align-items-center pe-0">
+                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">Site List </h5>
+            </div>
+            <div class="col-8 col-sm-auto text-end ps-2">
+                <div id="table-customers-replace-element">
+
+                    <button class="btn btn-outline-primary btn-sm" id="BtnAdd" type="button" data-bs-toggle="modal" data-bs-target="#ModelSite">
+                        <span class="d-none d-sm-inline-block ms-1">New </span>
+                        <span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-2 bg-light">
+        <div class="table-responsive">
+            <div id="GrdSite">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="ModelSite" class="modal fade" data-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Site</h5>
+                <button type="button" class="btn-close btn btn-sm btn-circle transition-base p-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="frmSite">
+                <div class="modal-body">
+                    <div class="row p-2">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="SiteName">Site Name </label>
+                                <input type="text" id="SiteName" name="SiteName" class="form-control form-control-sm " />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="SiteCode">Site Code </label>
+                                <input type="text" id="SiteCode" name="SiteCode" class="form-control form-control-sm " />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row p-2">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="EmailID">Email ID </label>
+                                <input type="text" id="EmailID" name="EmailID" class="form-control form-control-sm " />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="ProvinceID">Province </label>
+                                @Html.DropDownList("ProvinceID", null, htmlAttributes: new { @class = "select_2 form-control form-control-sm" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row p-2">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="IsHub">Is Hub?</label>
+                                <select class="form-control form-control-sm" id="IsHub" name="IsHub">
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="IsEchoSite">Is Echo Site </label>
+                                
+                                <select id="IsEchoSite" name="IsEchoSite" class=" form-control form-control-sm">
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>    
+                    <div class="row p-2">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label" for="EstablishmentDate">Activation Date</label>
+                                <input type="text" id="EstablishmentDate" name="EstablishmentDate" class="form-control form-control-sm " />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="SiteID" name="SiteID" value="0" />
+                    <button type="button" id="Save" class="btn btn-sm btn-outline-primary">Save</button>
+                    <button type="button" id="Cancel" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="Menu">
+    <ul dir="rtl">
+        <li>
+            <img src="~/images/pencil.png" />
+            <span>Edit</span>
+        </li>
+
+    </ul>
+</div>
+
+

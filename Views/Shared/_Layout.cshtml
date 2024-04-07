@@ -2,7 +2,7 @@
 
 
 <html lang="en-US" dir="ltr">
-@using AlphaTechMIS.Resources
+@using EchoAttendance.Resources
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -93,102 +93,47 @@
                         </center>
                         <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
                             <li class="nav-item">
-                                <a class="nav-link active" href="/INV/Dashboard/Index" role="button" data-bs-toggle="" aria-expanded="false">
+                                <a class="nav-link active" href="/Att/Dashboard" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-home"></span></span><span class="nav-link-text ps-1">Dashboard</span></div>
                                 </a>
-                                <a class="nav-link active" href="/QCD/QCD_Dashboard/Index" role="button" data-bs-toggle="" aria-expanded="false">
-                                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-file"></span></span><span class="nav-link-text ps-1">OnePager</span></div>
+                                
+                             
+                                <a class="nav-link active" href="/Att/Session/Index" role="button" data-bs-toggle="" aria-expanded="false">
+                                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-layer-group"></span></span><span class="nav-link-text ps-1">Session</span></div>
                                 </a>
-                                <a class="nav-link active" href="/QCD/QCD_Dashboard/Index" role="button" data-bs-toggle="" aria-expanded="false">
-                                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-user-alt"></span></span><span class="nav-link-text ps-1">Order</span></div>
-                                </a>
-                                <!-- label-->
-                                <div class="row navbar-vertical-label-wrapper mt-3 mb-2">
-                                    <div class="col-auto navbar-vertical-label">Main</div>
-                                    <div class="col ps-0">
-                                        <hr class="mb-0 navbar-vertical-divider" />
-                                    </div>
-                                </div><!-- parent pages-->
-                                <a class="nav-link dropdown-indicator" href="#email" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="email">
-                                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-copy"></span></span><span class="nav-link-text ps-1">Transaction </span></div>
-                                </a>
-                                <ul class="nav collapse" id="email">
 
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="/INV/Purchase" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">@Resource.Purchase </span></div>
-                                        </a>
-                                        <a class="nav-link" href="/INV/Sale/index" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Sale </span></div>
-                                        </a>
-                                        <a class="nav-link" href="/QCD/Contracts/ContractEntry" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">CreditMemo  </span></div>
-                                        </a>
-                                        <a class="nav-link" href="/INV/CashManagment/CashIn" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Cash In  </span></div>
-                                        </a>
-                                        <a class="nav-link" href="/INV/CashManagment/CashOut" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Cash Out  </span></div>
-                                        </a>
-                                        <a class="nav-link" href="/INV/CashManagment/Expense" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Expense  </span></div>
-                                        </a>
-                                        <a class="nav-link" href="/QCD/Contracts/ContractEntry" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Quotation   </span></div>
-                                        </a>
-                                        <a class="nav-link" href="/QCD/Contracts/ContractEntry" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">ProductWaste   </span></div>
-                                        </a>
-
-
-                                    </li>
-
-
-                                </ul>
-                                <a class="nav-link" href="/PMT/Pension" role="button" data-bs-toggle="" aria-expanded="false">
-                                    <div class="d-flex align-items-center">
-                                        <span class="nav-link-icon"><span class="fas fa-copy"></span></span><span class="nav-link-text ps-1">Reconciliation </span>
-                                    </div>
-                                </a>
-                                <a class="nav-link" href="/INV/ExchangeRate" role="button" data-bs-toggle="" aria-expanded="false">
-                                    <div class="d-flex align-items-center">
-                                        <span class="nav-link-icon"><span class="fas fa-copy"></span></span><span class="nav-link-text ps-1">@Resource.ExchangeRate </span>
-                                    </div>
-                                </a>
-                                <a class="nav-link" href="/INV/StockManagment" role="button" data-bs-toggle="" aria-expanded="false">
-                                    <div class="d-flex align-items-center">
-                                        <span class="nav-link-icon"><span class="fas fa-copy"></span></span><span class="nav-link-text ps-1">@Resource.Stock </span>
-                                    </div>
-                                </a>
                             </li>
 
 
                             <li class="nav-item">
 
                                 <div class="row navbar-vertical-label-wrapper mt-3 mb-2">
-                                    <div class="col-auto navbar-vertical-label">Dealer</div>
+                                    <div class="col-auto navbar-vertical-label">Participant</div>
                                     <div class="col ps-0">
                                         <hr class="mb-0 navbar-vertical-divider" />
                                     </div>
                                 </div>
                                 <a class="nav-link dropdown-indicator" href="#Dealer" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reports">
-                                    <div class="d-flex align-items-center"><span class="fas fa-user"><span class="fas fa-lock"></span></span><span class="nav-link-text ps-1">Dealer</span></div>
+                                    <div class="d-flex align-items-center"><span class="fas fa-user"><span class="fas fa-lock"></span></span><span class="nav-link-text ps-1">Participant</span></div>
                                 </a>
                                 <ul class="nav collapse" id="Dealer">
 
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/INV/Dealer/Index?TypeID=2" role="button" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-user-circle"></span></span><span class="nav-link-text ps-1">Vendor</span></div>
+                                        <a class="nav-link" href="/Att/Participant" role="button" data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-user-circle"></span></span><span class="nav-link-text ps-1">Participant Profile</span></div>
                                         </a>
                                     </li>
+                                   
                                     <li class="nav-item">
-
-                                        <a class="nav-link" href="/INV/Dealer/Index?TypeID=1" role="button" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-user-alt"></span></span><span class="nav-link-text ps-1">Customer</span></div>
+                                        <a class="nav-link" href="/Att/Attendance" role="button" data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-file"></span></span><span class="nav-link-text ps-1">Attendance</span></div>
+                                        </a>
+                                    </li> 
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/Att/Attendance/SessionAttendance" role="button" data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-file"></span></span><span class="nav-link-text ps-1">Session Attendance</span></div>
                                         </a>
                                     </li>
-
-
                                 </ul>
                             </li>
                             <li class="nav-item">
@@ -218,33 +163,24 @@
                                 </a>
                                 <ul class="nav collapse" id="Setting">
 
+                                    
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/INV/ChartOfAccount" role="button" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-home"></span></span><span class="nav-link-text ps-1">@Resource.ChartOfAccount</span></div>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="/INV/z_Product/Index" role="button" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-landmark"></span></span><span class="nav-link-text ps-1">Product</span></div>
+                                        <a class="nav-link" href="/Att/Designation" role="button" data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-palette"></span></span><span class="nav-link-text ps-1">Designation</span></div>
                                         </a>
                                     </li>
 
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/INV/z_Unit/Index" role="button" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-landmark"></span></span><span class="nav-link-text ps-1">Unit</span></div>
+                                        <a class="nav-link" href="/Att/Site" role="button" data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-landmark"></span></span><span class="nav-link-text ps-1">Site</span></div>
                                         </a>
-                                    </li>
+                                    </li>  
                                     <li class="nav-item">
-
-                                        <a class="nav-link" href="/QCD/Warehouses/Index" role="button" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-landmark"></span></span><span class="nav-link-text ps-1">Stock</span></div>
+                                        <a class="nav-link" href="/Att/Participant/SessionOrganizer" role="button" data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-user-circle"></span></span><span class="nav-link-text ps-1">Session Organizer</span></div>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="/QCD/Warehouses/Index" role="button" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-landmark"></span></span><span class="nav-link-text ps-1">UserManagment </span></div>
-                                        </a>
-                                    </li>
+                     
                                 </ul>
                             </li>
 
@@ -460,7 +396,7 @@
                 <nav class="navbar navbar-light navbar-glass navbar-top navbar-expand" style="display: none;">
                     <button class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="ToggleNavigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
                     <a class="navbar-brand me-1 me-sm-3" href="index.html">
-                        <div class="d-flex align-items-center"><img class="me-2" src="~/Content/Falcon/assets/img/icons/spot-illustrations/dabs.png" alt="" width="70"  /></div>
+                        <div class="d-flex align-items-center"><img class="me-2" src="~/Content/Falcon/assets/img/icons/spot-illustrations/dabs.png" alt="" width="70" /></div>
                     </a>
                     <ul class="navbar-nav navbar-nav-icons ms-auto flex-row align-items-center">
                         <li class="nav-item">
@@ -482,77 +418,77 @@
                                         </div>
                                     </div>
                                     @*<div class="scrollbar-overlay" style="max-height:19rem">
-                                            <div class="list-group list-group-flush fw-normal fs--1">
-                                                <div class="list-group-title border-bottom">NEW</div>
-                                                <div class="list-group-item">
-                                                    <a class="notification notification-flush notification-unread" href="#!">
-                                                        <div class="notification-avatar">
-                                                            <div class="avatar avatar-2xl me-3">
-                                                                <img class="rounded-circle" src="~/Content/Falcon/assets/img/team/1-thumb.png" alt="" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="notification-body">
-                                                            <p class="mb-1"><strong>Emma Watson</strong> replied to your comment : "Hello world 😍"</p>
-                                                            <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">💬</span>Just now</span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="list-group-item">
-                                                    <a class="notification notification-flush notification-unread" href="#!">
-                                                        <div class="notification-avatar">
-                                                            <div class="avatar avatar-2xl me-3">
-                                                                <div class="avatar-name rounded-circle"><span>AB</span></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="notification-body">
-                                                            <p class="mb-1"><strong>Albert Brooks</strong> reacted to <strong>Mia Khalifa's</strong> status</p>
-                                                            <span class="notification-time"><span class="me-2 fab fa-gratipay text-danger"></span>9hr</span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="list-group-title border-bottom">EARLIER</div>
-                                                <div class="list-group-item">
-                                                    <a class="notification notification-flush" href="#!">
-                                                        <div class="notification-avatar">
-                                                            <div class="avatar avatar-2xl me-3">
-                                                                <img class="rounded-circle" src="~/Content/Falcon/assets/img/icons/weather-sm.jpg" alt="" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="notification-body">
-                                                            <p class="mb-1">The forecast today shows a low of 20&#8451; in California. See today's weather.</p>
-                                                            <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">🌤️</span>1d</span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="list-group-item">
-                                                    <a class="border-bottom-0 notification-unread  notification notification-flush" href="#!">
-                                                        <div class="notification-avatar">
-                                                            <div class="avatar avatar-xl me-3">
-                                                                <img class="rounded-circle" src="~/Content/Falcon/assets/img/logos/oxford.png" alt="" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="notification-body">
-                                                            <p class="mb-1"><strong>University of Oxford</strong> created an event : "Causal Inference Hilary 2019"</p>
-                                                            <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">✌️</span>1w</span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="list-group-item">
-                                                    <a class="border-bottom-0 notification notification-flush" href="#!">
-                                                        <div class="notification-avatar">
-                                                            <div class="avatar avatar-xl me-3">
-                                                                <img class="rounded-circle" src="~/Content/Falcon/assets/img/team/10.jpg" alt="" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="notification-body">
-                                                            <p class="mb-1"><strong>James Cameron</strong> invited to join the group: United Nations International Children's Fund</p>
-                                                            <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">🙋‍</span>2d</span>
-                                                        </div>
-                                                    </a>
+                                <div class="list-group list-group-flush fw-normal fs--1">
+                                    <div class="list-group-title border-bottom">NEW</div>
+                                    <div class="list-group-item">
+                                        <a class="notification notification-flush notification-unread" href="#!">
+                                            <div class="notification-avatar">
+                                                <div class="avatar avatar-2xl me-3">
+                                                    <img class="rounded-circle" src="~/Content/Falcon/assets/img/team/1-thumb.png" alt="" />
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="card-footer text-center border-top"><a class="card-link d-block" href="app/social/notifications.html">View all</a></div>*@
+                                            <div class="notification-body">
+                                                <p class="mb-1"><strong>Emma Watson</strong> replied to your comment : "Hello world 😍"</p>
+                                                <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">💬</span>Just now</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <a class="notification notification-flush notification-unread" href="#!">
+                                            <div class="notification-avatar">
+                                                <div class="avatar avatar-2xl me-3">
+                                                    <div class="avatar-name rounded-circle"><span>AB</span></div>
+                                                </div>
+                                            </div>
+                                            <div class="notification-body">
+                                                <p class="mb-1"><strong>Albert Brooks</strong> reacted to <strong>Mia Khalifa's</strong> status</p>
+                                                <span class="notification-time"><span class="me-2 fab fa-gratipay text-danger"></span>9hr</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="list-group-title border-bottom">EARLIER</div>
+                                    <div class="list-group-item">
+                                        <a class="notification notification-flush" href="#!">
+                                            <div class="notification-avatar">
+                                                <div class="avatar avatar-2xl me-3">
+                                                    <img class="rounded-circle" src="~/Content/Falcon/assets/img/icons/weather-sm.jpg" alt="" />
+                                                </div>
+                                            </div>
+                                            <div class="notification-body">
+                                                <p class="mb-1">The forecast today shows a low of 20&#8451; in California. See today's weather.</p>
+                                                <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">🌤️</span>1d</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <a class="border-bottom-0 notification-unread  notification notification-flush" href="#!">
+                                            <div class="notification-avatar">
+                                                <div class="avatar avatar-xl me-3">
+                                                    <img class="rounded-circle" src="~/Content/Falcon/assets/img/logos/oxford.png" alt="" />
+                                                </div>
+                                            </div>
+                                            <div class="notification-body">
+                                                <p class="mb-1"><strong>University of Oxford</strong> created an event : "Causal Inference Hilary 2019"</p>
+                                                <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">✌️</span>1w</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <a class="border-bottom-0 notification notification-flush" href="#!">
+                                            <div class="notification-avatar">
+                                                <div class="avatar avatar-xl me-3">
+                                                    <img class="rounded-circle" src="~/Content/Falcon/assets/img/team/10.jpg" alt="" />
+                                                </div>
+                                            </div>
+                                            <div class="notification-body">
+                                                <p class="mb-1"><strong>James Cameron</strong> invited to join the group: United Nations International Children's Fund</p>
+                                                <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">🙋‍</span>2d</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-center border-top"><a class="card-link d-block" href="app/social/notifications.html">View all</a></div>*@
                                 </div>
                             </div>
                         </li>
@@ -609,7 +545,7 @@
                 <nav class="navbar navbar-light navbar-glass navbar-top navbar-expand-lg" style="display: none;" data-move-target="#navbarVerticalNav" data-navbar-top="combo">
                     <button class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="ToggleNavigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
                     <a class="navbar-brand me-1 me-sm-3" href="index.html">
-                        <div class="d-flex align-items-center"><img class="me-2" src="~/Content/Falcon/assets/img/icons/spot-illustrations/dabs.png" alt="" width="70"  /></div>
+                        <div class="d-flex align-items-center"><img class="me-2" src="~/Content/Falcon/assets/img/icons/spot-illustrations/dabs.png" alt="" width="70" /></div>
                     </a>
                     <div class="collapse navbar-collapse scrollbar" id="navbarStandard">
                         <ul class="navbar-nav" data-top-nav-dropdowns="data-top-nav-dropdowns">
@@ -629,16 +565,16 @@
                                                 <div class="col-6 col-md-5">
                                                     <div class="nav flex-column">
                                                         @*@if (User.IsInRole("QCDAdmin") || User.IsInRole("QCDReadonly"))
-                                                            {
-                                                                <a class="nav-link py-1 link-600 fw-medium" href="/QCD/Contractors/Index">ContractorList</a>
-                                                            }
-                                                            <p class="nav-link text-700 mb-0 fw-bold">ContractList</p>
-                                                            @if (User.IsInRole("QCDAdmin") || User.IsInRole("ContractEntry"))
-                                                            {
-                                                                <a class="nav-link py-1 link-600 fw-medium" href="/QCD/Contracts/ContractEntry">AddNew</a>
-                                                            }
-                                                            <a class="nav-link py-1 link-600 fw-medium" href="/QCD/Contracts/ContractList/1">ProjectContracts</a>
-                                                            <a class="nav-link py-1 link-600 fw-medium" href="/QCD/Contracts/ContractList/0">RetailContracts</a>*@
+                                                {
+                                                    <a class="nav-link py-1 link-600 fw-medium" href="/QCD/Contractors/Index">ContractorList</a>
+                                                }
+                                                <p class="nav-link text-700 mb-0 fw-bold">ContractList</p>
+                                                @if (User.IsInRole("QCDAdmin") || User.IsInRole("ContractEntry"))
+                                                {
+                                                    <a class="nav-link py-1 link-600 fw-medium" href="/QCD/Contracts/ContractEntry">AddNew</a>
+                                                }
+                                                <a class="nav-link py-1 link-600 fw-medium" href="/QCD/Contracts/ContractList/1">ProjectContracts</a>
+                                                <a class="nav-link py-1 link-600 fw-medium" href="/QCD/Contracts/ContractList/0">RetailContracts</a>*@
                                                     </div>
                                                 </div>
                                             </div>
@@ -651,8 +587,8 @@
                                 <div class="dropdown-menu dropdown-caret dropdown-menu-card border-0 mt-0" aria-labelledby="dashboards">
                                     <div class="bg-white dark__bg-1000 rounded-3 py-2">
                                         @*<a class="dropdown-item link-600 fw-medium" href="/QCD/Categories/Index">CategoryList</a>
-                                            <a class="dropdown-item link-600 fw-medium" href="/QCD/Warehouses/Index">Warehouses</a>
-                                            <a class="dropdown-item link-600 fw-medium" href="/QCD/Units/Index">Units</a>*@
+                                <a class="dropdown-item link-600 fw-medium" href="/QCD/Warehouses/Index">Warehouses</a>
+                                <a class="dropdown-item link-600 fw-medium" href="/QCD/Units/Index">Units</a>*@
                                     </div>
                                 </div>
                             </li>
@@ -686,77 +622,77 @@
                                         </div>
                                     </div>
                                     @*<div class="scrollbar-overlay" style="max-height:19rem">
-                                            <div class="list-group list-group-flush fw-normal fs--1">
-                                                <div class="list-group-title border-bottom">NEW</div>
-                                                <div class="list-group-item">
-                                                    <a class="notification notification-flush notification-unread" href="#!">
-                                                        <div class="notification-avatar">
-                                                            <div class="avatar avatar-2xl me-3">
-                                                                <img class="rounded-circle" src="~/Content/Falcon/assets/img/team/1-thumb.png" alt="" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="notification-body">
-                                                            <p class="mb-1"><strong>Emma Watson</strong> replied to your comment : "Hello world 😍"</p>
-                                                            <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">💬</span>Just now</span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="list-group-item">
-                                                    <a class="notification notification-flush notification-unread" href="#!">
-                                                        <div class="notification-avatar">
-                                                            <div class="avatar avatar-2xl me-3">
-                                                                <div class="avatar-name rounded-circle"><span>AB</span></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="notification-body">
-                                                            <p class="mb-1"><strong>Albert Brooks</strong> reacted to <strong>Mia Khalifa's</strong> status</p>
-                                                            <span class="notification-time"><span class="me-2 fab fa-gratipay text-danger"></span>9hr</span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="list-group-title border-bottom">EARLIER</div>
-                                                <div class="list-group-item">
-                                                    <a class="notification notification-flush" href="#!">
-                                                        <div class="notification-avatar">
-                                                            <div class="avatar avatar-2xl me-3">
-                                                                <img class="rounded-circle" src="~/Content/Falcon/assets/img/icons/weather-sm.jpg" alt="" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="notification-body">
-                                                            <p class="mb-1">The forecast today shows a low of 20&#8451; in California. See today's weather.</p>
-                                                            <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">🌤️</span>1d</span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="list-group-item">
-                                                    <a class="border-bottom-0 notification-unread  notification notification-flush" href="#!">
-                                                        <div class="notification-avatar">
-                                                            <div class="avatar avatar-xl me-3">
-                                                                <img class="rounded-circle" src="~/Content/Falcon/assets/img/logos/oxford.png" alt="" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="notification-body">
-                                                            <p class="mb-1"><strong>University of Oxford</strong> created an event : "Causal Inference Hilary 2019"</p>
-                                                            <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">✌️</span>1w</span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="list-group-item">
-                                                    <a class="border-bottom-0 notification notification-flush" href="#!">
-                                                        <div class="notification-avatar">
-                                                            <div class="avatar avatar-xl me-3">
-                                                                <img class="rounded-circle" src="~/Content/Falcon/assets/img/team/10.jpg" alt="" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="notification-body">
-                                                            <p class="mb-1"><strong>James Cameron</strong> invited to join the group: United Nations International Children's Fund</p>
-                                                            <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">🙋‍</span>2d</span>
-                                                        </div>
-                                                    </a>
+                                <div class="list-group list-group-flush fw-normal fs--1">
+                                    <div class="list-group-title border-bottom">NEW</div>
+                                    <div class="list-group-item">
+                                        <a class="notification notification-flush notification-unread" href="#!">
+                                            <div class="notification-avatar">
+                                                <div class="avatar avatar-2xl me-3">
+                                                    <img class="rounded-circle" src="~/Content/Falcon/assets/img/team/1-thumb.png" alt="" />
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="card-footer text-center border-top"><a class="card-link d-block" href="app/social/notifications.html">View all</a></div>*@
+                                            <div class="notification-body">
+                                                <p class="mb-1"><strong>Emma Watson</strong> replied to your comment : "Hello world 😍"</p>
+                                                <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">💬</span>Just now</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <a class="notification notification-flush notification-unread" href="#!">
+                                            <div class="notification-avatar">
+                                                <div class="avatar avatar-2xl me-3">
+                                                    <div class="avatar-name rounded-circle"><span>AB</span></div>
+                                                </div>
+                                            </div>
+                                            <div class="notification-body">
+                                                <p class="mb-1"><strong>Albert Brooks</strong> reacted to <strong>Mia Khalifa's</strong> status</p>
+                                                <span class="notification-time"><span class="me-2 fab fa-gratipay text-danger"></span>9hr</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="list-group-title border-bottom">EARLIER</div>
+                                    <div class="list-group-item">
+                                        <a class="notification notification-flush" href="#!">
+                                            <div class="notification-avatar">
+                                                <div class="avatar avatar-2xl me-3">
+                                                    <img class="rounded-circle" src="~/Content/Falcon/assets/img/icons/weather-sm.jpg" alt="" />
+                                                </div>
+                                            </div>
+                                            <div class="notification-body">
+                                                <p class="mb-1">The forecast today shows a low of 20&#8451; in California. See today's weather.</p>
+                                                <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">🌤️</span>1d</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <a class="border-bottom-0 notification-unread  notification notification-flush" href="#!">
+                                            <div class="notification-avatar">
+                                                <div class="avatar avatar-xl me-3">
+                                                    <img class="rounded-circle" src="~/Content/Falcon/assets/img/logos/oxford.png" alt="" />
+                                                </div>
+                                            </div>
+                                            <div class="notification-body">
+                                                <p class="mb-1"><strong>University of Oxford</strong> created an event : "Causal Inference Hilary 2019"</p>
+                                                <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">✌️</span>1w</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <a class="border-bottom-0 notification notification-flush" href="#!">
+                                            <div class="notification-avatar">
+                                                <div class="avatar avatar-xl me-3">
+                                                    <img class="rounded-circle" src="~/Content/Falcon/assets/img/team/10.jpg" alt="" />
+                                                </div>
+                                            </div>
+                                            <div class="notification-body">
+                                                <p class="mb-1"><strong>James Cameron</strong> invited to join the group: United Nations International Children's Fund</p>
+                                                <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">🙋‍</span>2d</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-center border-top"><a class="card-link d-block" href="app/social/notifications.html">View all</a></div>*@
                                 </div>
                             </div>
                         </li>
@@ -838,7 +774,7 @@
                 <footer class="footer">
                     <div class="row g-0 justify-content-between fs--1 mt-4 mb-3">
                         <div class="col-12 col-sm-auto text-center">
-                            <p class="mb-0 text-600">DABSV2 MIS, Developed by DABS MIS team, IT Department <span class="d-none d-sm-inline-block">| </span><br class="d-sm-none" /> 2022 &copy;</p>
+                            <p class="mb-0 text-600">ECHO Attendance, Developed by Jhpiego MEL team<span class="d-none d-sm-inline-block">| </span><br class="d-sm-none" /> 2024 &copy;</p>
                         </div>
                     </div>
                 </footer>

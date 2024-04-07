@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <!-- First row: KPIs, Start Date Input, End Date Input, and Session Dropdown -->
+        <div class="col-md-3">
+            <!-- Start Date Input -->
+            <div class="input-group">
+                <span class="input-group-text">Start Date</span>
+                <input type="date" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <!-- End Date Input -->
+            <div class="input-group">
+                <span class="input-group-text">End Date</span>
+                <input type="date" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <!-- Session Dropdown -->
+            <div class="input-group">
+                <span class="input-group-text">Session</span>
+                <select class="form-select">
+                    <option value="1">Session 1</option>
+                    <option value="2">Session 2</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <!-- Placeholder column for alignment -->
+        </div>
+    </div>
+    <div class="row mb-4">
+        <!-- Second row: KPIs -->
+        <div class="col-md-4">
+            <!-- Total Session KPI -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Sessions</h5>
+                    <p class="card-text">100</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <!-- Number of Male KPI -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Number of Male</h5>
+                    <p class="card-text">50</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <!-- Number of Female KPI -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Number of Female</h5>
+                    <p class="card-text">50</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <!-- Third row: Graphs -->
+        <div class="col-md-6">
+            <!-- Graph 1 -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Graph 1</h5>
+                    <!-- Place your graph component here -->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <!-- Graph 2 -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Graph 2</h5>
+                    <!-- Place your graph component here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <!-- Fourth row: More Graphs -->
+        <div class="col-md-6">
+            <!-- Graph 3 -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Graph 3</h5>
+                    <!-- Place your graph component here -->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <!-- Graph 4 -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Graph 4</h5>
+                    <!-- Place your graph component here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Fifth row: Table -->
+        <div class="col-md-12">
+            <!-- Table -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Table</h5>
+                    <!-- Place your table component here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace AlphaTechMIS
+namespace EchoAttendance
 {
     public class FilterConfig
     {
