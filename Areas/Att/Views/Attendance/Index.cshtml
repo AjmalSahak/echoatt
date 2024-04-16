@@ -9,14 +9,15 @@
 <script>
     var addedParticipantIDs = [0];
     $(document).ready(function () {
+      
         $('#BtnAdd').click(function () {
             ClearForm();
         });
-        $('#SiteID2').change(function () {
-            var selectedOption = $(this).val();
-            fillgrid('/Att/Participant/ParticipantListBySite?SiteID=' + selectedOption);
+        //$('#SiteID2').change(function () {
+        //    var selectedOption = $(this).val();
+        //    fillgrid('/Att/Participant/ParticipantListBySite?SiteID=' + selectedOption);
 
-        });
+        //});
         $('#tblAttendance').on('click', '.removeRow', function () {
             var participantID = $(this).closest('tr').find('input[name="ParticipantID"]').val();
             const index = addedParticipantIDs.indexOf(parseInt(participantID));
@@ -129,7 +130,7 @@
             else
                 return "";
         }
-       
+
         const isRTL = JSON.parse(localStorage.getItem('isRTL'))
         const aln = (isRTL) ? 'right' : 'left';
         var isAdaptive = ($(document).width() <= 500) ? true : false;
@@ -188,7 +189,7 @@
                 $('#TotalParticipant').val(totalParticipants);
             }
         });
-       // fillgrid('/Att/Participant/ParticipantList');
+        fillgrid('/Att/Participant/ParticipantListBySite?SiteID=' + $('#SiteID2').val());
 
     }
     function fillgrid(varurl) {
@@ -247,7 +248,7 @@
                 <div class="d-flex justify-content-between">
                     <!-- Added justify-content-between class -->
                     <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">Site:&nbsp;&nbsp;&nbsp;&nbsp; </h5>
-                    @Html.DropDownList("SiteID2", null, "--Please Select--", htmlAttributes: new { @class = "select_2 form-control form-control-sm", style = "width: 200px;"} )
+                    @Html.DropDownList("SiteID2", null, htmlAttributes: new { @class = "select_2 form-control form-control-sm", style = "width: 200px;" })
                     <div style="width: 520px;"></div> <!-- Adding space between dropdowns -->
                     <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">Session:&nbsp;&nbsp;&nbsp;&nbsp;  </h5>
                     @Html.DropDownList("SessionID", null, htmlAttributes: new { @class = "select_2 form-control form-control-sm", style = "width: 500px;" })
@@ -309,12 +310,12 @@
                                                 <input type="file" name="AttendanceFile" id="AttendanceFile" a class="form-control form-control-sm" />
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td colspan="4"><b> Image of the Session</b></td>
-                                            <td colspan="2">
-                                                <input type="file" name="SessionImage" id="SessionImage"  class="form-control form-control-sm" />
-                                            </td>
-                                        </tr>
+                                        @*<tr>
+                                                <td colspan="4"><b> Image of the Session</b></td>
+                                                <td colspan="2">
+                                                    <input type="file" name="SessionImage" id="SessionImage"  class="form-control form-control-sm" />
+                                                </td>
+                                            </tr>*@
                                         <tr>
                                             <td colspan="9" height="5%">
                                                 <hr />
@@ -414,21 +415,21 @@
     </ul>
 </div>
 <script>
-    function saveAtt()
-    {
+
+    function saveAtt() {
         if ($('#tblAttendance tr').length === 0) {
             toastr["error"]('Please add at least one participant.');
             return;
         }
-     
+
         var attendanceFile = validateFile($('#AttendanceFile'), 2097152, ['pdf', 'png', 'jpg', 'jpeg']);
-        var sessionImage = validateFile($('#SessionImage'), 2097152, ['pdf','png', 'jpg', 'jpeg']);
+        // var sessionImage = validateFile($('#SessionImage'), 2097152, ['pdf','png', 'jpg', 'jpeg']);
         if ($("#AttendanceFile").val() == "") {
             toastr["error"]('Please add Attendance File');
             return;
         }
-        if (attendanceFile === false || sessionImage === false) return;
-
+        if (attendanceFile === false /*|| sessionImage === false*/) return;
+        $('#SaveAtt').prop('disabled', true);
         // Extracting ParticipantIDs from the table
         var participantIDs = [];
         $('#tblAttendance input[name="ParticipantID"]').each(function () {
@@ -448,9 +449,9 @@
         }
         // Append files to FormData
         var attendanceFile = $('#AttendanceFile')[0].files[0];
-        var sessionImage = $('#SessionImage')[0].files[0];
+        // var sessionImage = $('#SessionImage')[0].files[0];
         formData.append('AttendanceFile', attendanceFile);
-        formData.append('SessionImage', sessionImage);
+        // formData.append('SessionImage', sessionImage);
 
         // Making AJAX request
         $.ajax({
@@ -460,6 +461,7 @@
             contentType: false,
             processData: false,
             success: function (response) {
+               
                 if (response == "Success") {
                     toastr["success"]('Attendance Submitted Successfully.');
                     setTimeout(function () {
@@ -467,15 +469,20 @@
                     }, 3000); // 3000 milliseconds = 3 seconds
                 }
                 else {
+                    $('#SaveAtt').prop('disabled', false);
                     toastr["error"](response);
                 }
             },
             error: function (xhr, status, error) {
                 // Handle error response here
+                $('#SaveAtt').prop('disabled', false);
                 console.error(xhr, status, error);
             }
         });
     }
+
+
+
     function validateFile(fileInput, maxSize, allowedFormats) {
         var file = fileInput[0].files[0];
         if (!file) return null;

@@ -20,12 +20,20 @@ namespace AlphaTechMIS.Areas.Att.Controllers
             db = new AttDBContext();
             //db.ConfigureUsername(() => User.Identity.Name);
         }
-       
-        public ActionResult Index()
+        public ActionResult ValidateUser(int SiteID2, string EmailID)
+        {
+            var data = db.Sites.Where(x => x.SiteID == SiteID2 && x.EmailID == EmailID).FirstOrDefault();
+            if (data != null)
+                return Json(data.EncodeID, JsonRequestBehavior.AllowGet);
+            else
+                return Json("false", JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Index(string EncodeID)
         {
             ViewBag.DesID = new SelectList(db.Designations, "DesID", "DesTitle");
-            ViewBag.SiteID = new SelectList(db.Sites, "SiteID", "SiteName");
-            ViewBag.SiteID2 = new SelectList(db.Sites, "SiteID", "SiteName");
+            var siteIDFiltered = db.Sites.Where(x => x.EncodeID == EncodeID).ToList();
+            ViewBag.SiteID = new SelectList(siteIDFiltered, "SiteID", "SiteName");
+            ViewBag.SiteID2 = new SelectList(siteIDFiltered, "SiteID", "SiteName");
             var sessions = db.Sessions.ToList();
 
             var sessionTopics = sessions.Join(db.Programs,
@@ -38,6 +46,11 @@ namespace AlphaTechMIS.Areas.Att.Controllers
                                      });
 
             ViewBag.SessionID = new SelectList(sessionTopics, "SessionID", "SessionTopic");
+            return View();
+        }
+        public ActionResult SiteLogin()
+        {
+            ViewBag.SiteID2 = new SelectList(db.Sites, "SiteID", "SiteName");
             return View();
         }
         public ActionResult SessionAttendance()
@@ -66,7 +79,7 @@ namespace AlphaTechMIS.Areas.Att.Controllers
             return jsondata;
         }
         [HttpPost]
-        public ActionResult SaveAttendance(int SessionID, int SiteID2, List<int> ParticipantIDs, HttpPostedFileBase AttendanceFile, HttpPostedFileBase SessionImage)
+        public ActionResult SaveAttendance(int SessionID, int SiteID2, List<int> ParticipantIDs, HttpPostedFileBase AttendanceFile/*, HttpPostedFileBase SessionImage*/)
         {
             if (db.Attendances.Where(x => x.SessionID == SessionID && x.SiteID == SiteID2).Count() > 0)
             {
@@ -82,28 +95,23 @@ namespace AlphaTechMIS.Areas.Att.Controllers
                 {
                     // Step 1: Save files to server with timestamp appended to file names
                     string attendanceFilePath = "";
-                    string sessionImagePath = "";
-                    if (AttendanceFile != null && AttendanceFile.ContentLength > 0)
+             
+                    string fullFileName = null;
+                    if (AttendanceFile != null && AttendanceFile.FileName != "")
                     {
-                        string attendanceFileName = Path.GetFileName(AttendanceFile.FileName);
-                        string attendanceFileExtension = Path.GetExtension(attendanceFileName);
-                        string attendanceTimeStamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-                        string attendanceFullFileName = attendanceTimeStamp + attendanceFileExtension;
-
-                        attendanceFilePath = Path.Combine(Server.MapPath("~/Uploads/AttendanceFile"), attendanceFullFileName);
-                        AttendanceFile.SaveAs(attendanceFilePath);
+                        var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(AttendanceFile.FileName);
+                        var extension = Path.GetExtension(AttendanceFile.FileName).ToLower();
+                        if (extension != ".pdf" && extension != ".pptx" && extension != ".ppt")
+                            return Json("FileFormatError");
+                        if (AttendanceFile.ContentLength > 2097152)
+                            return Json("FileSizeError");
+                        string TimeStamp = DateTime.Now.ToString("yyyMMddHmmss");
+                        fullFileName =   TimeStamp + extension;
+                         attendanceFilePath = "/Uploads/AttendanceFile/" + fullFileName;
+                        string filePath = Path.Combine(Server.MapPath("~/Uploads/AttendanceFile"), fullFileName);
+                        AttendanceFile.SaveAs(filePath);
                     }
 
-                    if (SessionImage != null && SessionImage.ContentLength > 0)
-                    {
-                        string sessionImageName = Path.GetFileName(SessionImage.FileName);
-                        string sessionImageExtension = Path.GetExtension(sessionImageName);
-                        string sessionImageTimeStamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-                        string sessionImageFullFileName = sessionImageTimeStamp + sessionImageExtension;
-
-                        sessionImagePath = Path.Combine(Server.MapPath("~/Uploads/SessionImage"), sessionImageFullFileName);
-                        SessionImage.SaveAs(sessionImagePath);
-                    }
 
                     // Step 2: Insert record into Attendance table
                     var attendance = new Attendance
@@ -113,7 +121,7 @@ namespace AlphaTechMIS.Areas.Att.Controllers
                         CreatedDate = DateTime.Now,
                         ParticipantCount = ParticipantIDs.Count(),
                         FileAtt = attendanceFilePath,
-                        ImageFile = sessionImagePath,
+                        //ImageFile = sessionImagePath,
                         VideoURL = "" // You can set this if you have a video URL
                     };
                     db.Attendances.Add(attendance);

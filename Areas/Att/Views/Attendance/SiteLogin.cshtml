@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "SiteLogin";
+    Layout = "~/Views/Shared/_LayoutAtt.cshtml";
+}
+
+
+<div class="container justify-content-center">
+    <div class="row" id="frmSiteLogin">
+        <div class="col-md-12">
+            <div class=" text-center  p-2" style="background-color: rgba(247,248,250,1);">
+                <br>
+                <p style="color: #1F4E79; font-size:22px;">Echo attendance</p>
+                <span>
+                    Please proceed by selecting the site and entering the site email
+                </span>
+                <hr />
+                <div class="form-group p-2">
+                    @Html.DropDownList("SiteID2", null, "--Please Select--", htmlAttributes: new { @class = "select_2 form-control form-control-sm", style = "width: 200px;" })
+
+                </div>
+                <div class="form-group p-2">
+                    <input type="text" name="EmailID" id="EmailID" autocomplete="off" dir="auto" class="form-control form-control-sm" />
+                </div>
+
+                <br>
+                <button type="button"  id="btnSiteLogin" onclick="btnSiteLogin()" class="btn btn-sm btn-outline-primary">
+                    <span class="btn-falcon-primary" data-fa-transform="shrink-3 down-2"></span>
+                    <b> Next</b>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myModalLoader" class="modal" role="dialog" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Loading.........</h4>
+            </div>
+            <div class="modal-body">
+                <div class="loader">
+                    <div class="loader_ajax_small"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function btnSiteLogin() {
+        var validationResult = function (isValid) {
+            if (isValid) {
+                $.ajax(
+                    {
+                        url: '/Att/Attendance/ValidateUser',
+                        type: 'post',
+                        data: {
+                            SiteID2: $('#SiteID2').val(), 
+                            EmailID: $('#EmailID').val()
+                        },
+                        success: function (result) {
+                            console.log(result)
+                            if (result !="false") {
+                                window.location.href = '/Att/Attendance/Index?EncodeID=' + result;                            }
+                         
+                            else {
+                                toastr["error"]("This email does not belong to this site. Please use a valid email!");
+                            }
+                        }
+                    });
+            }
+        }
+        $('#frmSiteLogin').jqxValidator('validate', validationResult)
+    }
+    $('#frmSiteLogin').jqxValidator({
+
+        hintType: 'label',
+        animationDuration: 0,
+        rtl: true,
+        rules: [
+            {
+                input: '#EmailID', message: 'EmailID', action: 'keyup, blur', rule: function (input) {
+                    return ValidateEmail($("#EmailID").val())
+                }
+            },
+        ], theme: 'classic'
+    });
+
+</script>

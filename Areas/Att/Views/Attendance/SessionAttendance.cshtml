@@ -38,6 +38,7 @@
         }
         var cellsrenderer2 = function (row, column, value) {
             if (value != "")
+                //return "<div style='text-align: center; margin-top: 5px;'><a href='/Uploads/TRY/Jawaz/" + value + "' target='_blank'><i class='fas fa-paperclip'></i></a></div>";
                 return "<div style='text-align: center; margin-top: 5px;'><a href='" + value + "' target='_blank'><i class='fas fa-paperclip'></i></a></div>";
             else
                 return "";
@@ -69,7 +70,7 @@
                     { text: 'Site', filtertype: 'list', dataField: 'SiteName', cellsalign: aln, align: aln },
                     { text: 'ParticipantCount', width: '12%', dataField: 'ParticipantCount', cellsalign: aln, align: aln },
                     { text: 'CreatedDate', width: '10%', dataField: 'CreatedDate', cellsalign: aln, align: aln, cellsformat: 'dd-MMM-yyyy' },
-                    { text: 'FileAtt', width: '5%', dataField: 'FileAtt', cellsrenderer: cellsrenderer2, renderer: columnrenderer },
+                    { text: 'File', dataField: 'FileAtt', width: '5%', cellsrenderer: cellsrenderer2, renderer: columnrenderer }
 
                 ]
 

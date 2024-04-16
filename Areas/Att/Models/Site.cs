@@ -19,5 +19,6 @@ namespace EchoAttendance.Areas.Att.Models
         public bool IsHub { get; set; }
         public bool IsEchoSite { get; set; }
         public string EmailID { get; set; }
+        public string EncodeID { get; set; }
     }
 }

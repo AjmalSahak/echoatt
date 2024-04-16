@@ -28,6 +28,8 @@ namespace AlphaTechMIS.Areas.Att.Controllers
         {
             if (ModelState.IsValid)
             {
+                Guid newGuid = Guid.NewGuid();
+                NewRec.EncodeID = newGuid.ToString();
                 db.Sites.Add(NewRec);
                 db.SaveChanges();
                 return Json("Record_Saved");
