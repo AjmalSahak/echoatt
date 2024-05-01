@@ -161,7 +161,7 @@
                 ]
 
             });
-        // Click event handler for the check icon cell
+        // Click event handler for the check icon cell..
         $('#GrdParticipant').on('cellclick', function (event) {
             if (event.args.datafield === 'ParticipantID') {
                 var row = event.args.rowindex;
@@ -196,11 +196,11 @@
 
         var datafields = [
             { name: 'ParticipantID' },
-            { name: 'ParticipantName' },
-            { name: 'FatherName' },
-            { name: 'ContactNo' },
-            { name: 'EmailID' },
-            { name: 'DesTitle' },
+            { name: 'ParticipantName',type:'string' },
+            { name: 'FatherName',type: 'string'},
+            { name: 'ContactNo', type: 'string' },
+            { name: 'EmailID', type: 'string' },
+            { name: 'DesTitle', type: 'string' },
             { name: 'DesID' },
 
         ];
