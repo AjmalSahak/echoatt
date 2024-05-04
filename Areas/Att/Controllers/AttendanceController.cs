@@ -22,18 +22,30 @@ namespace AlphaTechMIS.Areas.Att.Controllers
         }
         public ActionResult ValidateUser(int SiteID2, string EmailID)
         {
+
             var data = db.Sites.Where(x => x.SiteID == SiteID2 && x.EmailID == EmailID).FirstOrDefault();
             if (data != null)
                 return Json(data.EncodeID, JsonRequestBehavior.AllowGet);
             else
                 return Json("false", JsonRequestBehavior.AllowGet);
+
         }
         public ActionResult Index(string EncodeID)
         {
+            if (/*User.IsInRole("SuperAdmin") &&*/ EncodeID == "all")
+            {
+                var data = db.Sites.ToList();
+                ViewBag.SiteID = new SelectList(data, "SiteID", "SiteName");
+                ViewBag.SiteID2 = new SelectList(data, "SiteID", "SiteName");
+            }
+            else
+            {
+                var siteIDFiltered = db.Sites.Where(x => x.EncodeID == EncodeID).ToList();
+                ViewBag.SiteID = new SelectList(siteIDFiltered, "SiteID", "SiteName");
+                ViewBag.SiteID2 = new SelectList(siteIDFiltered, "SiteID", "SiteName");
+            }
             ViewBag.DesID = new SelectList(db.Designations, "DesID", "DesTitle");
-            var siteIDFiltered = db.Sites.Where(x => x.EncodeID == EncodeID).ToList();
-            ViewBag.SiteID = new SelectList(siteIDFiltered, "SiteID", "SiteName");
-            ViewBag.SiteID2 = new SelectList(siteIDFiltered, "SiteID", "SiteName");
+         
             var sessions = db.Sessions.ToList();
 
             var sessionTopics = sessions.Join(db.Programs,
@@ -71,9 +83,17 @@ namespace AlphaTechMIS.Areas.Att.Controllers
 
             return View(); 
         }
+     
         public ActionResult GetAttendanceBySession(int SessionID)
         {
             var data = db.Database.SqlQuery<AttendanceVM>(@"EXEC DBO.GetAttendanceBySession {0}",SessionID).ToList();
+            var jsondata = Json(data, JsonRequestBehavior.AllowGet);
+            jsondata.MaxJsonLength = int.MaxValue;
+            return jsondata;
+        }
+        public ActionResult GetAttendanceDetail(int AttID)
+        {
+            var data = db.Database.SqlQuery<ParticipantVM>(@"EXEC DBO.GetAttendanceDetail {0}", AttID).ToList();
             var jsondata = Json(data, JsonRequestBehavior.AllowGet);
             jsondata.MaxJsonLength = int.MaxValue;
             return jsondata;

@@ -1,14 +1,27 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@if (User.IsInRole("SuperAdmin"))
+{
+    {
+        ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 }
+else
+{
+    {
+        ViewBag.Title = "Index";
+       // Layout = "~/Views/Shared/_LayoutAtt.cshtml";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+
+    }
+}
+
 @using EchoAttendance.Resources
 @Scripts.Render("~/Content/jqxGrid/js")
 
 <script>
     $(document).ready(function () {
         setgrid();
+        setgridDetail();
         $('#SessionID').change(function () {
             var selectedOption = $(this).val();
             fillgrid('/Att/Attendance/GetAttendanceBySession?SessionID=' + selectedOption);
@@ -22,12 +35,10 @@
             var offset = $("#GrdSessionAttendance").offset();
             var dataRecord = $("#GrdSessionAttendance").jqxGrid('getrowdata', editrow);
 
-            $("#DesID").val(dataRecord.DesID);
-            $("#DesTitle").val(dataRecord.DesTitle);
-
-            $("#ModelDesignation").modal('show');
+            fillAttandanceDetail('/Att/Attendance/GetAttendanceDetail?AttID=' + dataRecord.AttID);
+            $("#ModelAttandanceDetail").modal('show');
         });
- 
+
 
     });
 
@@ -65,8 +76,8 @@
                 adaptive: isAdaptive,
                 columns: [
 
-                    { text: 'isPresent', filtertype: 'list',width: '10%', dataField: 'isPresent', cellsalign: aln, align: aln },
-                    { text: 'Province', filtertype: 'list',dataField: 'ProvinceName', width: '10%', cellsalign: aln, align: aln },
+                    { text: 'isPresent', filtertype: 'list', width: '10%', dataField: 'isPresent', cellsalign: aln, align: aln },
+                    { text: 'Province', filtertype: 'list', dataField: 'ProvinceName', width: '10%', cellsalign: aln, align: aln },
                     { text: 'Site', filtertype: 'list', dataField: 'SiteName', cellsalign: aln, align: aln },
                     { text: 'ParticipantCount', width: '12%', dataField: 'ParticipantCount', cellsalign: aln, align: aln },
                     { text: 'CreatedDate', width: '10%', dataField: 'CreatedDate', cellsalign: aln, align: aln, cellsformat: 'dd-MMM-yyyy' },
@@ -113,7 +124,80 @@
                 source: dataadapter
             });
     }
- 
+
+    function setgridDetail() {
+
+        const isRTL = JSON.parse(localStorage.getItem('isRTL'))
+        const aln = (isRTL) ? 'right' : 'left';
+        var isAdaptive = ($(document).width() <= 500) ? true : false;
+
+        $("#GrdAttandanceDetail").jqxGrid(
+            {
+                width: '99%',
+                enabletooltips: true,
+                pageable: true,
+                pagermode: 'simple',
+                showfilterrow: true,
+                filterable: true,
+                editable: false,
+                autoheight: true,
+                columnsresize: false,
+                sortable: true,
+                pagesize: 15,
+                altrows: true,
+                rtl: isRTL,
+                adaptive: isAdaptive,
+                columns: [
+
+                    { text: 'No #', dataField: 'ParticipantID', width: '5%', cellsalign: aln, align: aln },
+                    { text: 'Name', dataField: 'ParticipantName', width: '12%', cellsalign: aln, align: aln },
+                    { text: 'Father Name', dataField: 'FatherName', width: '12%', cellsalign: aln, align: aln },
+                    { text: 'Designation', dataField: 'DesTitle', width: '15%', cellsalign: aln, align: aln },
+                    { text: 'Contact No', dataField: 'ContactNo', width: '8%', cellsalign: aln, align: aln },
+                    { text: 'Email', dataField: 'EmailID', cellsalign: aln, align: aln },
+                ]
+
+            });
+       
+
+    }
+
+    function fillAttandanceDetail(varurl) {
+
+        var datafields = [
+            { name: 'ParticipantID' },
+            { name: 'ParticipantName' },
+            { name: 'FatherName' },
+            { name: 'SiteID' },
+            { name: 'ContactNo' },
+            { name: 'EmailID' },
+            { name: 'SiteName' },
+            { name: 'DesTitle' },
+            { name: 'DesID' },
+
+        ];
+        var source =
+        {
+            datatype: "json",
+            datafields: datafields,
+            cache: false,
+            //   url: '/HR/Dept/GetDept',
+            url: varurl,
+            root: 'Rows'
+        };
+
+        var dataadapter = new $.jqx.dataAdapter(source, {
+            loadError: function (xhr, status, error) {
+                console.log(error);
+            }
+        }
+        );
+
+        $("#GrdAttandanceDetail").jqxGrid(
+            {
+                source: dataadapter
+            });
+    }
 </script>
 
 
@@ -136,11 +220,27 @@
 <div id="Menu">
     <ul dir="rtl">
         <li>
-            <img src="~/images/pencil.png" />
-            <span>Edit</span>
+            <img src="~/images/settings.png" />
+            <span>Details</span>
         </li>
 
     </ul>
 </div>
 
 
+<div id="ModelAttandanceDetail" class="modal fade" data-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Attandance Detail</h5>
+                <button type="button" class="btn-close btn btn-sm btn-circle transition-base p-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                    <div class="table-responsive">
+                        <div id="GrdAttandanceDetail">
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
