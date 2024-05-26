@@ -17,6 +17,10 @@ namespace AlphaTechMIS.Areas.Att.ViewModal
         public string DesTitle { get; set; }
         public string SiteName { get; set; }
         public bool IsSessionOrganizer { get; set; }
+        public string Gender { get; set; }
+
+        public string Province { get; set; } //hk
+        public int Total { get; set; } //hk
 
     }
 }

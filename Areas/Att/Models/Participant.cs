@@ -19,5 +19,6 @@ namespace EchoAttendance.Areas.Att.Models
         public int SiteID { get; set; }
         public int DesID { get; set; }
         public bool IsSessionOrganizer { get; set; }
+        public bool Gender { get; set; }
     }
 }

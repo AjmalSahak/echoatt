@@ -16,5 +16,6 @@ namespace AlphaTechMIS.Areas.Att.ViewModal
         public string VideoURL { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string isPresent { get; set; }
+        public bool IsEchoSite { get; set; }
     }
 }

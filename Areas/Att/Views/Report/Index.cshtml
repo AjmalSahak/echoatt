@@ -1,0 +1,142 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<script>
+    $(document).ready(function () {
+
+        makeDates(["D_FromDate", "D_ToDate"], "FrmProgramRPT", "ltr");
+        makeDates(["D_VToDate", "D_VFromDate"], "VFrmProgramRPT", "ltr");
+        makeDates(["D_AToDate", "D_AFromDate"], "FrmSiteRPT", "ltr");
+
+        $("#BtnSession").click(function () {
+            var FromDate = $("#FromDate").val();
+            var ToDate = $("#ToDate").val();
+            if (FromDate != '' && ToDate != '') {
+                window.open("/Areas/Att/Report/RPTSession.aspx?FromDate=" + FromDate + "&ToDate=" + ToDate, '_blank');
+                return;
+            } else { toastr["error"]('Please Select Dates') }
+        });
+
+    });
+
+</script>
+
+<div class="container">
+    <div class="card card-default">
+        <div class="card-header">
+            <span class="pull-left"> Session Reports</span><br />
+        </div>
+
+        <div class="card-body">
+
+            <div class="card card-default mt-5">
+                <div class="card-header">
+                    <span class="pull-left"> Session Based Report</span><br />
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form id="FrmProgramRPT" class="text-left">
+                                <div class="row d-flex align-center">
+                                    <div class="col-md-3">
+                                        <label for="FromDate"> From Date:</label>
+                                        <input type="text" class="form-control form-control-sm" autocomplete="off" name="FromDate" id="D_FromDate" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="ToDate"> To Date:</label>
+                                        <input type="text" class="form-control form-control-sm" autocomplete="off" name="ToDate" id="D_ToDate" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="reportBtn2"> &nbsp;</label><br />
+                                        <button class="btn btn-outline-success btn-sm" id="BtnSession" type="button">
+                                            <span class="d-none d-sm-inline-block ms-1">Generate Report  </span>
+                                            <span class="fas fa-journal-whills" data-fa-transform="shrink-3 down-2"></span>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+            </div>
+            <div class="card card-default mt-5">
+                <div class="card-header">
+                    <span class="pull-left"> Program Based Report</span><br />
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form id="VFrmProgramRPT" class="text-left">
+                                <div class="row d-flex align-center">
+                                    <div class="col-md-3">
+                                        <label for="FromDate"> From Date:</label>
+                                        <input type="text" class="form-control form-control-sm" autocomplete="off" name="FromDate" id="D_VFromDate" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="ToDate"> To Date:</label>
+                                        <input type="text" class="form-control form-control-sm" autocomplete="off" name="ToDate" id="D_VToDate" />
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="reportBtn2"> &nbsp;</label><br />
+                                        <button class="btn btn-outline-success btn-sm" id="BtnProgram" type="button">
+                                            <span class="d-none d-sm-inline-block ms-1">Generate Report  </span>
+                                            <span class="fas fa-journal-whills" data-fa-transform="shrink-3 down-2"></span>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+            </div>
+
+
+
+
+
+            <div class="card card-default mt-5">
+                <div class="card-header">
+                    <span class="pull-left"> Site Based Report</span><br />
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form id="FrmSiteRPT" name="FrmSiteRPT" action="/Areas/PMT/Report/ContInvoice/ContractAmendmentReport.aspx" method="post" target="_blank" class="text-left">
+                                <div class="row d-flex align-center">
+                                    <div class="col-md-3">
+                                        <label for="FromDate"> From Date:</label>
+                                        <input type="text" class="form-control form-control-sm" autocomplete="off" name="FromDate" id="D_AFromDate" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="ToDate"> To Date:</label>
+                                        <input type="text" class="form-control form-control-sm" autocomplete="off" name="ToDate" id="D_AToDate" />
+                                    </div>
+                         
+                                    <div class="col-md-3">
+                                        <label for="reportBtn2"> &nbsp;</label><br />
+                                        <button class="btn btn-outline-success btn-sm" id="BtnAdd" type="button" data-bs-toggle="modal" data-bs-target="#ModelParticipant">
+                                            <span class="d-none d-sm-inline-block ms-1">Generate Report  </span>
+                                            <span class="fas fa-journal-whills" data-fa-transform="shrink-3 down-2"></span>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

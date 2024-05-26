@@ -79,6 +79,7 @@ else
                     { text: 'isPresent', filtertype: 'list', width: '10%', dataField: 'isPresent', cellsalign: aln, align: aln },
                     { text: 'Province', filtertype: 'list', dataField: 'ProvinceName', width: '10%', cellsalign: aln, align: aln },
                     { text: 'Site', filtertype: 'list', dataField: 'SiteName', cellsalign: aln, align: aln },
+                    { text: 'IsEchoSite', filtertype: 'list', width: '10%', dataField: 'IsEchoSite', cellsalign: aln, align: aln },
                     { text: 'ParticipantCount', width: '12%', dataField: 'ParticipantCount', cellsalign: aln, align: aln },
                     { text: 'CreatedDate', width: '10%', dataField: 'CreatedDate', cellsalign: aln, align: aln, cellsformat: 'dd-MMM-yyyy' },
                     { text: 'File', dataField: 'FileAtt', width: '5%', cellsrenderer: cellsrenderer2, renderer: columnrenderer }
@@ -100,6 +101,7 @@ else
             { name: 'CreatedDate', type: 'date', format: "dd-MMM-yyyy" },
             { name: 'FileAtt' },
             { name: 'isPresent' },
+            { name: 'IsEchoSite' },
 
         ];
         var source =

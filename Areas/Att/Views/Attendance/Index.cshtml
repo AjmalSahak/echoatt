@@ -13,11 +13,11 @@
         $('#BtnAdd').click(function () {
             ClearForm();
         });
-        //$('#SiteID2').change(function () {
-        //    var selectedOption = $(this).val();
-        //    fillgrid('/Att/Participant/ParticipantListBySite?SiteID=' + selectedOption);
+        $('#SiteID2').change(function () {
+            var selectedOption = $(this).val();
+            fillgrid('/Att/Participant/ParticipantListBySite?SiteID=' + selectedOption);
 
-        //});
+        });
         $('#tblAttendance').on('click', '.removeRow', function () {
             var participantID = $(this).closest('tr').find('input[name="ParticipantID"]').val();
             const index = addedParticipantIDs.indexOf(parseInt(participantID));
@@ -53,8 +53,13 @@
 
             $("#SiteID").val(dataRecord.SiteID);
             var selectedOption = $("#SiteID option:selected");
-            selectedOption.text(dataRecord.SiteName);
 
+            var isSessionOrganizer = dataRecord.IsSessionOrganizer;
+            $("#IsSessionOrganizer").val(isSessionOrganizer.toString());
+            $("#IsSessionOrganizer option:selected").text(isSessionOrganizer.toString()).change();
+
+            var genderValue = dataRecord.Gender // Convert to lowercase to match 'female' or 'male'
+            $("#Gender").val(genderValue === 'Female' ? 'false' : 'true').change();
             $("#ModelParticipant").modal('show');
         });
         $("#Save").click(function () {
@@ -152,8 +157,9 @@
                 rtl: isRTL,
                 adaptive: isAdaptive,
                 columns: [
-                    { text: 'Name', dataField: 'ParticipantName', width: '12%', cellsalign: aln, align: aln },
-                    { text: 'Father Name', dataField: 'FatherName', width: '12%', cellsalign: aln, align: aln },
+                    { text: 'Name', dataField: 'ParticipantName', width: '13%', cellsalign: aln, align: aln },
+                    { text: 'Father Name', dataField: 'FatherName', width: '13%', cellsalign: aln, align: aln },
+                    { text: 'Gender', filtertype: 'list', dataField: 'Gender', width: '6%', cellsalign: aln, align: aln },
                     { text: 'Designation', dataField: 'DesTitle', width: '15%', cellsalign: aln, align: aln },
                     { text: 'Contact No', dataField: 'ContactNo', width: '12%', cellsalign: aln, align: aln, cellsformat: 'dd-MMM-yyyy' },
                     { text: 'Email', dataField: 'EmailID', cellsalign: aln, align: aln },
@@ -198,10 +204,12 @@
             { name: 'ParticipantID' },
             { name: 'ParticipantName',type:'string' },
             { name: 'FatherName',type: 'string'},
+            { name: 'Gender'},
             { name: 'ContactNo', type: 'string' },
             { name: 'EmailID', type: 'string' },
             { name: 'DesTitle', type: 'string' },
             { name: 'DesID' },
+            { name: 'IsSessionOrganizer' },
 
         ];
         var source =
@@ -392,7 +400,23 @@
                             @Html.DropDownList("SiteID", null, htmlAttributes: new { @class = "select_2 form-control form-control-sm" })
                         </div>
                     </div>
+                    <div class="row p-2">
+                        <div class="col-md-6">
+                            <label class="control-label" for="Gender">Gender</label>
+                            <select id="Gender" name="Gender" class="select_2 form-control form-control-sm">
+                                <option value="false">Female</option>
+                                <option value="true">Male</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="IsSessionOrganizer"> Is Session Coordinator?</label><br />
+                            <select id="IsSessionOrganizer" name="IsSessionOrganizer" class="select_2 form-control form-control-sm">
+                                <option value="false">false</option>
+                                <option value="true">true</option>
+                            </select>
 
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" id="ParticipantID" name="ParticipantID" value="0" />

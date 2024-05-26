@@ -2,7 +2,300 @@
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script>
 
+    $(document).ready(function () {
+        DrawGraphs();
+
+
+    });
+
+
+
+    function DrawGraphs() {
+
+        var startDate = ($("#StartDate").val()) ? $("#StartDate").val() : null;
+        var endDate = ($("#EndDate").val()) ? $("#EndDate").val() : null;
+
+        barchartone('/Att/Dashboard/GraphOneData?startDate=' + startDate + '&endDate=' + endDate);
+        barcharttwo('/Att/Dashboard/GraphTwoData?startDate=' + startDate + '&endDate=' + endDate);
+        barchartthree('/Att/Dashboard/GraphThreeData?startDate=' + startDate + '&endDate=' + endDate);
+        barchartfour('/Att/Dashboard/GraphFourData?startDate=' + startDate + '&endDate=' + endDate);
+
+
+    }
+
+    //Barchart One
+
+    function barchartone(varUrl) {
+        //catebase yearly line graph
+        var Province = new Array();
+        var Total = new Array();
+        $.getJSON(varUrl, function (data) {
+            for (i = 0; i < data.length; i++) {
+                Province.push([data[i].Province]);
+                Total.push([data[i].Total]);
+
+            }
+            drawChart(Province, Total);
+        });
+    }
+
+        function drawChart(varProvince, varTotal) {
+            Highcharts.chart('graphone', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Total Prticipant by province'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
+                }
+            },
+            xAxis: {
+                type: 'category',
+                categories: varProvince,
+            },
+            yAxis: {
+                title: {
+                    text: '.'
+                }
+
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+
+                series: {
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y} '
+                    }
+                }
+            },
+
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}<br/>'
+            },
+
+
+            series: [
+                {
+                    name: " Person",
+                    colorByPoint: true,
+                    data: varTotal
+
+                }
+            ]
+
+        });
+    }
+
+    //End of graphone
+
+    //barchart two
+    function barcharttwo(varUrl) {
+        //catebase yearly line graph
+        var SiteName = new Array();
+        var Total = new Array();
+        $.getJSON(varUrl, function (data) {
+            for (i = 0; i < data.length; i++) {
+                SiteName.push([data[i].SiteName]);
+                Total.push([data[i].Total]);
+
+            }
+            drawCharttwo(SiteName, Total);
+        });
+    }
+
+    function drawCharttwo(varSiteName, varTotal) {
+        Highcharts.chart('graphtwo', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Total participants by site'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
+                }
+            },
+            xAxis: {
+                type: 'category',
+                categories: varSiteName,
+            },
+            yAxis: {
+                title: {
+                    text: '.'
+                }
+
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+
+                series: {
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y} '
+                    }
+                }
+            },
+
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}<br/>'
+            },
+
+
+            series: [
+                {
+                    name: " Person",
+                    colorByPoint: true,
+                    data: varTotal
+
+                }
+            ]
+
+        });
+    }
+
+    //End of graphtwo
+
+    //barchart three
+    function barchartthree(varUrl) {
+        //catebase yearly line graph
+        var ProgramName = new Array();
+        var Total = new Array();
+        $.getJSON(varUrl, function (data) {
+            for (i = 0; i < data.length; i++) {
+                ProgramName.push([data[i].ProgramName]);
+                Total.push([data[i].Total]);
+
+            }
+            drawChartthree(ProgramName, Total);
+        });
+    }
+
+    function drawChartthree(varProgramName, varTotal) {
+        Highcharts.chart('graphthree', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Total participants by Program'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
+                }
+            },
+            xAxis: {
+                type: 'category',
+                categories: varProgramName,
+            },
+            yAxis: {
+                title: {
+                    text: '.'
+                }
+
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+
+                series: {
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y} '
+                    }
+                }
+            },
+
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}<br/>'
+            },
+
+
+            series: [
+                {
+                    name: " Person",
+                    colorByPoint: true,
+                    data: varTotal
+
+                }
+            ]
+
+        });
+    }
+
+    //End of graphthree
+
+
+    //barchart four
+    function barchartfour(varUrl) {
+        //catebase yearly line graph
+        var SiteName = new Array();
+        var Male = new Array();
+        var Female = new Array();
+        $.getJSON(varUrl, function (data) {
+            for (i = 0; i < data.length; i++) {
+                SiteName.push([data[i].SiteName]);
+                Male.push([data[i].Male]);
+                Female.push([data[i].Female]);
+
+            }
+            drawChartfour(SiteName, Male,Female);
+        });
+    }
+
+    function drawChartfour(varSiteName, varMale,varFemale) {
+
+        Highcharts.chart('graphfour', {
+                title: {
+                    text: 'Participants by site Male and Female'
+                },
+                xAxis: {
+                    categories: varSiteName
+                },
+                plotOptions: {
+                    series: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                series: [
+                    {
+                        type: 'column',
+                        name: 'Total Male',
+                        data: varMale,
+                        color: Highcharts.getOptions().colors[3]
+                    }, {
+                        type: 'column',
+                        name: 'Total Female',
+                        data: varFemale,
+                        color: Highcharts.getOptions().colors[2]
+                    }]
+            });
+
+
+
+    }
+
+    //End of graphfour
+</script>
 <div class="container">
     <div class="row mb-4">
         <!-- First row: KPIs, Start Date Input, End Date Input, and Session Dropdown -->
@@ -10,25 +303,27 @@
             <!-- Start Date Input -->
             <div class="input-group">
                 <span class="input-group-text">Start Date</span>
-                <input type="date" class="form-control">
+                <input type="date" name="StartDate" id="StartDate" class="form-control">
             </div>
         </div>
         <div class="col-md-3">
             <!-- End Date Input -->
             <div class="input-group">
                 <span class="input-group-text">End Date</span>
-                <input type="date" class="form-control">
+                <input type="date" name="EndDate" id="EndDate" class="form-control">
             </div>
         </div>
         <div class="col-md-3">
             <!-- Session Dropdown -->
             <div class="input-group">
-                <span class="input-group-text">Session</span>
+                <!--<span class="input-group-text">Session</span>
                 <select class="form-select">
                     <option value="1">Session 1</option>
-                    <option value="2">Session 2</option>
-                    <!-- Add more options as needed -->
-                </select>
+                    <option value="2">Session 2</option>-->
+                <!-- Add more options as needed -->
+                <!--</select>-->
+                <input type="button" onclick="DrawGraphs();" name="name" class="form-control btn-falcon-info" value="ViewGraph" />
+
             </div>
         </div>
         <div class="col-md-3">
@@ -72,7 +367,9 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Graph 1</h5>
-                    <!-- Place your graph component here -->
+                    <figure class="highcharts-figure">
+                        <div id="graphone"></div>
+                    </figure>
                 </div>
             </div>
         </div>
@@ -81,7 +378,9 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Graph 2</h5>
-                    <!-- Place your graph component here -->
+                    <figure class="highcharts-figure">
+                        <div id="graphtwo"></div>
+                    </figure>
                 </div>
             </div>
         </div>
@@ -93,7 +392,9 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Graph 3</h5>
-                    <!-- Place your graph component here -->
+                    <figure class="highcharts-figure">
+                        <div id="graphthree"></div>
+                    </figure>
                 </div>
             </div>
         </div>
@@ -101,8 +402,10 @@
             <!-- Graph 4 -->
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Graph 5</h5>
-                    <!-- Place your graph component here -->
+                    <h5 class="card-title">Graph 4</h5>
+                    <figure class="highcharts-figure">
+                        <div id="graphfour"></div>
+                    </figure>
                 </div>
             </div>
         </div>

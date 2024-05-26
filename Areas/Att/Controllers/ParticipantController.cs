@@ -64,6 +64,7 @@ namespace AlphaTechMIS.Areas.Att.Controllers
         }
         public ActionResult ParticipantList()
         {
+
             var data = (from p in db.Participants
                         join d in db.Designations on p.DesID equals d.DesID
                         join s in db.Sites on p.SiteID equals s.SiteID
@@ -79,7 +80,8 @@ namespace AlphaTechMIS.Areas.Att.Controllers
                             DesTitle = d.DesTitle,
                             DesID = p.DesID,
                             SiteID = p.SiteID,
-                            IsSessionOrganizer = p.IsSessionOrganizer
+                            IsSessionOrganizer = p.IsSessionOrganizer,
+                            Gender = p.Gender ? "Male" : "Female"
                         }).ToList();
 
             var jsondata = Json(data, JsonRequestBehavior.AllowGet);
@@ -103,7 +105,9 @@ namespace AlphaTechMIS.Areas.Att.Controllers
                             SiteName = s.SiteName,
                             DesTitle = d.DesTitle,
                             DesID = p.DesID,
-                            SiteID = p.SiteID
+                            SiteID = p.SiteID,
+                            IsSessionOrganizer = p.IsSessionOrganizer,
+                            Gender = p.Gender ? "Male" : "Female"
                         }).ToList();
 
             var jsondata = Json(data, JsonRequestBehavior.AllowGet);
@@ -141,6 +145,7 @@ namespace AlphaTechMIS.Areas.Att.Controllers
                     existingParticipant.SiteID = updatedParticipant.SiteID;
                     existingParticipant.DesID = updatedParticipant.DesID;
                     existingParticipant.IsSessionOrganizer = updatedParticipant.IsSessionOrganizer;
+                    existingParticipant.Gender = updatedParticipant.Gender;
 
                     db.SaveChanges();
                     return Json("Record_Update");

@@ -35,6 +35,10 @@
             var selectedOption = $("#SiteID option:selected");
             selectedOption.text(dataRecord.SiteName);
 
+            var genderValue = dataRecord.Gender // Convert to lowercase to match 'female' or 'male'
+            $("#Gender").val(genderValue === 'Female' ? 'false' : 'true').change();
+            $("#ModelParticipant").modal('show');
+
             $("#ModelParticipant").modal('show');
         });
         $("#Save").click(function () {
@@ -129,6 +133,7 @@
                     { text: 'No #', dataField: 'ParticipantID', width: '5%', cellsalign: aln, align: aln },
                     { text: 'Name', dataField: 'ParticipantName', width: '12%', cellsalign: aln, align: aln },
                     { text: 'Father Name', dataField: 'FatherName', width: '12%', cellsalign: aln, align: aln },
+                    { text: 'Gender', filtertype: 'list', dataField: 'Gender', width: '5%', cellsalign: aln, align: aln },
                     { text: 'Designation', dataField: 'DesTitle', width: '15%', cellsalign: aln, align: aln },
                     { text: 'Contact No', dataField: 'ContactNo', width: '8%', cellsalign: aln, align: aln, cellsformat: 'dd-MMM-yyyy' },
                     { text: 'Email', dataField: 'EmailID', cellsalign: aln, align: aln },
@@ -152,6 +157,7 @@
             { name: 'SiteName' },
             { name: 'DesTitle' },
             { name: 'DesID' },
+            { name: 'Gender' },
 
         ];
         var source =
@@ -243,10 +249,20 @@
                     </div>
                     <div class="row p-2">
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label" for="ContactNo">Contact No</label>
-                                <input type="text" id="ContactNo" name="ContactNo" class="form-control form-control-sm " />
+                            <div class="row">
+                                <div class="col-md-6">
+                                        <label class="control-label" for="ContactNo">Contact No</label>
+                                        <input type="text" id="ContactNo" name="ContactNo" class="form-control form-control-sm " />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="control-label" for="Gender">Gender</label>
+                                    <select id="Gender" name="Gender" class="select_2 form-control form-control-sm">
+                                        <option value="false">Female</option>
+                                        <option value="true">Male</option>
+                                    </select>
+                                </div>
                             </div>
+                            
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
