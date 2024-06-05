@@ -1,4 +1,4 @@
-﻿using AlphaTechMIS.Areas.Att.Models;
+﻿using EchoAttendance.Areas.Att.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

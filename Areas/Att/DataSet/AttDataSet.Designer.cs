@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace AlphaTechMIS.Areas.Att.DataSet {
+namespace EchoAttendance.Areas.Att.DataSet {
     
     
     /// <summary>
@@ -753,7 +753,7 @@ namespace AlphaTechMIS.Areas.Att.DataSet {
         }
     }
 }
-namespace AlphaTechMIS.Areas.Att.DataSet.AttDataSetTableAdapters {
+namespace EchoAttendance.Areas.Att.DataSet.AttDataSetTableAdapters {
     
     
     /// <summary>

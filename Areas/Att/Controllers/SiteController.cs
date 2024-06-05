@@ -1,4 +1,4 @@
-﻿using AlphaTechMIS.Areas.Att.ViewModal;
+﻿using EchoAttendance.Areas.Att.ViewModal;
 using EchoAttendance.Areas.Att.Models;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace AlphaTechMIS.Areas.Att.Controllers
+namespace EchoAttendance.Areas.Att.Controllers
 {
     public class SiteController : Controller
     {

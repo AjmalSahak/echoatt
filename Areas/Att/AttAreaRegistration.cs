@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace AlphaTechMIS.Areas.Att
+namespace EchoAttendance.Areas.Att
 {
     public class AttAreaRegistration : AreaRegistration 
     {

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AlphaTechMIS.Areas.Att.Report
+namespace EchoAttendance.Areas.Att.Report
 {
 
 

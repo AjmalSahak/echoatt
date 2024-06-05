@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace AlphaTechMIS.Areas.Att.ViewModal
+namespace EchoAttendance.Areas.Att.ViewModal
 {
     public class ParticipantVM
     {

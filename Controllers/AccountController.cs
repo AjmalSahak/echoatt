@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace EchoAttendance.Areas.Att.Controllers
+namespace EchoAttendance.Controllers
 {
-    public class ReportController : Controller
+    public class AccountController : Controller
     {
-        // GET: Att/Report
+        // GET: Account
         public ActionResult Index()
         {
             return View();

@@ -11,7 +11,6 @@
     });
 
 
-
     function DrawGraphs() {
 
         var startDate = ($("#StartDate").val()) ? $("#StartDate").val() : null;
@@ -41,8 +40,8 @@
         });
     }
 
-        function drawChart(varProvince, varTotal) {
-            Highcharts.chart('graphone', {
+    function drawChart(varProvince, varTotal) {
+        Highcharts.chart('graphone', {
             chart: {
                 type: 'column'
             },
@@ -256,39 +255,39 @@
                 Female.push([data[i].Female]);
 
             }
-            drawChartfour(SiteName, Male,Female);
+            drawChartfour(SiteName, Male, Female);
         });
     }
 
-    function drawChartfour(varSiteName, varMale,varFemale) {
+    function drawChartfour(varSiteName, varMale, varFemale) {
 
         Highcharts.chart('graphfour', {
-                title: {
-                    text: 'Participants by site Male and Female'
-                },
-                xAxis: {
-                    categories: varSiteName
-                },
-                plotOptions: {
-                    series: {
-                        dataLabels: {
-                            enabled: true
-                        }
+            title: {
+                text: 'Participants by site Male and Female'
+            },
+            xAxis: {
+                categories: varSiteName
+            },
+            plotOptions: {
+                series: {
+                    dataLabels: {
+                        enabled: true
                     }
-                },
-                series: [
-                    {
-                        type: 'column',
-                        name: 'Total Male',
-                        data: varMale,
-                        color: Highcharts.getOptions().colors[3]
-                    }, {
-                        type: 'column',
-                        name: 'Total Female',
-                        data: varFemale,
-                        color: Highcharts.getOptions().colors[2]
-                    }]
-            });
+                }
+            },
+            series: [
+                {
+                    type: 'column',
+                    name: 'Total Male',
+                    data: varMale,
+                    color: Highcharts.getOptions().colors[3]
+                }, {
+                    type: 'column',
+                    name: 'Total Female',
+                    data: varFemale,
+                    color: Highcharts.getOptions().colors[2]
+                }]
+        });
 
 
 
@@ -296,129 +295,129 @@
 
     //End of graphfour
 </script>
-<div class="container">
-    <div class="row mb-4">
-        <!-- First row: KPIs, Start Date Input, End Date Input, and Session Dropdown -->
-        <div class="col-md-3">
-            <!-- Start Date Input -->
-            <div class="input-group">
-                <span class="input-group-text">Start Date</span>
-                <input type="date" name="StartDate" id="StartDate" class="form-control">
+<div class="card card-primary mb-3" id="customersTable" data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;phone&quot;,&quot;address&quot;,&quot;joined&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
+    <div class="card-header">
+        <div class="row flex-between-center">
+            <div class="col-4 col-sm-auto d-flex align-items-center pe-0">
+                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">Welcome to iECHO Sessions Dashboard </h5>
             </div>
-        </div>
-        <div class="col-md-3">
-            <!-- End Date Input -->
-            <div class="input-group">
-                <span class="input-group-text">End Date</span>
-                <input type="date" name="EndDate" id="EndDate" class="form-control">
-            </div>
-        </div>
-        <div class="col-md-3">
-            <!-- Session Dropdown -->
-            <div class="input-group">
-                <!--<span class="input-group-text">Session</span>
-                <select class="form-select">
-                    <option value="1">Session 1</option>
-                    <option value="2">Session 2</option>-->
-                <!-- Add more options as needed -->
-                <!--</select>-->
-                <input type="button" onclick="DrawGraphs();" name="name" class="form-control btn-falcon-info" value="ViewGraph" />
+            <div class="col-8 col-sm-auto text-end ps-2">
+                <div id="table-customers-replace-element">
 
-            </div>
-        </div>
-        <div class="col-md-3">
-            <!-- Placeholder column for alignment -->
-        </div>
-    </div>
-    <div class="row mb-4">
-        <!-- Second row: KPIs -->
-        <div class="col-md-4">
-            <!-- Total Session KPI -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Total Sessions</h5>
-                    <p class="card-text">100</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <!-- Number of Male KPI -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Number of Male</h5>
-                    <p class="card-text">50</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <!-- Number of Female KPI -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Number of Female</h5>
-                    <p class="card-text">50</p>
+                 
+
                 </div>
             </div>
         </div>
     </div>
-    <div class="row mb-4">
-        <!-- Third row: Graphs -->
-        <div class="col-md-6">
-            <!-- Graph 1 -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Graph 1</h5>
-                    <figure class="highcharts-figure">
-                        <div id="graphone"></div>
-                    </figure>
+    <div class="card-body p-2 bg-light">
+        <div class="">
+            <div class="row p-2">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-text">Start Date</span>
+                        <input type="date" name="StartDate" id="StartDate" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-text">End Date</span>
+                        <input type="date" name="EndDate" id="EndDate" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-text">End Date</span>
+                        <input type="date" name="EndDate" id="EndDate" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-outline-warning btn-sm w-100" id="BtnAdd" type="button" onclick="DrawGraphs();">
+                        <span class="d-none d-sm-inline-block ms-1">Search</span>
+                        <span class="fas fa-chart-line" data-fa-transform="shrink-3 down-2"></span>
+                    </button>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <!-- Graph 2 -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Graph 2</h5>
-                    <figure class="highcharts-figure">
-                        <div id="graphtwo"></div>
-                    </figure>
+            <div class="row p-2">
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Sessions</h5>
+                            <p class="card-text">100</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Number of Male</h5>
+                            <p class="card-text">50</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Number of Female</h5>
+                            <p class="card-text">50</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total of Female</h5>
+                            <p class="card-text">50</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row mb-4">
-        <!-- Fourth row: More Graphs -->
-        <div class="col-md-6">
-            <!-- Graph 3 -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Graph 3</h5>
-                    <figure class="highcharts-figure">
-                        <div id="graphthree"></div>
-                    </figure>
+            <div class="row p-2">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Graph 1</h5>
+                            <figure class="highcharts-figure">
+                                <div id="graphone"></div>
+                            </figure>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <!-- Graph 4 -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Graph 4</h5>
-                    <figure class="highcharts-figure">
-                        <div id="graphfour"></div>
-                    </figure>
+            <div class="row p-2">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Graph 2</h5>
+                            <figure class="highcharts-figure">
+                                <div id="graphtwo"></div>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Graph 3</h5>
+                            <figure class="highcharts-figure">
+                                <div id="graphthree"></div>
+                            </figure>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <!-- Fifth row: Table -->
-        <div class="col-md-12">
-            <!-- Table -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Table</h5>
-                    <!-- Place your table component here -->
+            <div class="row p-2">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Graph 4</h5>
+                            <figure class="highcharts-figure">
+                                <div id="graphfour"></div>
+                            </figure>
+                        </div>
+                    </div>
                 </div>
+           
             </div>
         </div>
     </div>

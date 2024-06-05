@@ -688,7 +688,7 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>AttDataSet</rd:DataSetName>
-        <rd:SchemaPath>D:\AlphaTechMIS\EchoAttendance\Areas\Att\DataSet\AttDataSet.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\EchoAttendance\EchoAttendance\Areas\Att\DataSet\AttDataSet.xsd</rd:SchemaPath>
         <rd:TableName>GetSessionReportByDate</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>

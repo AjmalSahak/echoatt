@@ -6,9 +6,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Microsoft.Reporting.WebForms;
-using AlphaTechMIS.Areas.Att.ViewModal;
+using EchoAttendance.Areas.Att.ViewModal;
 
-namespace AlphaTechMIS.Areas.Att.Report
+namespace EchoAttendance.Areas.Att.Report
 {
     public partial class RPTSession : System.Web.UI.Page
     {

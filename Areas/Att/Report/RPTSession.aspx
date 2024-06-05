@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RPTSession.aspx.cs" Inherits="AlphaTechMIS.Areas.Att.Report.RPTSession" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RPTSession.aspx.cs" Inherits="EchoAttendance.Areas.Att.Report.RPTSession" %>
 
 <%@ Register namespace="Microsoft.Reporting.WebForms" tagprefix="WebForms" %>
 
